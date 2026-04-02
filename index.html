@@ -42,6 +42,11 @@ function wuModelToggle(id){
 
 /* graph */
 .graph-wrap{position:relative;height:340px;margin-bottom:8px;}
+.maxmin-bar{display:flex;align-items:center;gap:10px;padding:8px 14px;background:var(--sur2);border-bottom:1px solid var(--bdr);flex-shrink:0;}
+.maxmin-bar label{font-size:12px;font-weight:600;color:var(--navy);margin:0;}
+.maxmin-bar p{font-size:11px;color:var(--muted);margin:0;}
+.btn.maxmin-on{background:#e8f4f0;border-color:var(--teal);color:var(--teal);font-weight:700;}
+
 .graph-wrap canvas{width:100%!important;height:100%!important;}
 .graph-sel-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px;font-size:12px;}
 .graph-sel-row label{margin:0;font-weight:600;color:var(--tx2);}
@@ -1274,6 +1279,102 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
     </div>
   </div>
 
+  <!-- ── TRENDLINES, R², MAX/MIN ── -->
+  <div class="card" style="margin-bottom:16px;">
+    <h3>📈 Trendlines, R², and Gradient Uncertainty</h3>
+    <p style="font-size:13px;color:var(--tx2);line-height:1.8;">The QCAA syllabus requires you to draw a <strong>line of best fit</strong>, report its equation and R² value, and draw <strong>maximum and minimum trendlines</strong> to quantify the uncertainty in your gradient.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0;">
+      <div style="background:var(--sur2);border:1px solid var(--bdr);border-radius:var(--r);padding:12px 14px;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-bottom:6px;">Line of Best Fit</div>
+        <p style="font-size:12px;color:var(--tx2);line-height:1.75;margin:0;">The regression line that minimises the total squared distance from all data points. Written as <strong>y = mx + c</strong> where <em>m</em> is the gradient and <em>c</em> is the y-intercept. Use this to describe the relationship between your IV and DV.</p>
+      </div>
+      <div style="background:var(--sur2);border:1px solid var(--bdr);border-radius:var(--r);padding:12px 14px;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--navy);margin-bottom:6px;">R² — Coefficient of Determination</div>
+        <p style="font-size:12px;color:var(--tx2);line-height:1.75;margin:0;">Ranges from 0 to 1. Tells you what fraction of variation in your DV is explained by your IV. <strong>R² ≥ 0.95</strong> = strong linear relationship. <strong>R² &lt; 0.80</strong> = weak — the IV alone doesn't explain the variation well.</p>
+      </div>
+      <div style="background:#e8f4f0;border:1px solid var(--teal);border-radius:var(--r);padding:12px 14px;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-bottom:6px;">Maximum Trendline</div>
+        <p style="font-size:12px;color:var(--tx2);line-height:1.75;margin:0;">The <em>steepest</em> straight line still consistent with all error bars. Drawn from the <strong>bottom</strong> of the first error bar to the <strong>top</strong> of the last error bar (for a positive trend). Its gradient, m<sub>max</sub>, is the largest plausible gradient given your data.</p>
+      </div>
+      <div style="background:#fef3e2;border:1px solid #c8802a;border-radius:var(--r);padding:12px 14px;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--amber);margin-bottom:6px;">Minimum Trendline</div>
+        <p style="font-size:12px;color:var(--tx2);line-height:1.75;margin:0;">The <em>shallowest</em> straight line still consistent with all error bars. Drawn from the <strong>top</strong> of the first error bar to the <strong>bottom</strong> of the last error bar. Its gradient, m<sub>min</sub>, is the smallest plausible gradient.</p>
+      </div>
+    </div>
+
+    <!-- SVG: shows best fit + max/min lines on scatter with error bars -->
+<svg viewBox="0 0 700 260" width="100%" style="display:block;max-height:260px;margin:12px 0;background:#fafafa;border:1px solid var(--bdr);border-radius:4px;" role="img" aria-label="Max min trendline diagram">
+  <defs>
+    <marker id="ax" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3z" fill="#aaa"/></marker>
+  </defs>
+  <!-- Axes -->
+  <line x1="60" y1="20" x2="60" y2="215" stroke="#aaa" stroke-width="1.5" marker-end="url(#ax)"/>
+  <line x1="55" y1="210" x2="670" y2="210" stroke="#aaa" stroke-width="1.5" marker-end="url(#ax)"/>
+  <text x="30" y="120" font-size="11" fill="#888" font-family="system-ui" text-anchor="middle" transform="rotate(-90,30,120)">V(H₂) (mL)</text>
+  <text x="360" y="240" font-size="11" fill="#888" font-family="system-ui" text-anchor="middle">Concentration (mol L⁻¹)</text>
+
+  <!-- Data points with error bars: 5 levels approx linearly spaced -->
+  <!-- x positions: 110,230,350,470,590  y positions (approx linear): 170,140,110,80,50 -->
+  <!-- AU: ±15px each -->
+  <!-- Error bars -->
+  <line x1="110" y1="155" x2="110" y2="185" stroke="#1255a0" stroke-width="1.5"/>
+  <line x1="100" y1="155" x2="120" y2="155" stroke="#1255a0" stroke-width="1.5"/>
+  <line x1="100" y1="185" x2="120" y2="185" stroke="#1255a0" stroke-width="1.5"/>
+
+  <line x1="230" y1="125" x2="230" y2="155" stroke="#1255a0" stroke-width="1.5"/>
+  <line x1="220" y1="125" x2="240" y2="125" stroke="#1255a0" stroke-width="1.5"/>
+  <line x1="220" y1="155" x2="240" y2="155" stroke="#1255a0" stroke-width="1.5"/>
+
+  <line x1="350" y1="95" x2="350" y2="125" stroke="#1255a0" stroke-width="1.5"/>
+  <line x1="340" y1="95" x2="360" y2="95" stroke="#1255a0" stroke-width="1.5"/>
+  <line x1="340" y1="125" x2="360" y2="125" stroke="#1255a0" stroke-width="1.5"/>
+
+  <line x1="470" y1="65" x2="470" y2="95" stroke="#1255a0" stroke-width="1.5"/>
+  <line x1="460" y1="65" x2="480" y2="65" stroke="#1255a0" stroke-width="1.5"/>
+  <line x1="460" y1="95" x2="480" y2="95" stroke="#1255a0" stroke-width="1.5"/>
+
+  <line x1="590" y1="35" x2="590" y2="65" stroke="#1255a0" stroke-width="1.5"/>
+  <line x1="580" y1="35" x2="600" y2="35" stroke="#1255a0" stroke-width="1.5"/>
+  <line x1="580" y1="65" x2="600" y2="65" stroke="#1255a0" stroke-width="1.5"/>
+
+  <!-- Data point circles -->
+  <circle cx="110" cy="170" r="6" fill="#1255a0" stroke="#fff" stroke-width="1.5"/>
+  <circle cx="230" cy="140" r="6" fill="#1255a0" stroke="#fff" stroke-width="1.5"/>
+  <circle cx="350" cy="110" r="6" fill="#1255a0" stroke="#fff" stroke-width="1.5"/>
+  <circle cx="470" cy="80" r="6" fill="#1255a0" stroke="#fff" stroke-width="1.5"/>
+  <circle cx="590" cy="50" r="6" fill="#1255a0" stroke="#fff" stroke-width="1.5"/>
+
+  <!-- Best fit line: from (90,178) to (610,42) approx -->
+  <line x1="85" y1="180" x2="615" y2="42" stroke="#1255a0" stroke-width="2" stroke-dasharray="7,4"/>
+
+  <!-- Max line: bottom of first (110,185) to top of last (590,35) -->
+  <line x1="85" y1="192" x2="615" y2="28" stroke="#0d7a6d" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- Min line: top of first (110,155) to bottom of last (590,65) -->
+  <line x1="85" y1="148" x2="615" y2="72" stroke="#b5600a" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- Legend -->
+  <line x1="75" y1="225" x2="105" y2="225" stroke="#1255a0" stroke-width="2" stroke-dasharray="7,4"/>
+  <text x="110" y="229" font-size="10" fill="#1255a0" font-family="system-ui">Best fit (y = mx + c, R²)</text>
+  <line x1="270" y1="225" x2="300" y2="225" stroke="#0d7a6d" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="305" y="229" font-size="10" fill="#0d7a6d" font-family="system-ui">Max gradient (m_max)</text>
+  <line x1="450" y1="225" x2="480" y2="225" stroke="#b5600a" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="485" y="229" font-size="10" fill="#b5600a" font-family="system-ui">Min gradient (m_min)</text>
+</svg>
+
+    <div style="background:var(--sur2);border:1px solid var(--bdr);border-radius:var(--r);padding:12px 14px;margin-top:8px;">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--navy);margin-bottom:8px;">Gradient Uncertainty Formula</div>
+      <div style="font-size:13px;font-family:var(--mono);color:var(--navy);margin-bottom:8px;">
+        Uncertainty in gradient = (m<sub>max</sub> − m<sub>min</sub>) ÷ 2
+      </div>
+      <p style="font-size:12px;color:var(--tx2);line-height:1.75;margin:0;">Report your gradient as: <strong>m = m<sub>best</sub> ± gradient uncertainty</strong>. This quantifies how much the gradient could vary given the spread of your data. A small gradient uncertainty relative to the gradient itself means the slope is well-defined by your data.</p>
+    </div>
+    <div class="note info" style="margin-top:10px;">
+      <strong>In your report:</strong> toggle Max/Min lines on in the Graphs tab using the button at the top, then quote: <em>"The gradient of the line of best fit was [m] ± [uncertainty] mL per [unit], with R² = [value], indicating a [strong/moderate] linear relationship."</em>
+    </div>
+  </div>
+
   <div class="card">
     <h3>🧠 Which errors are strongest in this investigation?</h3>
     <p style="font-size:13px;color:var(--tx2);line-height:1.8;">The most defensible major errors for this investigation are <strong>bubble adhesion</strong>, <strong>gas solubility</strong>, <strong>parallax in volume readings</strong>, and <strong>tube bore limitation</strong> (particularly if small volumes are produced). The <strong>electrode depth error</strong> is most relevant if your observed H₂:O₂ ratio deviates from 2:1.</p>
@@ -1859,6 +1960,25 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
     <textarea class="write-area" id="wa-tline" rows="4" placeholder="Quote your trendline equation and R², then interpret the gradient…" oninput="countWords(this,'wc-tline')"></textarea>
   </div>
 </div>
+  <div class="wu-wcard open" id="wuwc-ana2b">
+  <div class="wu-wcard-head" onclick="wuToggle('wuwc-ana2b')">
+    <span class="wu-stepnum" style="background:var(--teal);">2b</span>
+    <span class="wu-steptitle">Maximum and minimum trendlines — gradient uncertainty</span>
+    <span class="wu-wcbadge" id="wc-maxmin">0 words</span>
+    <span class="wu-tog">▾</span>
+  </div>
+  <div class="wu-scaffold">
+    <div class="wu-prompt">Report the <strong>gradient uncertainty</strong> from your max/min trendlines and interpret what it means for confidence in your gradient. Enable max/min lines in the Graphs tab first to get values.</div>
+    <div id="maxminRef" style="background:var(--sur2);border:1px solid var(--bdr);border-radius:var(--r);padding:8px 12px;margin:.5rem 0 .8rem;font-family:var(--mono);font-size:11px;color:var(--navy);">Enable max/min lines in the Graphs tab to see calculated values here.</div>
+    <div class="starter-chips"><span class="chip" onclick="insertChip(this,'wa-maxmin')">The maximum gradient was ___ mL per [unit] and the minimum was ___ mL per [unit], giving a gradient uncertainty of ±___ mL per [unit].</span>
+<span class="chip" onclick="insertChip(this,'wa-maxmin')">The line of best fit gradient of ___ ± ___ mL per [unit] (R² = ___) indicates a [strong/moderate] linear relationship with [high/moderate] confidence in the slope.</span>
+<span class="chip" onclick="insertChip(this,'wa-maxmin')">The small gradient uncertainty of ±___ relative to the gradient of ___ suggests the slope is well-defined by the data, supporting the linear relationship predicted by Faraday's Law.</span>
+</div>
+  </div>
+  <div class="wu-wcard-write">
+    <textarea class="write-area" id="wa-maxmin" rows="4" placeholder="Report gradient ± uncertainty and interpret its significance..." oninput="countWords(this,'wc-maxmin')"></textarea>
+  </div>
+</div>
   <div class="wu-wcard open" id="wuwc-ana3">
   <div class="wu-wcard-head" onclick="wuToggle('wuwc-ana3')">
     <span class="wu-stepnum">3</span>
@@ -2270,6 +2390,11 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
 
 <!-- ─── GRAPHS ─── -->
 <div class="tab-pane" id="tab-graphs" style="padding:0;">
+  <div class="maxmin-bar" id="maxminBar">
+    <button id="maxminBtn" class="btn sm" onclick="toggleMaxMin()" title="Draw maximum and minimum trendlines through the error bars on each scatter graph">± Max/Min Lines</button>
+    <label>Gradient uncertainty lines</label>
+    <p>Shows the steepest and shallowest lines consistent with your error bars — required for QCAA graph analysis.</p>
+  </div>
   <div id="graphsEmpty" class="empty" style="padding:36px;"><div class="ei">📈</div><p>Enter data first. Graphs will generate automatically.</p></div>
   <div id="graphGrid" class="graph-grid" style="display:none;">
 
@@ -2333,7 +2458,7 @@ const ELEC={
   nacl_dil:{name:'NaCl (dilute)',label:'Sodium chloride — dilute',cathode:'4H₂O(l) + 4e⁻ → 2H₂(g) + 4OH⁻(aq)',anode:'2H₂O(l) → O₂(g) + 4H⁺(aq) + 4e⁻',overall:'2H₂O(l) → 2H₂(g) + O₂(g)',ap:'O₂',ne:4,warn:''},
   nacl_conc:{name:'NaCl (conc.)',label:'Sodium chloride — concentrated',cathode:'4H₂O(l) + 4e⁻ → 2H₂(g) + 4OH⁻(aq)',anode:'2Cl⁻(aq) → Cl₂(g) + 2e⁻',overall:'2H₂O(l) + 2Cl⁻(aq) → H₂(g) + Cl₂(g) + 2OH⁻(aq)',ap:'Cl₂',ne:2,warn:'⚠ Chlorine gas is toxic. Conduct in a fume cupboard only.'}
 };
-let S={elec:'h2so4',iv:'conc',gT:22,gP:101.3,gTime:15,gV:5,levels:[],procGraphSel:[]};
+let S={elec:'h2so4',iv:'conc',gT:22,gP:101.3,gTime:15,gV:5,levels:[],procGraphSel:[],procGraphMaxMin:[],procGraphMaxMin:[],showMaxMin:false};
 
 function init(){updateElec();updateSummaryStrip();}
 function clearAll(){
@@ -2739,6 +2864,30 @@ function trendLine(pts,col,lbl){
   return{label:lbl,data:[{x:mn-pad,y:r.m*(mn-pad)+r.b},{x:mx+pad,y:r.m*(mx+pad)+r.b}],borderColor:col,borderWidth:1.5,borderDash:[7,4],pointRadius:0,showLine:true,type:'scatter',reg:r};
 }
 
+// ── Max/Min trendlines from error bars ──
+function maxMinLines(pts,aus,col){
+  if(pts.length<2||!aus||aus.length!==pts.length)return null;
+  const sorted=pts.map((p,i)=>({x:p.x,y:p.y,au:aus[i]||0})).sort((a,b)=>a.x-b.x);
+  const first=sorted[0],last=sorted[sorted.length-1];
+  if(first.x===last.x)return null;
+  const xs=pts.map(p=>p.x),mn=Math.min(...xs),mx=Math.max(...xs),pad=(mx-mn)*0.08;
+  // Max gradient: bottom of first point to top of last (steepest positive line through error bars)
+  const mMax=(last.y+last.au-(first.y-first.au))/(last.x-first.x);
+  const bMax=(first.y-first.au)-mMax*first.x;
+  // Min gradient: top of first point to bottom of last
+  const mMin=(last.y-last.au-(first.y+first.au))/(last.x-first.x);
+  const bMin=(first.y+first.au)-mMin*first.x;
+  const gradUnc=Math.abs(mMax-mMin)/2;
+  const mkLine=(m,b,lbl)=>({
+    label:lbl,
+    data:[{x:mn-pad,y:m*(mn-pad)+b},{x:mx+pad,y:m*(mx+pad)+b}],
+    borderColor:col,borderWidth:1,borderDash:[3,3],pointRadius:0,showLine:true,type:'scatter',
+    borderCapStyle:'butt'
+  });
+  return{maxLine:mkLine(mMax,bMax,'Max gradient'),minLine:mkLine(mMin,bMin,'Min gradient'),
+    mMax,mMin,gradUnc};
+}
+
 // Error bar plugin
 const ebPlugin={id:'eb',afterDraw(ch){
   const ctx=ch.ctx;
@@ -2798,6 +2947,19 @@ function getProcessedGraphMeta(){
 }
 function ensureProcGraphDefaults(){
   if(!Array.isArray(S.procGraphSel)) S.procGraphSel=[];
+  if(!Array.isArray(S.procGraphMaxMin)) S.procGraphMaxMin=[];
+}
+const MM_SUPPORTED_GRAPHS=[1,2,3,4,7,8,9,13,14,15];
+function getGraphMaxMinSet(){
+  ensureProcGraphDefaults();
+  return new Set(S.procGraphMaxMin.map(Number).filter(n=>Number.isFinite(n)));
+}
+function toggleGraphMaxMin(num,checked){
+  ensureProcGraphDefaults();
+  const s=getGraphMaxMinSet();
+  if(checked)s.add(num);else s.delete(num);
+  S.procGraphMaxMin=Array.from(s).sort((a,b)=>a-b);
+  renderProcessedSelectedGraphs();
 }
 function getProcGraphSelection(){
   ensureProcGraphDefaults();
@@ -2807,7 +2969,21 @@ function renderProcessedGraphSelector(){
   const el=document.getElementById('procGraphSelector');
   if(!el) return;
   const sel=new Set(getProcGraphSelection());
-  el.innerHTML=getProcessedGraphMeta().map(g=>`<label class="proc-opt"><input type="checkbox" ${sel.has(g.num)?'checked':''} onchange="toggleProcessedGraph(${g.num},this.checked)"><span><strong>Graph ${g.num}</strong>${g.title}</span></label>`).join('');
+  const mmSet=getGraphMaxMinSet();
+  el.innerHTML=getProcessedGraphMeta().map(g=>{
+    const isSel=sel.has(g.num);
+    const supMM=MM_SUPPORTED_GRAPHS.includes(g.num);
+    const mmRow=supMM  // show max/min option for all supported graphs
+      ?`<label style="display:flex;align-items:center;gap:5px;margin-top:6px;font-size:11px;color:var(--teal);cursor:pointer;opacity:${isSel?'1':'0.45'};" title="${isSel?'':'Select this graph first'}">`+
+       `<input type="checkbox" ${mmSet.has(g.num)?'checked':''} ${!isSel?'disabled':''} onchange="toggleGraphMaxMin(${g.num},this.checked)">`+
+       ` ± Show max/min lines</label>`
+      :'';
+    return `<div class="proc-opt" style="flex-direction:column;align-items:flex-start;gap:0;">`+
+      `<label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;width:100%;">`+
+      `<input type="checkbox" style="margin-top:2px;flex-shrink:0;" ${isSel?'checked':''} onchange="toggleProcessedGraph(${g.num},this.checked)">`+
+      `<span><strong style="color:var(--navy);display:block;">Graph ${g.num}</strong>${g.title}</span></label>`+
+      mmRow+'</div>';
+  }).join('');
 }
 function toggleProcessedGraph(num,checked){
   const set=new Set(getProcGraphSelection());
@@ -2972,7 +3148,14 @@ function renderProcessedSelectedGraphs(){
           cfg={type:'scatter',data:{datasets:ds},options:sO(`${ivL} (${u})`,'Gas volume (mL)')};break;}
         default:break;
       }
-      if(cfg){try{GI_WU[cid]=new Chart(c,cfg);}catch(err){console.warn('WU chart:',err);}}
+      if(cfg){try{
+        const wuCh=new Chart(c,cfg);
+        GI_WU[cid]=wuCh;
+        if(typeof MM_SUPPORTED_GRAPHS!=='undefined'&&MM_SUPPORTED_GRAPHS.includes(g.num)&&getGraphMaxMinSet().has(g.num)){
+          const expDs=cfg.data.datasets.find(d=>d._eb&&d._eb.length>0);
+          if(expDs){const mmR=maxMinLines(expDs.data,expDs._eb,expDs.borderColor);if(mmR){wuCh.data.datasets.push(mmR.maxLine,mmR.minLine);wuCh.update('none');}}
+        }
+      }catch(err){console.warn('WU chart:',err);}}
     });
   },80);
 }
@@ -3156,6 +3339,13 @@ const GI={};// chart instances keyed by canvas id
 function gDest(id){if(GI[id]){GI[id].destroy();delete GI[id];}}
 function gMk(id,cfg){gDest(id);const c=document.getElementById(id);if(!c)return;GI[id]=new Chart(c,cfg);}
 
+function toggleMaxMin(){
+  S.showMaxMin=!S.showMaxMin;
+  const btn=document.getElementById('maxminBtn');
+  btn.classList.toggle('maxmin-on',S.showMaxMin);
+  btn.textContent=S.showMaxMin?'✓ Max/Min On':'± Max/Min Lines';
+  renderAllGraphs();
+}
 function renderAllGraphs(){
   if(!S.levels.length){
     document.getElementById('graphsEmpty').style.display='block';
@@ -3193,21 +3383,39 @@ function renderAllGraphs(){
 
   // ── G1: Mean V(H₂) vs Conc ──
   {const pts=rows.filter(r=>isFinite(r.mnH2)).map(r=>({x:r.val,y:r.mnH2}));
-  const ds=[{label:'V(H₂) exp',data:pts,backgroundColor:GCOLS.h2+'cc',borderColor:GCOLS.h2,pointRadius:5,showLine:false,_eb:rows.filter(r=>isFinite(r.mnH2)).map(r=>r.auH2||0)}];
+  const aus=rows.filter(r=>isFinite(r.mnH2)).map(r=>r.auH2||0);
+  const ds=[{label:'V(H₂) exp',data:pts,backgroundColor:GCOLS.h2+'cc',borderColor:GCOLS.h2,pointRadius:5,showLine:false,_eb:aus}];
   const fit=trendLine(pts,GCOLS.h2,'Best fit');if(fit)ds.push(fit);
   const tp=theoPts(rows,'nthH2');const tf=trendLine(tp,GCOLS.theo,'Theoretical');if(tf){tf.borderDash=[5,3];tf.borderWidth=1.5;ds.push(tf);}
   const eq=[];if(fit)eq.push(`Exp slope = ${ff(fit.reg.m,4)} mL per ${u}  |  y = ${ff(fit.reg.m,4)}x + ${ff(fit.reg.b,4)}  |  R² = ${ff(fit.reg.r2,4)}`);
   if(tf)eq.push(`Theo slope = ${ff(tf.reg.m,4)} mL per ${u}  |  y = ${ff(tf.reg.m,4)}x + ${ff(tf.reg.b,4)}`);
+  if(S.showMaxMin&&pts.length>=2){const mm=maxMinLines(pts,aus,GCOLS.h2);if(mm){ds.push(mm.maxLine,mm.minLine);eq.push(`Gradient uncertainty = ±${ff(mm.gradUnc,4)} mL per ${u}  |  m_max = ${ff(mm.mMax,4)}  |  m_min = ${ff(mm.mMin,4)}`);S._g1mm=mm;}}
   document.getElementById('gC1eq').innerHTML=eq.join('<br>');
-  gMk('gC1',{type:'scatter',data:{datasets:ds},options:sOpts(`${ivL} (${u})`,'V(H₂) (mL)')});}
+  gMk('gC1',{type:'scatter',data:{datasets:ds},options:sOpts(`${ivL} (${u})`,'V(H₂) (mL)')});
+  // Update write-up max/min reference box
+  const mmRef=document.getElementById('maxminRef');
+  if(mmRef&&fit){
+    if(S.showMaxMin&&S._g1mm){
+      mmRef.innerHTML=`Graph 1 — Best fit gradient: ${ff(fit.reg.m,4)} mL per ${u} | R² = ${ff(fit.reg.r2,4)}<br>`+
+        `Max gradient: ${ff(S._g1mm.mMax,4)} | Min gradient: ${ff(S._g1mm.mMin,4)}<br>`+
+        `<strong>Gradient uncertainty: ±${ff(S._g1mm.gradUnc,4)} mL per ${u}</strong><br>`+
+        `Report as: m = ${ff(fit.reg.m,4)} ± ${ff(S._g1mm.gradUnc,4)} mL per ${u}`;
+    } else {
+      mmRef.innerHTML=`Graph 1 — Best fit gradient: ${ff(fit.reg.m,4)} mL per ${u} | R² = ${ff(fit.reg.r2,4)}<br>`+
+        `<em>Enable max/min lines in Graphs tab to calculate gradient uncertainty.</em>`;
+    }
+  }
+  }
 
   // ── G2: Mean V(O₂) vs Conc ──
   {const pts=rows.filter(r=>isFinite(r.mnO2)&&r.mnO2>0).map(r=>({x:r.val,y:r.mnO2}));
   if(pts.length>=2){
-    const ds=[{label:`V(${e.ap}) exp`,data:pts,backgroundColor:GCOLS.o2+'cc',borderColor:GCOLS.o2,pointRadius:5,showLine:false,_eb:rows.filter(r=>isFinite(r.mnO2)&&r.mnO2>0).map(r=>r.auO2||0)}];
+    const aus=rows.filter(r=>isFinite(r.mnO2)&&r.mnO2>0).map(r=>r.auO2||0);
+    const ds=[{label:`V(${e.ap}) exp`,data:pts,backgroundColor:GCOLS.o2+'cc',borderColor:GCOLS.o2,pointRadius:5,showLine:false,_eb:aus}];
     const fit=trendLine(pts,GCOLS.o2,'Best fit');if(fit)ds.push(fit);
     const tp=theoPts(rows,'nthO2');const tf=trendLine(tp,GCOLS.theo,'Theoretical');if(tf){tf.borderDash=[5,3];tf.borderWidth=1.5;ds.push(tf);}
     const eq=[];if(fit)eq.push(`Exp slope = ${ff(fit.reg.m,4)} mL per ${u}  |  y = ${ff(fit.reg.m,4)}x + ${ff(fit.reg.b,4)}  |  R² = ${ff(fit.reg.r2,4)}`);
+    if(S.showMaxMin&&pts.length>=2){const mm=maxMinLines(pts,aus,GCOLS.o2);if(mm){ds.push(mm.maxLine,mm.minLine);eq.push(`Gradient uncertainty = ±${ff(mm.gradUnc,4)} mL per ${u}`);S._g2mm=mm;}}
     document.getElementById('gC2eq').innerHTML=eq.join('<br>');
     gMk('gC2',{type:'scatter',data:{datasets:ds},options:sOpts(`${ivL} (${u})`,`V(${e.ap}) (mL)`)});
   }}
@@ -3218,7 +3426,9 @@ function renderAllGraphs(){
   const ds=[{label:'Experimental',data:ep,backgroundColor:GCOLS.h2+'cc',borderColor:GCOLS.h2,pointRadius:5,showLine:false,_eb:rows.filter(r=>isFinite(r.mnH2)).map(r=>r.auH2||0)}];
   const ef=trendLine(ep,GCOLS.h2,'Exp fit');if(ef)ds.push(ef);
   const tf=trendLine(tp,GCOLS.theo,'Theoretical');if(tf){tf.borderDash=[5,3];ds.push(tf);}
+  const aus3=rows.filter(r=>isFinite(r.mnH2)).map(r=>r.auH2||0);
   const eq=[];if(ef)eq.push(`Exp slope = ${ff(ef.reg.m,4)} mL per ${u}  |  y = ${ff(ef.reg.m,4)}x + ${ff(ef.reg.b,4)}  |  R² = ${ff(ef.reg.r2,4)}`);if(tf)eq.push(`Theo slope = ${ff(tf.reg.m,4)} mL per ${u}  |  y = ${ff(tf.reg.m,4)}x + ${ff(tf.reg.b,4)}`);
+  if(S.showMaxMin&&ep.length>=2){const mm=maxMinLines(ep,aus3,GCOLS.h2);if(mm){ds.push(mm.maxLine,mm.minLine);S._g3mm=mm;eq.push('±'+ff(mm.gradUnc,4)+' mL per '+u+' (gradient uncertainty)');}}
   document.getElementById('gC3eq').innerHTML=eq.join('<br>');
   gMk('gC3',{type:'scatter',data:{datasets:ds},options:sOpts(`${ivL} (${u})`,'V(H₂) (mL)')});}
 
@@ -3229,7 +3439,9 @@ function renderAllGraphs(){
     const ds=[{label:'Experimental',data:ep,backgroundColor:GCOLS.o2+'cc',borderColor:GCOLS.o2,pointRadius:5,showLine:false,_eb:rows.filter(r=>isFinite(r.mnO2)&&r.mnO2>0).map(r=>r.auO2||0)}];
     const ef=trendLine(ep,GCOLS.o2,'Exp fit');if(ef)ds.push(ef);
     const tf=trendLine(tp,GCOLS.theo,'Theoretical');if(tf){tf.borderDash=[5,3];ds.push(tf);}
+    const aus4=rows.filter(r=>isFinite(r.mnO2)&&r.mnO2>0).map(r=>r.auO2||0);
     const eq=[];if(ef)eq.push(`Exp slope = ${ff(ef.reg.m,4)} mL per ${u}  |  y = ${ff(ef.reg.m,4)}x + ${ff(ef.reg.b,4)}  |  R² = ${ff(ef.reg.r2,4)}`);if(tf)eq.push(`Theo slope = ${ff(tf.reg.m,4)} mL per ${u}  |  y = ${ff(tf.reg.m,4)}x + ${ff(tf.reg.b,4)}`);
+    if(S.showMaxMin&&ep.length>=2){const mm=maxMinLines(ep,aus4,GCOLS.o2);if(mm){ds.push(mm.maxLine,mm.minLine);S._g4mm=mm;eq.push('±'+ff(mm.gradUnc,4)+' mL per '+u+' (gradient uncertainty)');}}
     document.getElementById('gC4eq').innerHTML=eq.join('<br>');
     gMk('gC4',{type:'scatter',data:{datasets:ds},options:sOpts(`${ivL} (${u})`,`V(${e.ap}) (mL)`)});
   }}
@@ -3263,30 +3475,38 @@ function renderAllGraphs(){
   // ── G7: Current (I) vs Conc ──
   {const pts=rows.filter(r=>isFinite(r.meanI)).map(r=>({x:r.val,y:r.meanI}));
   if(pts.length>=2){
-    const ds=[{label:'Mean I (mA)',data:pts,backgroundColor:GCOLS.ratio+'cc',borderColor:GCOLS.ratio,pointRadius:5,showLine:false,_eb:rows.filter(r=>isFinite(r.meanI)).map(r=>r.auI||0)}];
+    const aus7=rows.filter(r=>isFinite(r.meanI)).map(r=>r.auI||0);
+    const ds=[{label:'Mean I (mA)',data:pts,backgroundColor:GCOLS.ratio+'cc',borderColor:GCOLS.ratio,pointRadius:5,showLine:false,_eb:aus7}];
     const fit=trendLine(pts,GCOLS.ratio,'Best fit');if(fit)ds.push(fit);
-    const eq=fit?`y = ${ff(fit.reg.m,2)}x + ${ff(fit.reg.b,2)}  R² = ${ff(fit.reg.r2,4)}`:'';
-    document.getElementById('gC7eq').innerHTML=eq;
+    const eqArr7=fit?[`y = ${ff(fit.reg.m,2)}x + ${ff(fit.reg.b,2)}  R² = ${ff(fit.reg.r2,4)}`]:[];
+    if(S.showMaxMin&&pts.length>=2){const mm=maxMinLines(pts,aus7,GCOLS.ratio);if(mm){ds.push(mm.maxLine,mm.minLine);S._g7mm=mm;eqArr7.push('±'+ff(mm.gradUnc,3)+' mA per '+u+' (gradient uncertainty)');}}
+    document.getElementById('gC7eq').innerHTML=eqArr7.join('<br>');
     gMk('gC7',{type:'scatter',data:{datasets:ds},options:sOpts(`${ivL} (${u})`,'Current I (mA)')});
   }}
 
   // ── G8: Resistance (R) vs Conc ──
   {const pts=rows.filter(r=>isFinite(r.meanR)).map(r=>({x:r.val,y:r.meanR}));
   if(pts.length>=2){
-    const ds=[{label:'R (Ω)',data:pts,backgroundColor:'#b5600a'+'cc',borderColor:'#b5600a',pointRadius:5,showLine:false,_eb:rows.filter(r=>isFinite(r.meanR)).map(r=>r.auR||0)}];
+    const aus8=rows.filter(r=>isFinite(r.meanR)).map(r=>r.auR||0);
+    const ds=[{label:'R (Ω)',data:pts,backgroundColor:'#b5600a'+'cc',borderColor:'#b5600a',pointRadius:5,showLine:false,_eb:aus8}];
     const fit=trendLine(pts,'#b5600a','Best fit');if(fit)ds.push(fit);
-    const eq=fit?`Slope = ${ff(fit.reg.m,3)} Ω per ${u}  |  y = ${ff(fit.reg.m,3)}x + ${ff(fit.reg.b,3)}  |  R² = ${ff(fit.reg.r2,4)}`:'';
-    document.getElementById('gC8eq').innerHTML=eq;
+    const eq8=fit?`Slope = ${ff(fit.reg.m,3)} Ω per ${u}  |  y = ${ff(fit.reg.m,3)}x + ${ff(fit.reg.b,3)}  |  R² = ${ff(fit.reg.r2,4)}`:'';
+    const eqArr8=eq8?[eq8]:[];
+    if(S.showMaxMin&&pts.length>=2){const mm=maxMinLines(pts,aus8,'#b5600a');if(mm){ds.push(mm.maxLine,mm.minLine);S._g8mm=mm;eqArr8.push('±'+ff(mm.gradUnc,3)+' Ω per '+u+' (gradient uncertainty)');}}
+    document.getElementById('gC8eq').innerHTML=eqArr8.join('<br>');
     gMk('gC8',{type:'scatter',data:{datasets:ds},options:sOpts(`${ivL} (${u})`,'Resistance R (Ω)')});
   }}
 
   // ── G9: Charge (Q) vs Conc ──
   {const pts=rows.filter(r=>isFinite(r.meanQ)).map(r=>({x:r.val,y:r.meanQ}));
   if(pts.length>=2){
-    const ds=[{label:'Q (C)',data:pts,backgroundColor:GCOLS.h2+'cc',borderColor:GCOLS.h2,pointRadius:5,showLine:false,_eb:rows.filter(r=>isFinite(r.meanQ)).map(r=>r.auQ||0)}];
+    const aus9=rows.filter(r=>isFinite(r.meanQ)).map(r=>r.auQ||0);
+    const ds=[{label:'Q (C)',data:pts,backgroundColor:GCOLS.h2+'cc',borderColor:GCOLS.h2,pointRadius:5,showLine:false,_eb:aus9}];
     const fit=trendLine(pts,GCOLS.h2,'Best fit');if(fit)ds.push(fit);
-    const eq=fit?`Slope = ${ff(fit.reg.m,3)} C per ${u}  |  y = ${ff(fit.reg.m,3)}x + ${ff(fit.reg.b,3)}  |  R² = ${ff(fit.reg.r2,4)}`:'';
-    document.getElementById('gC9eq').innerHTML=eq;
+    const eq9=fit?`Slope = ${ff(fit.reg.m,3)} C per ${u}  |  y = ${ff(fit.reg.m,3)}x + ${ff(fit.reg.b,3)}  |  R² = ${ff(fit.reg.r2,4)}`:'';
+    const eqArr9=eq9?[eq9]:[];
+    if(S.showMaxMin&&pts.length>=2){const mm=maxMinLines(pts,aus9,GCOLS.h2);if(mm){ds.push(mm.maxLine,mm.minLine);S._g9mm=mm;eqArr9.push('±'+ff(mm.gradUnc,4)+' C per '+u+' (gradient uncertainty)');}}
+    document.getElementById('gC9eq').innerHTML=eqArr9.join('<br>');
     gMk('gC9',{type:'scatter',data:{datasets:ds},options:sOpts(`${ivL} (${u})`,'Charge Q (C)')});
   }}
 
@@ -3320,21 +3540,24 @@ function renderAllGraphs(){
   // ── G13: Moles of H₂ Produced as a Function of Mean Current ──
   {const pts=rows.filter(r=>isFinite(r.nexpH2)&&isFinite(r.meanIA)).map(r=>({x:r.meanIA*1000,y:r.nexpH2}));
   if(pts.length>=2){
-    const ds=[{label:'n(H₂) exp',data:pts,backgroundColor:GCOLS.h2+'cc',borderColor:GCOLS.h2,pointRadius:5,showLine:false,_eb:rows.filter(r=>isFinite(r.nexpH2)&&isFinite(r.meanIA)).map(r=>r.auNexpH2||0)}];
+    const aus13=rows.filter(r=>isFinite(r.nexpH2)&&isFinite(r.meanIA)).map(r=>r.auNexpH2||0);
+    const ds=[{label:'n(H₂) exp',data:pts,backgroundColor:GCOLS.h2+'cc',borderColor:GCOLS.h2,pointRadius:5,showLine:false,_eb:aus13}];
     const fit=trendLine(pts,GCOLS.h2,'Best fit');if(fit)ds.push(fit);
     // Theoretical: n = It/(2F), so n vs I has gradient = t/(2F)
     const theoGrad=(S.gTime*60)/(2*F);
     const maxI=Math.max(...pts.map(p=>p.x))*1.1;
     ds.push({label:`Theoretical (gradient = t/2F = ${theoGrad.toPrecision(3)})`,data:[{x:0,y:0},{x:maxI,y:theoGrad*maxI/1000}],borderColor:GCOLS.theo,borderDash:[5,3],borderWidth:1.5,pointRadius:0,showLine:true});
-    const eq=fit?`Experimental slope = ${fit.reg.m.toPrecision(4)} mol per mA  |  y = ${ff(fit.reg.m,6)}x + ${ff(fit.reg.b,6)}  |  R² = ${ff(fit.reg.r2,4)}  |  Theoretical slope = ${theoGrad.toPrecision(4)} mol per A`:'Experimental points only';
-    document.getElementById('gC13eq').innerHTML=eq;
+    const eqArr13=fit?[`Experimental slope = ${fit.reg.m.toPrecision(4)} mol per mA  |  R² = ${ff(fit.reg.r2,4)}  |  Theo slope = ${theoGrad.toPrecision(4)} mol per A`]:['Experimental points only'];
+    if(S.showMaxMin&&pts.length>=2){const mm=maxMinLines(pts,aus13,GCOLS.h2);if(mm){ds.push(mm.maxLine,mm.minLine);S._g13mm=mm;eqArr13.push('±'+ff(mm.gradUnc,6)+' mol per mA (gradient uncertainty)');}}
+    document.getElementById('gC13eq').innerHTML=eqArr13.join('<br>');
     gMk('gC13',{type:'scatter',data:{datasets:ds},options:sOpts('Current I (mA)','n(H₂) (mol)')});
   }}
 
   // ── G14: V(H₂) vs Q ──
   {const pts=rows.filter(r=>isFinite(r.mnH2)&&isFinite(r.meanQ)).map(r=>({x:r.meanQ,y:r.mnH2}));
   if(pts.length>=2){
-    const ds=[{label:'V(H₂) exp',data:pts,backgroundColor:GCOLS.h2+'cc',borderColor:GCOLS.h2,pointRadius:5,showLine:false,_eb:rows.filter(r=>isFinite(r.mnH2)&&isFinite(r.meanQ)).map(r=>r.auH2||0)}];
+    const aus14=rows.filter(r=>isFinite(r.mnH2)&&isFinite(r.meanQ)).map(r=>r.auH2||0);
+    const ds=[{label:'V(H₂) exp',data:pts,backgroundColor:GCOLS.h2+'cc',borderColor:GCOLS.h2,pointRadius:5,showLine:false,_eb:aus14}];
     const fit=trendLine(pts,GCOLS.h2,'Best fit');if(fit)ds.push(fit);
     // Theoretical gradient = RT/(2FP) * 10^6 (to get mL)
     const v0=rows.find(r=>isFinite(r.T_K));
@@ -3350,6 +3573,7 @@ function renderAllGraphs(){
     if(!v0 && fit){
       document.getElementById('gC14eq').innerHTML=`Experimental slope = ${ff(fit.reg.m,4)} mL/C  |  y = ${ff(fit.reg.m,4)}x + ${ff(fit.reg.b,4)}  |  R² = ${ff(fit.reg.r2,4)}`;
     }
+    if(S.showMaxMin&&pts.length>=2){const mm=maxMinLines(pts,aus14,GCOLS.h2);if(mm){ds.push(mm.maxLine,mm.minLine);S._g14mm=mm;document.getElementById('gC14eq').innerHTML+='<br>±'+ff(mm.gradUnc,4)+' mL/C (gradient uncertainty)';}}
     gMk('gC14',{type:'scatter',data:{datasets:ds},options:sOpts('Charge Q (C)','V(H₂) (mL)')});
   }}
 }
@@ -3378,20 +3602,32 @@ function renderGC12(){
 // ── G15 render (combined H2 and anode gas) ──
 function renderGC15(rows,ivL,u,e){
   const h2Pts=rows.filter(r=>isFinite(r.mnH2)).map(r=>({x:r.val,y:r.mnH2}));
+  const h2Aus=rows.filter(r=>isFinite(r.mnH2)).map(r=>r.auH2||0);
   const aoRows=rows.filter(r=>isFinite(r.mnO2)&&r.mnO2>0);
   const aoPts=aoRows.map(r=>({x:r.val,y:r.mnO2}));
-  const ds=[{label:'V(H₂) exp',data:h2Pts,backgroundColor:GCOLS.h2+'cc',borderColor:GCOLS.h2,pointRadius:5,showLine:false,_eb:rows.filter(r=>isFinite(r.mnH2)).map(r=>r.auH2||0)}];
+  const aoAus=aoRows.map(r=>r.auO2||0);
+  const ds=[{label:'V(H₂) exp',data:h2Pts,backgroundColor:GCOLS.h2+'cc',borderColor:GCOLS.h2,pointRadius:5,showLine:false,_eb:h2Aus}];
   const h2Fit=trendLine(h2Pts,GCOLS.h2,'H₂ best fit'); if(h2Fit) ds.push(h2Fit);
   if(aoPts.length){
-    ds.push({label:`V(${e.ap}) exp`,data:aoPts,backgroundColor:GCOLS.o2+'cc',borderColor:GCOLS.o2,pointRadius:5,showLine:false,_eb:aoRows.map(r=>r.auO2||0)});
+    ds.push({label:`V(${e.ap}) exp`,data:aoPts,backgroundColor:GCOLS.o2+'cc',borderColor:GCOLS.o2,pointRadius:5,showLine:false,_eb:aoAus});
     const aoFit=trendLine(aoPts,GCOLS.o2,`${e.ap} best fit`); if(aoFit) ds.push(aoFit);
     const eq=[];
     if(h2Fit) eq.push(`H₂: y = ${ff(h2Fit.reg.m,4)}x + ${ff(h2Fit.reg.b,4)}  |  R² = ${ff(h2Fit.reg.r2,4)}`);
     if(aoFit) eq.push(`${e.ap}: y = ${ff(aoFit.reg.m,4)}x + ${ff(aoFit.reg.b,4)}  |  R² = ${ff(aoFit.reg.r2,4)}`);
     if(h2Fit && aoFit && aoFit.reg.m!==0) eq.push(`Gradient ratio H₂:${e.ap} = ${(h2Fit.reg.m/aoFit.reg.m).toFixed(2)}:1`);
+    if(S.showMaxMin&&h2Pts.length>=2){
+      const mm15h=maxMinLines(h2Pts,h2Aus,GCOLS.h2);
+      if(mm15h){ds.push(mm15h.maxLine,mm15h.minLine);S._g15mmh=mm15h;eq.push('H₂ gradient uncertainty: ±'+ff(mm15h.gradUnc,4)+' mL per '+u);}
+    }
+    if(S.showMaxMin&&aoPts.length>=2){
+      const mm15o=maxMinLines(aoPts,aoAus,GCOLS.o2);
+      if(mm15o){ds.push(mm15o.maxLine,mm15o.minLine);S._g15mmo=mm15o;eq.push(e.ap+' gradient uncertainty: ±'+ff(mm15o.gradUnc,4)+' mL per '+u);}
+    }
     document.getElementById('gC15eq').innerHTML=eq.join('<br>');
   } else {
-    document.getElementById('gC15eq').innerHTML=h2Fit?`H₂ only: y = ${ff(h2Fit.reg.m,4)}x + ${ff(h2Fit.reg.b,4)}  |  R² = ${ff(h2Fit.reg.r2,4)}`:'Insufficient anode gas data';
+    const eq=h2Fit?[`H₂ only: y = ${ff(h2Fit.reg.m,4)}x + ${ff(h2Fit.reg.b,4)}  |  R² = ${ff(h2Fit.reg.r2,4)}`]:['Insufficient anode gas data'];
+    if(S.showMaxMin&&h2Pts.length>=2){const mm=maxMinLines(h2Pts,h2Aus,GCOLS.h2);if(mm){ds.push(mm.maxLine,mm.minLine);S._g15mmh=mm;eq.push('H₂ gradient uncertainty: ±'+ff(mm.gradUnc,4)+' mL per '+u);}}
+    document.getElementById('gC15eq').innerHTML=eq.join('<br>');
   }
   gMk('gC15',{type:'scatter',data:{datasets:ds},options:mkScatterOpts(`${ivL} (${u})`,'Gas volume (mL)')});
 }
@@ -3969,7 +4205,21 @@ function buildSampleCalcTable(){
   html+=`<tr style="background:#eef3f8;"><td colspan="3" style="padding:6px 13px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);">Theoretical Calculations \u2014 Steps 1\u20139</td></tr>`;
   rowsA.forEach(r=>html+=`<tr><td class="sc-name">${r[0]}</td><td class="sc-fml">${r[1]}</td><td class="sc-calc">${r[2]}</td></tr>`);
 
-  // Section header row B
+    // Gradient uncertainty row (if max/min available)
+  const showGradUnc=S.showMaxMin&&S._g1mm&&isFinite(S._g1mm.gradUnc);
+  if(showGradUnc){
+    html+=`<tr style="background:#e8f4f0;"><td colspan="3" style="padding:6px 13px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);">Gradient Uncertainty — From Max/Min Lines</td></tr>`;
+    const bestM=(S._g1mm.mMax+S._g1mm.mMin)/2;
+    html+=`<tr><td class="sc-name">Gradient uncertainty</td>`+
+      `<td class="sc-fml">${frac('m<sub>max</sub> − m<sub>min</sub>','2')}</td>`+
+      `<td class="sc-calc"><span style="display:block;">(${ff(S._g1mm.mMax,4)} − ${ff(S._g1mm.mMin,4)}) ÷ 2</span>`+
+      `<span style="display:block;"><strong style="color:var(--navy);">= ±${ff(S._g1mm.gradUnc,4)} mL per ${u}</strong></span></td></tr>`;
+    html+=`<tr><td class="sc-name">Gradient reported</td>`+
+      `<td class="sc-fml">m ± δm</td>`+
+      `<td class="sc-calc"><strong style="color:var(--navy);">m = ${ff(bestM,4)} ± ${ff(S._g1mm.gradUnc,4)} mL per ${u}</strong></td></tr>`;
+  }
+
+// Section header row B
   html+=`<tr class="sc-stats-sep" style=""><td colspan="3" style="padding:6px 13px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);">Statistical Analysis \u2014 Steps 10\u201314</td></tr>`;
   rowsB.forEach(r=>html+=`<tr class="sc-stats"><td class="sc-name">${r[0]}</td><td class="sc-fml">${r[1]}</td><td class="sc-calc">${r[2]}</td></tr>`);
 
