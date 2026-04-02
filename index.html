@@ -515,7 +515,7 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
 #tab-write .box-warn p{font-size:.84rem;line-height:1.65;color:#5a3c00;margin:0;}
 
 /* ── SAMPLE CALC TABLE RESTYLE ── */
-#sampleCalcSection{background:var(--sur)!important;border-bottom:2px solid var(--bdr);}
+#sampleCalcSection{background:var(--sur)!important;border-bottom:2px solid var(--bdr);overflow-y:auto;max-height:60vh;flex-shrink:0;}
 
 /* ── Fraction rendering (used in sample calc table + calc cards) ── */
 .sc-frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 3px;line-height:1.2;font-size:.95em;}
@@ -587,13 +587,44 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
 .proc-graph-img{width:100%;border:1px solid var(--bdr);border-radius:var(--r);background:#fff;margin-bottom:10px;}
 .proc-source-note{font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.6;}
 .proc-table-wrap{overflow-x:auto;}
+.proc-table-wrap table{width:100%;border-collapse:collapse;font-size:12px;margin-top:6px;}
+.proc-table-wrap th{background:var(--navy);color:#fff;padding:6px 10px;text-align:left;font-size:11px;font-weight:600;white-space:nowrap;}
+.proc-table-wrap td{padding:5px 10px;border-bottom:1px solid var(--bdr);text-align:left;vertical-align:top;font-size:11.5px;}
+.proc-table-wrap tr:nth-child(even) td{background:var(--sur2);}
+.proc-table-wrap tr:first-child td{font-weight:700;color:var(--teal);}
 .proc-placeholder{font-size:12px;color:var(--muted);padding:12px 0;}
 @media(max-width:900px){.proc-grid{grid-template-columns:1fr;}}
 
+
+/* ── LOGIN PAGE ── */
+#loginPage{position:fixed;inset:0;background:#1c2f45;display:flex;align-items:center;justify-content:center;z-index:9999;}
+#loginPage.hidden{display:none;}
+.login-box{background:#fff;border-radius:10px;padding:40px 48px;max-width:380px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4);}
+.login-logo{font-size:2.2rem;margin-bottom:8px;}
+.login-title{font-size:1.2rem;font-weight:800;color:#1c2f45;margin-bottom:4px;}
+.login-sub{font-size:.82rem;color:#7a7068;margin-bottom:28px;}
+.login-box input[type=password]{width:100%;box-sizing:border-box;padding:11px 14px;border:1.5px solid #c8bfb0;border-radius:6px;font-size:.95rem;margin-bottom:12px;outline:none;text-align:center;letter-spacing:.25em;}
+.login-box input[type=password]:focus{border-color:#1c2f45;}
+.login-btn{width:100%;padding:11px;background:#1c2f45;color:#fff;border:none;border-radius:6px;font-size:.95rem;font-weight:700;cursor:pointer;transition:background .15s;}
+.login-btn:hover{background:#2e4a6a;}
+.login-err{color:#c0392b;font-size:.8rem;margin-top:8px;min-height:18px;}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
+
+<!-- ── LOGIN PAGE ── -->
+<div id="loginPage">
+  <div class="login-box">
+    <div class="login-logo">⚡</div>
+    <div class="login-title">Hoffmann Voltameter</div>
+
+    <input type="text" id="loginUser" placeholder="Username" autocomplete="off" style="width:100%;box-sizing:border-box;padding:11px 14px;border:1.5px solid #c8bfb0;border-radius:6px;font-size:.95rem;margin-bottom:10px;outline:none;text-align:center;" onkeydown="if(event.key==='Enter')document.getElementById('loginPw').focus()">
+    <input type="password" id="loginPw" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">Unlock</button>
+    <div class="login-err" id="loginErr"></div>
+  </div>
+</div>
 
 <!-- Hidden file input for load fallback -->
 <input type="file" id="loadFileInput" accept=".json" style="display:none;" onchange="handleLoadFile(this)">
@@ -614,6 +645,7 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
       <button class="btn sm teal" onclick="saveWork()" title="Save your work to a file (Ctrl+S)">💾 Save</button>
       <button class="btn sm" onclick="saveAs()" title="Save a copy to a new location">📋 Save As</button>
       <button class="btn sm" onclick="loadWork()" title="Open a previously saved file">📂 Open</button>
+      <button class="btn sm" onclick="clearAll()" title="Clear all data and start fresh" style="background:#fdf0ee;border-color:#c07868;color:#c0392b;">🗑 Clear</button>
     </div>
     <button id="demoBtn" class="btn sm" style="background:#fef3e2;border-color:#c8802a;color:#b5600a;font-size:11px;" onclick="toggleDemoData()" title="Load sample data to explore the workbook">🧪 Demo</button>
     <button class="btn sm amber" style="font-size:11px;" onclick="dlFullReport()" title="Export the complete filled report as a Word document">📄 Report</button>
@@ -2242,35 +2274,35 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
   <div id="graphGrid" class="graph-grid" style="display:none;">
 
     <div class="gsection">Answering the Research Question</div>
-    <div class="gcard"><h4><span class="gnum">1</span>Mean V(H₂) vs Concentration</h4><div class="graph-wrap"><canvas id="gC1"></canvas></div><div class="geqs" id="gC1eq"></div><div class="gdesc">Primary RQ graph. AU error bars show precision at each level. Dashed line = Faraday's Law theoretical prediction. The gap between experimental and theoretical = systematic error.</div></div>
-    <div class="gcard"><h4><span class="gnum">2</span>Mean V(O₂) vs Concentration</h4><div class="graph-wrap"><canvas id="gC2"></canvas></div><div class="geqs" id="gC2eq"></div><div class="gdesc">Anode gas — same trend at half the gradient (4e⁻ per O₂ vs 2e⁻ per H₂). Theoretical dashed line included. Compare gradient ratio to the stoichiometric 2:1.</div></div>
+    <div class="gcard"><h4><span class="gnum">1</span>Mean H₂ Volume as a Function of Electrolyte Concentration</h4><div class="graph-wrap"><canvas id="gC1"></canvas></div><div class="geqs" id="gC1eq"></div><div class="gdesc">Primary RQ graph. AU error bars show precision at each level. Dashed line = Faraday's Law theoretical prediction. The gap between experimental and theoretical = systematic error.</div></div>
+    <div class="gcard"><h4><span class="gnum">2</span>Mean O₂ Volume as a Function of Electrolyte Concentration</h4><div class="graph-wrap"><canvas id="gC2"></canvas></div><div class="geqs" id="gC2eq"></div><div class="gdesc">Anode gas — same trend at half the gradient (4e⁻ per O₂ vs 2e⁻ per H₂). Theoretical dashed line included. Compare gradient ratio to the stoichiometric 2:1.</div></div>
     <button class="gdata-toggle" onclick="toggleGData(this,'gdataRQ')">📋 Show data table for Graphs 1 and 2 ▾</button>
     <div class="gdata-row" id="gdataRQ"><div class="gdata-inner"><div class="gdata-hdr"><h5>Volume Data — H₂ and O₂</h5><button class="gdata-dl" onclick="dlGData('rq')">📄 Word</button></div><div id="gdataRQtbl"></div></div></div>
 
     <div class="gsection">Theoretical Validation</div>
-    <div class="gcard"><h4><span class="gnum">3</span>V(H₂) Experimental + Theoretical</h4><div class="graph-wrap"><canvas id="gC3"></canvas></div><div class="geqs" id="gC3eq"></div><div class="gdesc">Both lines on the same axes. The vertical distance between them at each concentration is your systematic error — consistently below theoretical = gas loss (bubbles, solubility).</div></div>
-    <div class="gcard"><h4><span class="gnum">4</span>V(O₂) Experimental + Theoretical</h4><div class="graph-wrap"><canvas id="gC4"></canvas></div><div class="geqs" id="gC4eq"></div><div class="gdesc">Same comparison for anode gas. If the gap is proportionally larger than H₂, the anode electrode has greater gas loss — useful for identifying which electrode is less reliable.</div></div>
-    <div class="gcard"><h4><span class="gnum">5</span>n(exp) vs n(theo)</h4><div class="graph-wrap"><canvas id="gC5"></canvas></div><div class="geqs" id="gC5eq"></div><div class="gdesc">Should fall on the 1:1 line (dashed) through the origin. Points below the line = experimental moles less than predicted (systematic underestimation). Distance from the line quantifies accuracy.</div></div>
-    <div class="gcard"><h4><span class="gnum">6</span>H₂:O₂ Volume Ratio vs Concentration</h4><div class="graph-wrap"><canvas id="gC6"></canvas></div><div class="geqs" id="gC6eq"></div><div class="gdesc">Faraday's Law predicts a constant 2:1 ratio. Below 2.0 = H₂ underestimated (cathode bubble adhesion). Above 2.0 = O₂ underestimated. Consistency across levels = systematic, not random.</div></div>
+    <div class="gcard"><h4><span class="gnum">3</span>Experimental and Theoretical H₂ Volume as a Function of Concentration</h4><div class="graph-wrap"><canvas id="gC3"></canvas></div><div class="geqs" id="gC3eq"></div><div class="gdesc">Both lines on the same axes. The vertical distance between them at each concentration is your systematic error — consistently below theoretical = gas loss (bubbles, solubility).</div></div>
+    <div class="gcard"><h4><span class="gnum">4</span>Experimental and Theoretical O₂ Volume as a Function of Concentration</h4><div class="graph-wrap"><canvas id="gC4"></canvas></div><div class="geqs" id="gC4eq"></div><div class="gdesc">Same comparison for anode gas. If the gap is proportionally larger than H₂, the anode electrode has greater gas loss — useful for identifying which electrode is less reliable.</div></div>
+    <div class="gcard"><h4><span class="gnum">5</span>Experimental and Theoretical Moles of H₂ Produced</h4><div class="graph-wrap"><canvas id="gC5"></canvas></div><div class="geqs" id="gC5eq"></div><div class="gdesc">Should fall on the 1:1 line (dashed) through the origin. Points below the line = experimental moles less than predicted (systematic underestimation). Distance from the line quantifies accuracy.</div></div>
+    <div class="gcard"><h4><span class="gnum">6</span>H₂:O₂ Volume Ratio at Each Concentration Level</h4><div class="graph-wrap"><canvas id="gC6"></canvas></div><div class="geqs" id="gC6eq"></div><div class="gdesc">Faraday's Law predicts a constant 2:1 ratio. Below 2.0 = H₂ underestimated (cathode bubble adhesion). Above 2.0 = O₂ underestimated. Consistency across levels = systematic, not random.</div></div>
     <button class="gdata-toggle" onclick="toggleGData(this,'gdataTheo')">📋 Show data table for Graphs 3–6 ▾</button>
     <div class="gdata-row" id="gdataTheo"><div class="gdata-inner"><div class="gdata-hdr"><h5>Theoretical Comparison &amp; Ratio Data</h5><button class="gdata-dl" onclick="dlGData('theo')">📄 Word</button></div><div id="gdataTheotbl"></div></div></div>
 
     <div class="gsection">Ohm's Law Mechanism</div>
-    <div class="gcard"><h4><span class="gnum">7</span>Current (I) vs Concentration</h4><div class="graph-wrap"><canvas id="gC7"></canvas></div><div class="geqs" id="gC7eq"></div><div class="gdesc">Makes the Ohm's Law mechanism visible. As concentration increases, more ions carry charge → lower resistance → higher current at constant voltage. This is the causal link between your IV and DV.</div></div>
-    <div class="gcard"><h4><span class="gnum">8</span>Resistance (R) vs Concentration</h4><div class="graph-wrap"><canvas id="gC8"></canvas></div><div class="geqs" id="gC8eq"></div><div class="gdesc">Inverse of Graph 7. R = V/I. Should show a decreasing trend — higher concentration = more ions = lower resistance. Non-linearity here suggests ion-pairing or saturation effects.</div></div>
-    <div class="gcard"><h4><span class="gnum">9</span>Charge (Q) vs Concentration</h4><div class="graph-wrap"><canvas id="gC9"></canvas></div><div class="geqs" id="gC9eq"></div><div class="gdesc">Q = I × t. Since t is constant, this mirrors Graph 7. More charge = more moles produced via Faraday's Law. The gradient physically represents charge increase per unit concentration increase.</div></div>
+    <div class="gcard"><h4><span class="gnum">7</span>Mean Current as a Function of Electrolyte Concentration</h4><div class="graph-wrap"><canvas id="gC7"></canvas></div><div class="geqs" id="gC7eq"></div><div class="gdesc">Makes the Ohm's Law mechanism visible. As concentration increases, more ions carry charge → lower resistance → higher current at constant voltage. This is the causal link between your IV and DV.</div></div>
+    <div class="gcard"><h4><span class="gnum">8</span>Mean Resistance as a Function of Electrolyte Concentration</h4><div class="graph-wrap"><canvas id="gC8"></canvas></div><div class="geqs" id="gC8eq"></div><div class="gdesc">Inverse of Graph 7. R = V/I. Should show a decreasing trend — higher concentration = more ions = lower resistance. Non-linearity here suggests ion-pairing or saturation effects.</div></div>
+    <div class="gcard"><h4><span class="gnum">9</span>Mean Charge Delivered as a Function of Electrolyte Concentration</h4><div class="graph-wrap"><canvas id="gC9"></canvas></div><div class="geqs" id="gC9eq"></div><div class="gdesc">Q = I × t. Since t is constant, this mirrors Graph 7. More charge = more moles produced via Faraday's Law. The gradient physically represents charge increase per unit concentration increase.</div></div>
     <button class="gdata-toggle" onclick="toggleGData(this,'gdataOhm')">📋 Show data table for Graphs 7–9 ▾</button>
     <div class="gdata-row" id="gdataOhm"><div class="gdata-inner"><div class="gdata-hdr"><h5>Current, Resistance &amp; Charge Data</h5><button class="gdata-dl" onclick="dlGData('ohm')">📄 Word</button></div><div id="gdataOhmtbl"></div></div></div>
 
     <div class="gsection">Data Quality &amp; Error Analysis</div>
-    <div class="gcard"><h4><span class="gnum">10</span>% Error vs Concentration</h4><div class="graph-wrap"><canvas id="gC10"></canvas></div><div class="gdesc">Shows whether accuracy is consistent or degrades at specific levels. A rising trend suggests systematic error worsens with increased gas production (e.g. more bubbles at higher concentrations).</div></div>
-    <div class="gcard"><h4><span class="gnum">11</span>PU (%) vs Concentration</h4><div class="graph-wrap"><canvas id="gC11"></canvas></div><div class="gdesc">Shows whether precision degrades. PU (%) above 10% (dashed line) is a QCAA reliability concern. If PU (%) increases with concentration, trial-to-trial variability is worse at higher gas production rates.</div></div>
-    <div class="gcard"><h4><span class="gnum">12</span>Mean cumulative V(H₂) and V(anode gas) by Concentration</h4><div class="graph-wrap"><canvas id="gC12"></canvas></div><div class="geqs" id="gC12eq"></div><div class="gdesc">Grouped bar comparison of the final mean collected gas volume at each concentration. Error bars show absolute uncertainty for H₂ and the anode gas at every level.</div></div>
+    <div class="gcard"><h4><span class="gnum">10</span>Percentage Error Across Electrolyte Concentration Levels</h4><div class="graph-wrap"><canvas id="gC10"></canvas></div><div class="gdesc">Shows whether accuracy is consistent or degrades at specific levels. A rising trend suggests systematic error worsens with increased gas production (e.g. more bubbles at higher concentrations).</div></div>
+    <div class="gcard"><h4><span class="gnum">11</span>Percentage Uncertainty Across Electrolyte Concentration Levels</h4><div class="graph-wrap"><canvas id="gC11"></canvas></div><div class="gdesc">Shows whether precision degrades. PU (%) above 10% (dashed line) is a QCAA reliability concern. If PU (%) increases with concentration, trial-to-trial variability is worse at higher gas production rates.</div></div>
+    <div class="gcard"><h4><span class="gnum">12</span>Mean H₂ and O₂ Volumes at Each Concentration Level</h4><div class="graph-wrap"><canvas id="gC12"></canvas></div><div class="geqs" id="gC12eq"></div><div class="gdesc">Grouped bar comparison of the final mean collected gas volume at each concentration. Error bars show absolute uncertainty for H₂ and the anode gas at every level.</div></div>
     <button class="gdata-toggle" onclick="toggleGData(this,'gdataErr')">📋 Show data table for Graphs 10–12 ▾</button>
     <div class="gdata-row" id="gdataErr"><div class="gdata-inner"><div class="gdata-hdr"><h5>Error, Uncertainty &amp; Graph 12 Data</h5><button class="gdata-dl" onclick="dlGData('err')">📄 Word</button></div><div id="gdataErrtbl"></div></div></div>
 
     <div class="gsection" id="gsecRate">Combined Volume Comparison</div>
-    <div class="gcard" id="gC15card"><h4><span class="gnum">15</span>Mean V(H₂) and V(anode gas) together vs Concentration</h4>
+    <div class="gcard" id="gC15card"><h4><span class="gnum">15</span>Mean H₂ and O₂ Volumes at Each Concentration Level — Combined View</h4>
       <div class="graph-wrap" style="height:300px;"><canvas id="gC15"></canvas></div><div class="geqs" id="gC15eq"></div>
       <div class="gdesc">Both gases are shown together on the same axes so the 2:1 stoichiometric pattern is easier to compare directly. Error bars show AU for each gas at each concentration.</div>
     </div>
@@ -2278,8 +2310,8 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
     <div class="gdata-row" id="gdataCombo"><div class="gdata-inner"><div class="gdata-hdr"><h5>Combined H₂ and O₂ Data</h5><button class="gdata-dl" onclick="dlGData('combo')">📄 Word</button></div><div id="gdataCombotbl"></div></div></div>
 
     <div class="gsection">Advanced (Differentiating)</div>
-    <div class="gcard"><h4><span class="gnum">13</span>n(H₂) vs Current</h4><div class="graph-wrap"><canvas id="gC13"></canvas></div><div class="geqs" id="gC13eq"></div><div class="gdesc">Direct Faraday's Law test. Gradient should equal t/(2F). A gradient lower than predicted = systematic gas loss. This graph tests Faraday's Law independently of the Ideal Gas Law.</div></div>
-    <div class="gcard"><h4><span class="gnum">14</span>V(H₂) vs Charge (Q)</h4><div class="graph-wrap"><canvas id="gC14"></canvas></div><div class="geqs" id="gC14eq"></div><div class="gdesc">Should be linear through the origin. Gradient = RT/(2FP) — a physical constant at your conditions. Deviation from linearity suggests a variable other than Q is affecting volume.</div></div>
+    <div class="gcard"><h4><span class="gnum">13</span>Moles of H₂ Produced as a Function of Mean Current</h4><div class="graph-wrap"><canvas id="gC13"></canvas></div><div class="geqs" id="gC13eq"></div><div class="gdesc">Direct Faraday's Law test. Gradient should equal t/(2F). A gradient lower than predicted = systematic gas loss. This graph tests Faraday's Law independently of the Ideal Gas Law.</div></div>
+    <div class="gcard"><h4><span class="gnum">14</span>Mean H₂ Volume as a Function of Charge Delivered</h4><div class="graph-wrap"><canvas id="gC14"></canvas></div><div class="geqs" id="gC14eq"></div><div class="gdesc">Should be linear through the origin. Gradient = RT/(2FP) — a physical constant at your conditions. Deviation from linearity suggests a variable other than Q is affecting volume.</div></div>
     <button class="gdata-toggle" onclick="toggleGData(this,'gdataAdv')">📋 Show data table for Graphs 13–14 ▾</button>
     <div class="gdata-row" id="gdataAdv"><div class="gdata-inner"><div class="gdata-hdr"><h5>Faraday's Law Direct Test Data</h5><button class="gdata-dl" onclick="dlGData('adv')">📄 Word</button></div><div id="gdataAdvtbl"></div></div></div>
 
@@ -2304,6 +2336,38 @@ const ELEC={
 let S={elec:'h2so4',iv:'conc',gT:22,gP:101.3,gTime:15,gV:5,levels:[],procGraphSel:[]};
 
 function init(){updateElec();updateSummaryStrip();}
+function clearAll(){
+  if(!confirm('Clear all data and start a new investigation?\n\nThis cannot be undone — save first if you want to keep this work.'))return;
+  S=Object.assign({},{
+    elec:'h2so4',iv:'conc',gT:22,gP:101.3,gTime:15,gV:5,levels:[],procGraphSel:[]
+  });
+  // Reset drawer fields to defaults
+  document.getElementById('elecSel').value='h2so4';
+  document.getElementById('ivSel').value='conc';
+  document.getElementById('gTemp').value=22;
+  document.getElementById('gPress').value=101.3;
+  document.getElementById('gTime').value=15;
+  document.getElementById('gVolt').value=5;
+  // Clear all write-up textareas
+  document.querySelectorAll('textarea').forEach(t=>t.value='');
+  // Clear file handle so Save prompts for new location
+  _fileHandle=null;
+  _dirty=false;
+  updateElec();
+  updateSummaryStrip();
+  renderLevels();
+  renderData();
+  refreshCalcSel();
+  renderResults();
+  markSaved();
+  document.getElementById('saveText').textContent='Not saved';
+  document.getElementById('saveDot').className='save-dot never';
+  // Switch to Theory tab
+  document.querySelectorAll('.t-btn').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('on'));
+  const theoryBtn=document.querySelector('.t-btn[data-tab="theory"]');
+  if(theoryBtn){theoryBtn.classList.add('on');document.getElementById('tab-theory').classList.add('on');}
+}
 function onElecChange(){S.elec=document.getElementById('elecSel').value;updateElec();updateSummaryStrip();renderData();}
 function onIVChange(){
   S.iv=document.getElementById('ivSel').value;
@@ -2715,21 +2779,21 @@ function mkCategoryOpts(xlabel,ylabel,extraOpts={}){
 
 function getProcessedGraphMeta(){
   return [
-    {num:15,title:'Mean V(H₂) and V(anode gas) together — Combined',canvasId:'gC15',tableId:'gdataCombotbl',tableTitle:'Combined H₂ and O₂ Data'},
-    {num:1,title:'Mean V(H₂) vs Concentration',canvasId:'gC1',tableId:'gdataRQtbl',tableTitle:'Volume Data — H₂ and O₂'},
-    {num:2,title:'Mean V(O₂) vs Concentration',canvasId:'gC2',tableId:'gdataRQtbl',tableTitle:'Volume Data — H₂ and O₂'},
-    {num:3,title:'V(H₂) Experimental + Theoretical',canvasId:'gC3',tableId:'gdataTheotbl',tableTitle:'Theoretical Comparison & Ratio Data'},
-    {num:4,title:'V(O₂) Experimental + Theoretical',canvasId:'gC4',tableId:'gdataTheotbl',tableTitle:'Theoretical Comparison & Ratio Data'},
-    {num:5,title:'n(exp) vs n(theo)',canvasId:'gC5',tableId:'gdataTheotbl',tableTitle:'Theoretical Comparison & Ratio Data'},
-    {num:6,title:'H₂:O₂ Volume Ratio vs Concentration',canvasId:'gC6',tableId:'gdataTheotbl',tableTitle:'Theoretical Comparison & Ratio Data'},
-    {num:7,title:'Current (I) vs Concentration',canvasId:'gC7',tableId:'gdataOhmtbl',tableTitle:'Current, Resistance & Charge Data'},
-    {num:8,title:'Resistance (R) vs Concentration',canvasId:'gC8',tableId:'gdataOhmtbl',tableTitle:'Current, Resistance & Charge Data'},
-    {num:9,title:'Charge (Q) vs Concentration',canvasId:'gC9',tableId:'gdataOhmtbl',tableTitle:'Current, Resistance & Charge Data'},
-    {num:10,title:'% Error vs Concentration',canvasId:'gC10',tableId:'gdataErrtbl',tableTitle:'Error, Uncertainty & Graph 12 Data'},
-    {num:11,title:'PU (%) vs Concentration',canvasId:'gC11',tableId:'gdataErrtbl',tableTitle:'Error, Uncertainty & Graph 12 Data'},
-    {num:12,title:'Mean cumulative V(H₂) and V(anode gas) by Concentration',canvasId:'gC12',tableId:'gdataErrtbl',tableTitle:'Error, Uncertainty & Graph 12 Data'},
-    {num:13,title:'n(H₂) vs Current',canvasId:'gC13',tableId:'gdataAdvtbl',tableTitle:"Faraday's Law Direct Test Data"},
-    {num:14,title:'V(H₂) vs Charge (Q)',canvasId:'gC14',tableId:'gdataAdvtbl',tableTitle:"Faraday's Law Direct Test Data"}
+    {num:1,title:'Mean H₂ Volume as a Function of Electrolyte Concentration',canvasId:'gC1',tableId:'gdataRQtbl',tableTitle:'Volume Data — H₂ and O₂'},
+    {num:2,title:'Mean O₂ Volume as a Function of Electrolyte Concentration',canvasId:'gC2',tableId:'gdataRQtbl',tableTitle:'Volume Data — H₂ and O₂'},
+    {num:3,title:'Experimental and Theoretical H₂ Volume as a Function of Concentration',canvasId:'gC3',tableId:'gdataTheotbl',tableTitle:'Theoretical Comparison & Ratio Data'},
+    {num:4,title:'Experimental and Theoretical O₂ Volume as a Function of Concentration',canvasId:'gC4',tableId:'gdataTheotbl',tableTitle:'Theoretical Comparison & Ratio Data'},
+    {num:5,title:'Experimental and Theoretical Moles of H₂ Produced',canvasId:'gC5',tableId:'gdataTheotbl',tableTitle:'Theoretical Comparison & Ratio Data'},
+    {num:6,title:'H₂:O₂ Volume Ratio at Each Concentration Level',canvasId:'gC6',tableId:'gdataTheotbl',tableTitle:'Theoretical Comparison & Ratio Data'},
+    {num:7,title:'Mean Current as a Function of Electrolyte Concentration',canvasId:'gC7',tableId:'gdataOhmtbl',tableTitle:'Current, Resistance & Charge Data'},
+    {num:8,title:'Mean Resistance as a Function of Electrolyte Concentration',canvasId:'gC8',tableId:'gdataOhmtbl',tableTitle:'Current, Resistance & Charge Data'},
+    {num:9,title:'Mean Charge Delivered as a Function of Electrolyte Concentration',canvasId:'gC9',tableId:'gdataOhmtbl',tableTitle:'Current, Resistance & Charge Data'},
+    {num:10,title:'Percentage Error Across Electrolyte Concentration Levels',canvasId:'gC10',tableId:'gdataErrtbl',tableTitle:'Error, Uncertainty & Graph 12 Data'},
+    {num:11,title:'Percentage Uncertainty Across Electrolyte Concentration Levels',canvasId:'gC11',tableId:'gdataErrtbl',tableTitle:'Error, Uncertainty & Graph 12 Data'},
+    {num:12,title:'Mean H₂ and O₂ Volumes at Each Concentration Level',canvasId:'gC12',tableId:'gdataErrtbl',tableTitle:'Error, Uncertainty & Graph 12 Data'},
+    {num:13,title:'Moles of H₂ Produced as a Function of Mean Current',canvasId:'gC13',tableId:'gdataAdvtbl',tableTitle:"Faraday's Law Direct Test Data"},
+    {num:14,title:'Mean H₂ Volume as a Function of Charge Delivered',canvasId:'gC14',tableId:'gdataAdvtbl',tableTitle:"Faraday's Law Direct Test Data"},
+    {num:15,title:'Mean V(H₂) and V(anode gas) together — Combined',canvasId:'gC15',tableId:'gdataCombotbl',tableTitle:'Combined H₂ and O₂ Data'}
   ];
 }
 function ensureProcGraphDefaults(){
@@ -2760,16 +2824,21 @@ function renderProcessedSections(){
     raw.innerHTML=(src&&S.levels.length)?src.innerHTML:'<div class="proc-placeholder">Enter trial data to view the raw data tables here.</div>';
   }
   if(proc){
-    const src=document.getElementById('sampleCalcContent');
-    proc.innerHTML=(src&&S.levels.length)?src.innerHTML:'<div class="proc-placeholder">Complete the calculation section to show the sample calculations here.</div>';
+    // Always rebuild sample calc so it's populated without needing to open the toggle
+    if(S.levels.length)buildSampleCalcTable();
+    const sc=document.getElementById('sampleCalcContent');
+    proc.innerHTML=(sc&&sc.innerHTML&&S.levels.length)?sc.innerHTML:'<div class="proc-placeholder">Enter data first to show sample calculations here.</div>';
   }
   if(pdata){
     const src=document.getElementById('resultsContent');
     pdata.innerHTML=(src&&S.levels.length)?src.innerHTML:'<div class="proc-placeholder">Complete the results section to view the processed data tables here.</div>';
   }
+  if(S.levels.length) try{['gdataRQ','gdataTheo','gdataOhm','gdataErr','gdataCombo','gdataAdv'].forEach(id=>populateGDataTable(id));}catch(e){}
   renderProcessedGraphSelector();
-  if(S.levels.length && typeof renderAllGraphs==='function') renderAllGraphs();
-  else renderProcessedSelectedGraphs();
+  if(S.levels.length && typeof renderAllGraphs==='function'){
+    renderAllGraphs();
+    renderProcessedSelectedGraphs();
+  } else renderProcessedSelectedGraphs();
 }
 if(!window.GI_WU)window.GI_WU={};
 function renderProcessedSelectedGraphs(){
@@ -2856,6 +2925,44 @@ function renderProcessedSelectedGraphs(){
           cfg={type:'scatter',data:{datasets:[{label:'% Error (H₂)',data:pts,backgroundColor:GC.o2+'cc',borderColor:GC.o2,pointRadius:5,showLine:false}]},options:sO(`${ivL} (${u})`,'% Error')};break;}
         case 11:{const pts=rows.filter(r=>isFinite(r.puH2)).map(r=>({x:r.val,y:r.puH2}));
           cfg={type:'scatter',data:{datasets:[{label:'PU% (H₂)',data:pts,backgroundColor:GC.h2+'cc',borderColor:GC.h2,pointRadius:5,showLine:false}]},options:sO(`${ivL} (${u})`,'PU (%)')};break;}
+        case 12:{// Grouped bar: mean V(H2) and anode gas by concentration
+          const e2=ELEC[S.elec];
+          const labels2=rows.map(r=>`${r.val} ${u}`);
+          const h2d=rows.map(r=>isFinite(r.mnH2)?r.mnH2:null);
+          const aod=rows.map(r=>isFinite(r.mnO2)?r.mnO2:null);
+          const h2Au2=rows.map(r=>isFinite(r.auH2)?r.auH2:0);
+          const aoAu2=rows.map(r=>isFinite(r.auO2)?r.auO2:0);
+          if(h2d.some(v=>v!==null)||aod.some(v=>v!==null)){
+            const ds=[{label:'Mean V(H₂)',data:h2d,backgroundColor:GC.h2+'99',borderColor:GC.h2,borderWidth:1.5,_eb:h2Au2},
+                      {label:`Mean V(${e2.ap})`,data:aod,backgroundColor:GC.o2+'99',borderColor:GC.o2,borderWidth:1.5,_eb:aoAu2}];
+            cfg={type:'bar',data:{labels:labels2,datasets:ds},
+              options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{font:{size:11}}}},
+                scales:{x:{type:'category',title:{display:true,text:`${ivL} (${u})`,font:{size:11}},grid:{color:'#e5e7eb'},ticks:{font:{size:10}}},
+                        y:{title:{display:true,text:'Mean cumulative volume (mL)',font:{size:11}},grid:{color:'#e5e7eb'},ticks:{font:{size:10}},beginAtZero:true}}}};
+          } break;}
+        case 13:{// n(H2) vs current
+          const pts13=rows.filter(r=>isFinite(r.nexpH2)&&isFinite(r.mnI)&&r.mnI>0).map(r=>({x:r.mnI,y:r.nexpH2}));
+          if(pts13.length>=2){
+            const ds=[{label:'n(H₂) exp',data:pts13,backgroundColor:GC.h2+'cc',borderColor:GC.h2,pointRadius:5,showLine:false}];
+            const fit13=trendLine(pts13,GC.h2,'Best fit');if(fit13)ds.push(fit13);
+            const theoGrad=(S.gTime*60)/(2*F);
+            const maxI13=Math.max(...pts13.map(p=>p.x))*1.1;
+            ds.push({label:'Theoretical',data:[{x:0,y:0},{x:maxI13,y:theoGrad*maxI13/1000}],borderColor:GC.theo,borderDash:[5,3],borderWidth:1.5,pointRadius:0,showLine:true,type:'scatter'});
+            cfg={type:'scatter',data:{datasets:ds},options:sO('Current I (mA)','n(H₂) (mol)')};
+          } break;}
+        case 14:{// V(H2) vs Charge Q
+          const pts14=rows.filter(r=>isFinite(r.mnH2)&&isFinite(r.meanQ)&&r.meanQ>0).map(r=>({x:r.meanQ,y:r.mnH2}));
+          if(pts14.length>=2){
+            const ds=[{label:'V(H₂) exp',data:pts14,backgroundColor:GC.h2+'cc',borderColor:GC.h2,pointRadius:5,showLine:false,_eb:rows.filter(r=>isFinite(r.mnH2)&&isFinite(r.meanQ)&&r.meanQ>0).map(r=>r.auH2||0)}];
+            const fit14=trendLine(pts14,GC.h2,'Best fit');if(fit14)ds.push(fit14);
+            const v0r=rows.find(r=>isFinite(r.T_K)&&isFinite(r.P_Pa));
+            if(v0r){
+              const theoG=(R_gas*v0r.T_K/(2*F*v0r.P_Pa))*1e6;
+              const maxQ14=Math.max(...pts14.map(p=>p.x))*1.1;
+              ds.push({label:'Theoretical (RT/2FP×10⁶)',data:[{x:0,y:0},{x:maxQ14,y:theoG*maxQ14}],borderColor:GC.theo,borderDash:[5,3],borderWidth:1.5,pointRadius:0,showLine:true,type:'scatter'});
+            }
+            cfg={type:'scatter',data:{datasets:ds},options:sO('Charge Q (C)','V(H₂) (mL)')};
+          } break;}
         case 15:{const pts1=rows.filter(r=>isFinite(r.mnH2)).map(r=>({x:r.val,y:r.mnH2}));
           const ds=[{label:'V(H₂)',data:pts1,backgroundColor:GC.h2+'cc',borderColor:GC.h2,pointRadius:5,showLine:false,_eb:rows.filter(r=>isFinite(r.mnH2)).map(r=>r.auH2||0)}];
           const f1=trendLine(pts1,GC.h2,'H₂ fit');if(f1)ds.push(f1);
@@ -3127,7 +3234,7 @@ function renderAllGraphs(){
     gMk('gC4',{type:'scatter',data:{datasets:ds},options:sOpts(`${ivL} (${u})`,`V(${e.ap}) (mL)`)});
   }}
 
-  // ── G5: n(exp) vs n(theo) ──
+  // ── G5: Experimental and Theoretical Moles of H₂ Produced ──
   {const h2p=rows.filter(r=>isFinite(r.nexpH2)&&isFinite(r.nthH2)).map(r=>({x:r.nthH2,y:r.nexpH2}));
   const o2p=rows.filter(r=>isFinite(r.nexpO2)&&isFinite(r.nthO2)).map(r=>({x:r.nthO2,y:r.nexpO2}));
   const all=[...h2p,...o2p];
@@ -3210,7 +3317,7 @@ function renderAllGraphs(){
   // ── G15: combined H₂ and anode gas scatter ──
   renderGC15(rows,ivL,u,e);
 
-  // ── G13: n(H₂) vs Current ──
+  // ── G13: Moles of H₂ Produced as a Function of Mean Current ──
   {const pts=rows.filter(r=>isFinite(r.nexpH2)&&isFinite(r.meanIA)).map(r=>({x:r.meanIA*1000,y:r.nexpH2}));
   if(pts.length>=2){
     const ds=[{label:'n(H₂) exp',data:pts,backgroundColor:GCOLS.h2+'cc',borderColor:GCOLS.h2,pointRadius:5,showLine:false,_eb:rows.filter(r=>isFinite(r.nexpH2)&&isFinite(r.meanIA)).map(r=>r.auNexpH2||0)}];
@@ -3360,7 +3467,8 @@ function dlGData(section){
   let html=`<html><head><meta charset="UTF-8"></head><body style="font-family:Calibri,sans-serif;font-size:11pt;">`;
   html+=`<h2 style="color:#1c2f45;">${titles[section]||'Graph Data'} — ${ELEC[S.elec].name}</h2>`;
   html+=tblEl.innerHTML.replace(/<table/g,'<table border="1" cellpadding="5" cellspacing="0" style="border-collapse:collapse;width:100%;font-size:10pt;"');
-  html+=`</body></html>`;
+  html+=`
+</body></html>`;
   const blob=new Blob(['\ufeff'+html],{type:'application/msword'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`IA2_${titles[section]||'Data'}.doc`;a.click();
 }
@@ -3871,12 +3979,25 @@ function buildSampleCalcTable(){
 }
 
 // ── FULL REPORT EXPORT ──
-function dlFullReport(){
-  const e=ELEC[S.elec],u=S.iv==='conc'?'mol L\u207b\u00b9':'mA',ivL=S.iv==='conc'?'Concentration':'Current';
+async function dlFullReport(){
+  if(S.levels.length){
+    if(typeof renderAllGraphs==='function') renderAllGraphs();
+    try{['gdataRQ','gdataTheo','gdataOhm','gdataErr','gdataCombo','gdataAdv'].forEach(id=>populateGDataTable(id));}catch(e){}
+    await new Promise(r=>setTimeout(r,600)); // give Chart.js time to fully paint all canvases
+  }  const e=ELEC[S.elec],u=S.iv==='conc'?'mol L\u207b\u00b9':'mA',ivL=S.iv==='conc'?'Concentration':'Current';
 
-  // Word-compatible stacked fraction (inline nested table)
+  // Plain-text fraction for Word export (avoids nested table rendering issues)
+  // Compact stacked fraction — zero padding, tight line-height keeps row height small
   function wFrac(n,d){
-    return `<table style="display:inline-table;border-collapse:collapse;vertical-align:middle;margin:0 2pt;line-height:1.1;"><tr><td style="border-bottom:1pt solid #000;padding:0 4pt;text-align:center;font-size:8.5pt;">${n}</td></tr><tr><td style="padding:0 4pt;text-align:center;font-size:8.5pt;">${d}</td></tr></table>`;
+    // width:1pt forces Word to shrink the table to minimum content width;
+    // white-space:nowrap on each cell prevents wrapping so the vinculum matches text width exactly
+    return `<table border="0" cellpadding="0" cellspacing="0" `+
+      `style="width:1pt;display:inline-table;border-collapse:collapse;vertical-align:middle;margin:0 3pt;">`+
+      `<tr><td style="text-align:center;font-size:8pt;line-height:1.2;border-bottom:1pt solid #000;`+
+      `white-space:nowrap;padding:0 5pt 1pt;">${n}</td></tr>`+
+      `<tr><td style="text-align:center;font-size:8pt;line-height:1.2;`+
+      `white-space:nowrap;padding:1pt 5pt 0;">${d}</td></tr>`+
+      `</table>`;
   }
 
   let html=`<html><head><meta charset="UTF-8"><style>
@@ -4041,44 +4162,82 @@ function dlFullReport(){
       html+=`</tbody></table>`;
     }
 
-    // 5d. Selected Graphs
+    // 5d. Selected Graphs — render fresh off-screen canvases at export time
     const selNums=getProcGraphSelection();
     if(selNums.length){
       html+=sec3('Selected Graphs');
       html+=`<p style="font-size:9pt;color:#555;margin:0 0 8pt;">Graphs selected for this report. Each graph is followed by its associated processed data table.</p>`;
       const meta=getProcessedGraphMeta();
+      const _e=ELEC[S.elec],_u=S.iv==='conc'?'mol L⁻¹':'mA',_ivL=S.iv==='conc'?'Concentration':'Current';
+      const _rows=S.levels.map((lv,li)=>{
+        const st=getLevelStats(li);
+        const nthH2=st.nth_h2,nthO2=st.meanQ/(_e.ne*F);
+        const nexpO2=(isFinite(st.P_Pa)&&isFinite(st.mnO2)&&st.mnO2>0)?(st.P_Pa*(st.mnO2/1e6))/(R_gas*st.T_K):NaN;
+        const ratio=isFinite(st.mnH2)&&isFinite(st.mnO2)&&st.mnO2>0?st.mnH2/st.mnO2:NaN;
+        const mnIA=st.mnI/1000,meanR=mnIA>0?S.gV/mnIA:NaN;
+        return{val:lv.val,mnH2:st.mnH2,mnO2:st.mnO2,auH2:st.au_h2,auO2:st.au_o2,puH2:st.pu_h2,puO2:st.pu_o2,
+          nexpH2:st.nexp_h2,nthH2,peH2:st.pct_err,nexpO2,nthO2,peH2:st.pct_err,ratio,mnI:st.mnI,auI:st.au_i,
+          meanR,meanQ:st.meanQ,T_K:st.T_K,P_Pa:st.P_Pa};
+      });
+      const _hasO2=_rows.some(r=>isFinite(r.mnO2)&&r.mnO2>0);
+      function _tp(rs,k){return rs.filter(r=>isFinite(r[k])&&isFinite(r.T_K)&&isFinite(r.P_Pa)).map(r=>({x:r.val,y:(r[k]*R_gas*r.T_K/r.P_Pa)*1e6}));}
+      const GC=GCOLS;
+      const _sO=(xl,yl)=>({responsive:false,animation:false,
+        plugins:{legend:{position:'top',labels:{font:{size:13},padding:12}},tooltip:{enabled:false}},
+        scales:{x:{type:'linear',title:{display:true,text:xl,font:{size:12}},grid:{color:'#e5e7eb'},ticks:{font:{size:11}}},
+                y:{title:{display:true,text:yl,font:{size:12}},grid:{color:'#e5e7eb'},ticks:{font:{size:11}},beginAtZero:true}}});
+      const _sCat=(xl,yl)=>({responsive:false,animation:false,
+        plugins:{legend:{position:'top',labels:{font:{size:13},padding:12}},tooltip:{enabled:false}},
+        scales:{x:{type:'category',title:{display:true,text:xl,font:{size:12}},grid:{color:'#e5e7eb'},ticks:{font:{size:11}}},
+                y:{title:{display:true,text:yl,font:{size:12}},grid:{color:'#e5e7eb'},ticks:{font:{size:11}},beginAtZero:true}}});
+      // Helper: inline-style a table element for Word export
+      function _inlineTable(tbl){
+        if(!tbl||!tbl.innerHTML)return '';
+        const rows=[...tbl.querySelectorAll('tr')];
+        let t='<table style="width:100%;border-collapse:collapse;font-size:9pt;margin-top:4pt;">';
+        rows.forEach((row,ri)=>{
+          t+='<tr>';
+          [...row.children].forEach(cell=>{
+            const isHead=cell.tagName==='TH';
+            const bg=isHead?'background:#1c2f45;color:#fff;':ri%2===0?'background:#ffffff;':'background:#f7f5f1;';
+            const fw=isHead?'font-weight:700;':'';
+            t+=`<${cell.tagName} style="padding:4pt 7pt;border:0.5pt solid #ccc;${bg}${fw}vertical-align:top;text-align:left;">${cell.innerHTML}</${cell.tagName}>`;
+          });
+          t+='</tr>';
+        });
+        return t+'</table>';
+      }
       selNums.forEach(num=>{
-        const g=meta.find(m=>m.num===num);
-        if(!g)return;
+        const g=meta.find(m=>m.num===num);if(!g)return;
         html+=`<div style="margin-bottom:20pt;page-break-inside:avoid;">`;
         html+=`<p style="font-weight:700;color:#1c2f45;margin:8pt 0 4pt;font-size:10pt;">Graph ${g.num}: ${g.title}</p>`;
-        // Try write-up canvas first, fall back to main graph canvas
-        const wuCanvas=document.getElementById('wu_'+g.canvasId);
-        const mainCanvas=document.getElementById(g.canvasId);
+        // Use Chart.js built-in toBase64Image() — most reliable method
         let imgSrc='';
-        for(const cv of [wuCanvas,mainCanvas]){
-          if(!cv)continue;
-          try{
-            const tmp=document.createElement('canvas');
-            tmp.width=cv.width&&cv.width>10?cv.width:800;
-            tmp.height=cv.height&&cv.height>10?cv.height:400;
-            const tctx=tmp.getContext('2d');
-            tctx.fillStyle='#ffffff';tctx.fillRect(0,0,tmp.width,tmp.height);
-            tctx.drawImage(cv,0,0,tmp.width,tmp.height);
-            const d=tmp.toDataURL('image/png');
-            if(d&&d.length>1000){imgSrc=d;break;}
-          }catch(err){}
+        const chartInst=GI[g.canvasId]||(typeof GI_WU!=='undefined'?GI_WU['wu_'+g.canvasId]:null);
+        if(chartInst&&typeof chartInst.toBase64Image==='function'){
+          try{imgSrc=chartInst.toBase64Image('image/png',1);}catch(er){}
         }
-        if(imgSrc){
-          html+=`<img src="${imgSrc}" style="width:100%;max-width:560pt;border:0.5pt solid #ddd;display:block;margin:4pt 0 8pt;" alt="Graph ${g.num}">`;
+        if(!imgSrc||imgSrc.length<2000){
+          // Fallback: try to draw canvas directly
+          for(const cid of [g.canvasId,'wu_'+g.canvasId]){
+            const cv=document.getElementById(cid);
+            if(!cv||cv.width<10)continue;
+            try{
+              const tmp=document.createElement('canvas');tmp.width=cv.width;tmp.height=cv.height;
+              const ctx=tmp.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,tmp.width,tmp.height);ctx.drawImage(cv,0,0);
+              const d=tmp.toDataURL('image/png');if(d&&d.length>2000){imgSrc=d;break;}
+            }catch(er){}
+          }
+        }
+        if(imgSrc&&imgSrc.length>2000){
+          html+=`<img src="${imgSrc}" style="width:100%;max-width:560pt;display:block;margin:4pt 0 10pt;border:0.5pt solid #ddd;" alt="Graph ${g.num}">`;
         } else {
-          html+=`<p style="font-size:9pt;color:#888;font-style:italic;margin:4pt 0 8pt;">Graph image not available \u2014 please visit the Graphs tab first, then re-export.</p>`;
+          html+=`<p style="font-size:9pt;color:#888;font-style:italic;margin:4pt 0 8pt;">[Graph image not available — visit the Graphs tab, then re-export.]</p>`;
         }
-        // Data table
         const tbl=document.getElementById(g.tableId);
-        if(tbl&&tbl.innerHTML){
-          html+=`<p style="font-size:8.5pt;color:#555;font-weight:600;margin:0 0 3pt;">${g.tableTitle}</p>`;
-          html+=`<div style="font-size:9pt;">${tbl.outerHTML}</div>`;
+        if(tbl&&tbl.querySelector('tr')){
+          html+=`<p style="font-size:8.5pt;color:#555;font-weight:600;margin:6pt 0 3pt;">${g.tableTitle}</p>`;
+          html+=_inlineTable(tbl);
         }
         html+=`</div>`;
       });
@@ -4107,7 +4266,18 @@ function dlFullReport(){
 function dlCalcWord(){
   if(!S.levels.length){alert('No data to export.');return;}
   const e=ELEC[S.elec],u=S.iv==='conc'?'mol L⁻¹':'mA',ivL=S.iv==='conc'?'Concentration':'Current';
-  function wFrac(n,d){return `<table style="display:inline-table;border-collapse:collapse;vertical-align:middle;margin:0 2pt;line-height:1.1;"><tr><td style="border-bottom:1pt solid #000;padding:0 4pt;text-align:center;font-size:8.5pt;">${n}</td></tr><tr><td style="padding:0 4pt;text-align:center;font-size:8.5pt;">${d}</td></tr></table>`;}
+  // Compact stacked fraction — zero padding, tight line-height keeps row height small
+  function wFrac(n,d){
+    // width:1pt forces Word to shrink the table to minimum content width;
+    // white-space:nowrap on each cell prevents wrapping so the vinculum matches text width exactly
+    return `<table border="0" cellpadding="0" cellspacing="0" `+
+      `style="width:1pt;display:inline-table;border-collapse:collapse;vertical-align:middle;margin:0 3pt;">`+
+      `<tr><td style="text-align:center;font-size:8pt;line-height:1.2;border-bottom:1pt solid #000;`+
+      `white-space:nowrap;padding:0 5pt 1pt;">${n}</td></tr>`+
+      `<tr><td style="text-align:center;font-size:8pt;line-height:1.2;`+
+      `white-space:nowrap;padding:1pt 5pt 0;">${d}</td></tr>`+
+      `</table>`;
+  }
   let html=`<html><head><meta charset="UTF-8"><style>body{font-family:Calibri,sans-serif;font-size:11pt;line-height:1.6;margin:36pt;}h1{color:#1c2f45;font-size:15pt;}h2{color:#0d7a6d;font-size:12pt;margin-top:16pt;}table{width:100%;border-collapse:collapse;font-size:10pt;margin-bottom:14pt;}th{background:#1c2f45;color:#fff;padding:6pt 9pt;text-align:left;}td{padding:5pt 9pt;border-bottom:1pt solid #ddd;vertical-align:top;}.sec td{background:#dce6f0;font-weight:700;font-size:9pt;color:#1c2f45;border-top:1.5pt solid #1c2f45;}.stat td{background:#f5f4f2;}</style></head><body>`;
   html+=`<h1>IA2 Sample Calculations — Hoffmann Voltameter</h1>`;
   html+=`<p><strong>Electrolyte:</strong> ${e.name} | <strong>IV:</strong> ${ivL} | <strong>Voltage:</strong> ${S.gV}V | <strong>T:</strong> ${S.gT}°C | <strong>P:</strong> ${S.gP} kPa | <strong>Run time:</strong> ${S.gTime} min</p>`;
@@ -4430,6 +4600,22 @@ async function saveAs(){
 document.addEventListener('DOMContentLoaded',()=>{
   init();
 });
+
+// ── LOGIN ──
+function doLogin(){
+  const user=(document.getElementById('loginUser')||{value:''}).value.trim().toLowerCase();
+  const pw=document.getElementById('loginPw').value;
+  if((user==='' || user==='science') && pw==='hoffmann2026'){
+    document.getElementById('loginPage').classList.add('hidden');
+    sessionStorage.setItem('hvAuth','1');
+  } else {
+    const err=document.getElementById('loginErr');
+    err.textContent=(user!==''&&user!=='science')?'Incorrect username.':'Incorrect password.';
+    document.getElementById('loginPw').value='';
+    setTimeout(()=>err.textContent='',2500);
+  }
+}
+(function(){if(sessionStorage.getItem('hvAuth')==='1')document.getElementById('loginPage').classList.add('hidden');})();
 </script>
 </body>
 </html>
