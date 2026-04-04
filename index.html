@@ -585,6 +585,7 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
 .proc-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:10px 0 14px;}
 .proc-opt{display:flex;align-items:flex-start;gap:8px;padding:10px 12px;background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r);font-size:12px;line-height:1.5;color:var(--tx2);}
 .proc-opt input{margin-top:2px;flex-shrink:0;}
+.proc-opt input[type=checkbox]{accent-color:var(--teal);width:14px;height:14px;cursor:pointer;}
 .proc-opt strong{color:var(--navy);display:block;}
 .proc-picked-card{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--rl);padding:12px 14px;margin-bottom:14px;}
 .proc-picked-card h4{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
@@ -2973,9 +2974,9 @@ function renderProcessedGraphSelector(){
   el.innerHTML=getProcessedGraphMeta().map(g=>{
     const isSel=sel.has(g.num);
     const supMM=MM_SUPPORTED_GRAPHS.includes(g.num);
-    const mmRow=supMM  // show max/min option for all supported graphs
-      ?`<label style="display:flex;align-items:center;gap:5px;margin-top:6px;font-size:11px;color:var(--teal);cursor:pointer;opacity:${isSel?'1':'0.45'};" title="${isSel?'':'Select this graph first'}">`+
-       `<input type="checkbox" ${mmSet.has(g.num)?'checked':''} ${!isSel?'disabled':''} onchange="toggleGraphMaxMin(${g.num},this.checked)">`+
+    const mmRow=supMM
+      ?`<label style="display:flex;align-items:center;gap:5px;margin-top:6px;font-size:11px;color:var(--teal);cursor:pointer;">`+
+       `<input type="checkbox" ${mmSet.has(g.num)?'checked':''} onchange="toggleGraphMaxMin(${g.num},this.checked)">`+
        ` ± Show max/min lines</label>`
       :'';
     return `<div class="proc-opt" style="flex-direction:column;align-items:flex-start;gap:0;">`+
@@ -4319,16 +4320,35 @@ async function dlFullReport(){
       return{lv,li,st,nexpO2,nthO2,peO2};
     });
 
-    // 5a. Raw Data
+    // 5a. Raw Data — single combined table
     html+=sec3('Raw Data');
+    html+=`<table><thead><tr>`+
+      `<th>${ivL} (${u})</th><th>Trial</th><th>I (mA)</th><th>t (min)</th>`+
+      `<th>V(H₂) (mL)</th><th>V(${e.ap}) (mL)</th><th>T (°C)</th><th>P (kPa)</th>`+
+      `</tr></thead><tbody>`;
+    let rawRow=0;
     S.levels.forEach((lv,li)=>{
-      html+=`<p style="font-weight:700;margin:8pt 0 3pt;">${ivL} = ${lv.val} ${u}</p>`;
-      html+=`<table><thead><tr><th>Trial</th><th>I (mA)</th><th>t (min)</th><th>V(H\u2082) mL</th><th>V(${e.ap}) mL</th><th>T (\u00b0C)</th><th>P (kPa)</th></tr></thead><tbody>`;
       lv.trials.forEach((tr,ti)=>{
-        html+=`<tr${ti%2?' class="alt"':''}><td>${ti+1}</td><td>${tr.i_mA!==''&&tr.i_mA!==null?tr.i_mA:lv.val}</td><td>${tr.t_min!==''&&tr.t_min!==null?tr.t_min:S.gTime}</td><td>${tr.v_h2||'\u2014'}</td><td>${tr.v_o2||'\u2014'}</td><td>${tr.T!==''&&tr.T!==null?tr.T:S.gT}</td><td>${tr.P!==''&&tr.P!==null?tr.P:S.gP}</td></tr>`;
+        const bg=rawRow%2?' class="alt"':'';
+        const iVal=parseFloat(tr.i_mA!==''&&tr.i_mA!==null?tr.i_mA:lv.val);
+        const tVal=parseFloat(tr.t_min!==''&&tr.t_min!==null?tr.t_min:S.gTime);
+        const vH2=parseFloat(tr.v_h2); const vO2=parseFloat(tr.v_o2);
+        const tC=parseFloat(tr.T!==''&&tr.T!==null?tr.T:S.gT);
+        const pKpa=parseFloat(tr.P!==''&&tr.P!==null?tr.P:S.gP);
+        html+=`<tr${bg}>`+
+          `<td style="font-weight:600;">${ti===0?lv.val:''}</td>`+
+          `<td>${ti+1}</td>`+
+          `<td>${isFinite(iVal)?iVal.toFixed(2):'—'}</td>`+
+          `<td>${isFinite(tVal)?tVal.toFixed(1):'—'}</td>`+
+          `<td>${isFinite(vH2)?vH2.toFixed(2):'—'}</td>`+
+          `<td>${isFinite(vO2)?vO2.toFixed(2):'—'}</td>`+
+          `<td>${isFinite(tC)?tC.toFixed(1):'—'}</td>`+
+          `<td>${isFinite(pKpa)?pKpa.toFixed(1):'—'}</td>`+
+          `</tr>`;
+        rawRow++;
       });
-      html+=`</tbody></table>`;
     });
+    html+=`</tbody></table>`;
 
     // 5b. Processing — Sample Calculations (Word-compatible fractions)
     html+=sec3('Processing of Data');
@@ -4373,8 +4393,8 @@ async function dlFullReport(){
     html+=`<table><thead><tr><th>${ivL} (${u})</th><th>Trials</th><th>Mean V(H\u2082) (mL)</th><th>AU (mL)</th><th>PU (%)</th><th>n<sub>exp</sub> (mol)</th><th>n<sub>theo</sub> (mol)</th><th>% Error</th></tr></thead><tbody>`;
     resultRows.forEach(({lv,li,st})=>{
       html+=`<tr${li%2?' class="alt"':''}><td style="font-weight:700;">${lv.val}</td><td>${lv.trials.length}</td>
-        <td>${isFinite(st.mnH2)?st.mnH2.toFixed(3):'\u2014'}</td>
-        <td>${isFinite(st.au_h2)?'\u00b1'+st.au_h2.toFixed(3):'\u2014'}</td>
+        <td>${isFinite(st.mnH2)?st.mnH2.toFixed(2):'\u2014'}</td>
+        <td>${isFinite(st.au_h2)?'\u00b1'+st.au_h2.toFixed(2):'\u2014'}</td>
         <td>${isFinite(st.pu_h2)?st.pu_h2.toFixed(1):'\u2014'}</td>
         <td>${isFinite(st.nexp_h2)?st.nexp_h2.toPrecision(4):'\u2014'}</td>
         <td>${isFinite(st.nth_h2)?st.nth_h2.toPrecision(4):'\u2014'}</td>
@@ -4388,8 +4408,8 @@ async function dlFullReport(){
       html+=`<table><thead><tr><th>${ivL} (${u})</th><th>Trials</th><th>Mean V(${e.ap}) (mL)</th><th>AU (mL)</th><th>PU (%)</th><th>n<sub>exp</sub> (mol)</th><th>n<sub>theo</sub> (mol)</th><th>% Error</th></tr></thead><tbody>`;
       resultRows.forEach(({lv,li,st,nexpO2,nthO2,peO2})=>{
         html+=`<tr${li%2?' class="alt"':''}><td style="font-weight:700;">${lv.val}</td><td>${lv.trials.length}</td>
-          <td>${isFinite(st.mnO2)?st.mnO2.toFixed(3):'\u2014'}</td>
-          <td>${isFinite(st.au_o2)?'\u00b1'+st.au_o2.toFixed(3):'\u2014'}</td>
+          <td>${isFinite(st.mnO2)?st.mnO2.toFixed(2):'\u2014'}</td>
+          <td>${isFinite(st.au_o2)?'\u00b1'+st.au_o2.toFixed(2):'\u2014'}</td>
           <td>${isFinite(st.pu_o2)?st.pu_o2.toFixed(1):'\u2014'}</td>
           <td>${isFinite(nexpO2)?nexpO2.toPrecision(4):'\u2014'}</td>
           <td>${isFinite(nthO2)?nthO2.toPrecision(4):'\u2014'}</td>
@@ -4404,8 +4424,8 @@ async function dlFullReport(){
       html+=`<table><thead><tr><th>${ivL} (${u})</th><th>Trials</th><th>Mean I (mA)</th><th>AU (mA)</th><th>PU (%)</th><th>Mean Q (C)</th></tr></thead><tbody>`;
       resultRows.forEach(({lv,li,st})=>{
         html+=`<tr${li%2?' class="alt"':''}><td style="font-weight:700;">${lv.val}</td><td>${lv.trials.length}</td>
-          <td>${isFinite(st.mnI)?st.mnI.toFixed(3):'\u2014'}</td>
-          <td>${isFinite(st.au_i)?'\u00b1'+st.au_i.toFixed(3):'\u2014'}</td>
+          <td>${isFinite(st.mnI)?st.mnI.toFixed(2):'\u2014'}</td>
+          <td>${isFinite(st.au_i)?'\u00b1'+st.au_i.toFixed(2):'\u2014'}</td>
           <td>${isFinite(st.pu_i)?st.pu_i.toFixed(1):'\u2014'}</td>
           <td>${isFinite(st.meanQ)?st.meanQ.toFixed(4):'\u2014'}</td></tr>`;
       });
