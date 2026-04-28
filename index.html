@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Hoffmann Voltameter — IA2 Student Workbook</title>
+<title>Hoffmann Voltameter — IA2 Student Workbook v46</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>
 // ── WRITE-UP NAV ──
@@ -520,7 +520,9 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
 #tab-write .box-warn p{font-size:.84rem;line-height:1.65;color:#5a3c00;margin:0;}
 
 /* ── SAMPLE CALC TABLE RESTYLE ── */
-#sampleCalcSection{background:var(--sur)!important;border-bottom:2px solid var(--bdr);overflow-y:auto;max-height:60vh;flex-shrink:0;}
+#sampleCalcSection{background:var(--sur)!important;border-bottom:2px solid var(--bdr);flex-shrink:0;}
+/* When sample calc panel is open, switch the calc tab to a single scrolling block so there is only one scroll area */
+#tab-calc.calc-sc-open{display:block!important;overflow-y:auto!important;}
 
 /* ── Fraction rendering (used in sample calc table + calc cards) ── */
 .sc-frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 3px;line-height:1.2;font-size:.95em;}
@@ -637,7 +639,7 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
 
 <div class="topbar">
   <h1>⚗ Hoffmann Voltameter</h1>
-  <span class="sub">IA2 Student Workbook · Year 12 Chemistry</span>
+  <span class="sub">IA2 Student Workbook v46 · Year 12 Chemistry</span>
   <div class="badges">
     <span class="badge b-teal" id="elecBadge">H₂SO₄</span>
     <span class="badge b-amb" id="ivBadge">IV: Concentration</span>
@@ -753,7 +755,7 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
     <h3>📋 Original Experiment</h3>
     <p style="font-size:13px;color:var(--tx2);line-height:1.8;"><strong>Source:</strong> Oxford QCE Chemistry Unit 3+4, Lesson 8.3 — <em>Investigating factors affecting electrolysis</em></p>
     <p style="font-size:13px;color:var(--tx2);line-height:1.8;">The original experiment uses a <strong>U-tube</strong> with two carbon rod electrodes to electrolyse various 0.5 M aqueous solutions (NaCl, CuSO₄, Na₂SO₄, H₂SO₄, ZnCl₂, KI) at a constant <strong>6V DC</strong>. Students observe products at each electrode using indicators (litmus paper, starch solution, glowing splint) and compare observations to predictions from the electrochemical series. The experiment is qualitative — it identifies <em>what</em> is produced but does not measure <em>how much</em>.</p>
-    <div class="note info" style="margin-top:8px;"><strong>Your IA2 modification:</strong> You replace the U-tube with a <strong>Hoffmann voltameter</strong> (graduated tubes enabling quantitative volume measurements), vary the <strong>electrolyte concentration</strong> as your IV across 5 levels with 3 trials each, and use Faraday's Law and the Ideal Gas Law to calculate theoretical and experimental mole quantities — turning a qualitative observation into a quantitative investigation.</div>
+    <div class="note info" style="margin-top:8px;"><strong>Your IA2 modification:</strong> You replace the U-tube with a <strong>Hoffmann voltameter</strong> (graduated tubes enabling quantitative volume measurements), vary the <strong>electrolyte concentration</strong> as your IV across 5 levels with 3 trials each, and use Faraday's Law and the Ideal Gas Law to calculate predicted and experimental mole quantities — turning a qualitative observation into a quantitative investigation.</div>
   </div>
   <div class="card">
     <h3>⚗ What is a Hoffmann Voltameter?</h3>
@@ -803,7 +805,7 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
       <div><strong style="color:var(--navy);">8–9.</strong> Faraday + Ideal Gas (anode gas): <span style="font-family:var(--mono)">n = Q/(zF)</span> → <span style="font-family:var(--mono)">V = [(nRT)/P] × 10⁶</span></div>
       <div><strong style="color:var(--navy);">10–12.</strong> Statistics: <span style="font-family:var(--mono)">mean · AU = (max−min)/2 · PU (%) = AU/mean×100</span></div>
       <div><strong style="color:var(--navy);">13.</strong> Experimental moles: <span style="font-family:var(--mono)">n(exp) = PV̄/RT</span></div>
-      <div><strong style="color:var(--navy);">14.</strong> Accuracy: <span style="font-family:var(--mono)">% error = |n_exp − n_theo| / n_theo × 100</span></div>
+      <div><strong style="color:var(--navy);">14.</strong> Accuracy: <span style="font-family:var(--mono)">% error = |n_exp − n_pred| / n_pred × 100</span></div>
     </div>
     <div class="note info" style="margin-top:8px;"><strong>Constants:</strong> F = 96 485 C mol⁻¹ | R = 8.314 J mol⁻¹ K⁻¹ | Standard P = 101.3 kPa</div>
   </div>
@@ -1124,7 +1126,7 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
       <p>The platinum electrodes pass through rubber stoppers at the base of each arm. If an electrode is pushed further in or pulled slightly out — by rough handling, reconnecting leads, or moving the apparatus — the length of electrode surface in contact with the electrolyte changes between trials.</p>
       <ul>
         <li><strong>Random component:</strong> if insertion depth varies between trials, exposed surface area changes → current density changes → gas production rate varies even when Q&nbsp;=&nbsp;It is held constant. This increases AU and PU(%) in repeated trials.</li>
-        <li><strong>Systematic component:</strong> if the cathode electrode is consistently at a different depth than the anode, their exposed areas differ. This shifts the H₂:O₂ volume ratio away from the theoretical 2:1, as if one electrode is less efficient — when it is actually a geometry difference.</li>
+        <li><strong>Systematic component:</strong> if the cathode electrode is consistently at a different depth than the anode, their exposed areas differ. This shifts the H₂:O₂ volume ratio away from the predicted 2:1, as if one electrode is less efficient — when it is actually a geometry difference.</li>
         <li><strong>Improvement:</strong> mark each electrode at the correct insertion depth with a reference line before the experiment. Check both electrodes are at their marks before every trial. Handle the apparatus by the glass body, not by the leads or stoppers.</li>
       </ul>
     </div>
@@ -1254,7 +1256,7 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
     <div class="err-mini-card">
       <h4><span class="err-full-num" style="width:22px;height:22px;font-size:11px;margin-right:2px;">5</span> Gas dissolving into solution</h4>
       <p><span class="err-tag" style="background:#fef3e2;border-color:#c8802a;color:#a05800;">Systematic &middot; underestimates V</span></p>
-      <p>A small amount of H₂ and O₂ dissolves into the electrolyte rather than collecting as gas, especially at higher concentrations and lower temperatures. This consistently pulls volumes below theoretical predictions.</p>
+      <p>A small amount of H₂ and O₂ dissolves into the electrolyte rather than collecting as gas, especially at higher concentrations and lower temperatures. This consistently pulls volumes below predicted values.</p>
       <ul>
         <li><strong>Evidence:</strong> n(exp) &lt; n(theo) consistently across all levels.</li>
         <li><strong>Improvement:</strong> pre-saturate the electrolyte before the timed run; allow a brief equilibration before recording volumes.</li>
@@ -1835,7 +1837,20 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
     <p class="wu-sec-sub">These are your original trial measurements exactly as entered. This section is for the unprocessed values only.</p>
     <hr class="wu-rule">
   </div>
-  <div class="note info">Use this section when you need to show the original measurements before any calculations are applied.</div>
+  <div class="ismg-box">
+    <h4>What goes in Raw Data</h4>
+    <ul>
+      <li><strong>Original trial measurements only</strong> — no means, no calculations, no processing of any kind</li>
+      <li>Every value as recorded during the experiment, including anomalous readings — do not remove outliers here</li>
+      <li>Units in every column header (e.g. V(H₂) / mL, I / mA, T / °C)</li>
+      <li>A brief title above each table naming the variable and the level (e.g. "Table 1 — Raw gas volumes and current at each concentration")</li>
+    </ul>
+  </div>
+  <div class="box-think">
+    <div class="box-title">💭 Raw data vs processed data — the key distinction</div>
+    <p>Raw data is what the instrument showed, exactly as recorded. Processed data is what you calculated from it. Mean, AU, PU (%), % error, and n values are all processed — they belong in the next section. Presenting means here is one of the most common structural errors in IA2 reports.</p>
+  </div>
+  <div class="note warn" style="font-size:.82rem;">⚠ Check your raw data tables include a column for current (mA) at each minute, not just the gas volume. The ammeter readings support your n(pred) calculations and are part of the raw evidence.</div>
   <div id="procRawDataWrap" class="proc-placeholder">Enter trial data to view the raw data tables here.</div>
   <div class="wu-navbtns">
     <button class="wu-navbtn" onclick="wuNav('risk')">← Risk</button>
@@ -1848,10 +1863,23 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
   <div class="wu-sec-head" style="margin-bottom:1.2rem;">
     <span class="wu-eyebrow">Processed Evidence · Processing of Data</span>
     <h2 class="wu-sec-title">Processing of Data</h2>
-    <p class="wu-sec-sub">This section shows the sample calculations used to convert raw measurements into theoretical and processed values.</p>
+    <p class="wu-sec-sub">This section shows the sample calculations used to convert raw measurements into predicted and processed values.</p>
     <hr class="wu-rule">
   </div>
-  <div class="note tip">Show one clear worked example for each quantity. Keep the formula, substitution, answer, and units together.</div>
+  <div class="ismg-box">
+    <h4>What QCAA wants in Sample Calculations (Analysing, 4–5 band)</h4>
+    <ul>
+      <li><strong>One worked example for every quantity</strong> — formula → substitution → answer with units. Not just a formula, not just an answer.</li>
+      <li>Calculations showing <strong>propagation of uncertainty</strong> through Q → n → V(pred) (required for top-band Analysing)</li>
+      <li>Mean, AU = (x_max − x_min)/2, and PU (%) shown for at least one level</li>
+      <li>Percentage error calculated and shown as a worked example</li>
+    </ul>
+  </div>
+  <div class="box-sr">
+    <div class="box-title">📋 From the exemplar — what a full sample calculations table includes</div>
+    <p>The high-level exemplar includes separate worked examples for: Q (charge), n(pred) via Faraday, n(exp) via Ideal Gas Law, V(pred) from Faraday, mean gas volume, AU, PU (%), and % error. Each step shows the formula first, then the substituted values, then the result. The propagation chain — ΔI (%) → ΔQ (%) → Δn (%) → ΔV(pred) (%) — is what pushes the Analysing criterion to the highest band.</p>
+  </div>
+  <div class="note tip" style="font-size:.82rem; margin-bottom:.8rem;">💡 The table below is auto-generated from your Calculate tab data. Check each step is present — if a row is missing, it means the required input data hasn't been entered yet.</div>
   <div id="procSampleCalcWrap" class="proc-placeholder">Complete the calculation section to show the sample calculations here.</div>
   <div class="wu-navbtns">
     <button class="wu-navbtn" onclick="wuNav('raw')">← Raw Data</button>
@@ -1867,7 +1895,22 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
     <p class="wu-sec-sub">These are the calculated summary tables that come from your Results tab, including H₂, O₂/anode gas, and current.</p>
     <hr class="wu-rule">
   </div>
+  <div class="ismg-box">
+    <h4>What goes in Processed Data</h4>
+    <ul>
+      <li>Summary tables — one row per concentration level, showing mean, AU (mL), PU (%), n(exp), n(pred), % error, and ΔV(pred) (%)</li>
+      <li>Current data summary — mean I (mA) per level, with AU and PU (%)</li>
+      <li><strong>Equipment uncertainty table</strong> — listing each instrument, its uncertainty, and the PU (%) contribution (high-band feature)</li>
+      <li><strong>Dilution uncertainty table</strong> — C₁V₁ = C₂V₂ propagation showing how solution preparation uncertainty flows through to each concentration level</li>
+    </ul>
+  </div>
+  <div class="box-think">
+    <div class="box-title">💭 What makes a processed data section high-band</div>
+    <p>The difference between a mid-band and high-band Processed Data section is usually the two uncertainty tables. Most students show the summary means and % errors — fewer add the equipment uncertainty breakdown and dilution uncertainty propagation. These directly address the QCAA syllabus requirement to "propagate random error in data processing to show the impact of measurement uncertainties on the final result."</p>
+  </div>
+  <div class="note warn" style="font-size:.82rem; margin-bottom:.8rem;">⚠ Do not omit the ΔV(pred) (%) column. This column shows the propagated uncertainty on your predicted values and is needed to interpret whether your % errors are meaningful or within the expected range.</div>
   <div id="procResultsWrap" class="proc-placeholder">Complete the results section to view the processed data tables here.</div>
+  <div id="procDilutionWrap" style="display:none;margin-top:14px;"></div>
   <div class="wu-navbtns">
     <button class="wu-navbtn" onclick="wuNav('proc')">← Processing</button>
     <button class="wu-navbtn primary" onclick="wuNav('pgraphs')">Selected Graphs →</button>
@@ -1882,7 +1925,24 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
     <p class="wu-sec-sub">Choose which graphs to display in this processed evidence section. The full graph bank still remains under the main Graphs tab.</p>
     <hr class="wu-rule">
   </div>
-  <div class="note info">Tick the graphs you want to present. Each selected graph will appear below with its matching processed-data table.</div>
+  <div class="ismg-box">
+    <h4>Which graphs to include and why</h4>
+    <ul>
+      <li><strong>Graph 15 (combined H₂ and O₂) is the priority graph</strong> — it shows both DVs on one axes and lets you discuss the 2:1 ratio prediction directly</li>
+      <li>Keep the total to <strong>1–2 graphs maximum</strong> in your written report (3 absolute maximum). More than this fragments your analysis and erodes the word count</li>
+      <li>Every graph must include: axis labels with units, a title, error bars (from AU), and a trendline with equation and R²</li>
+      <li>Max/min trendlines on your primary graph directly support the gradient uncertainty discussion in Analysis step 2b</li>
+    </ul>
+  </div>
+  <div class="box-think">
+    <div class="box-title">💭 Graphs that are in your report vs the full graph bank</div>
+    <p>Tick only the graphs you are actually referencing in your Analysis section. The full graph bank in the Graphs tab remains available — you don't need to delete any graphs. Selecting fewer here focuses your examiner on the evidence that matters for your argument.</p>
+  </div>
+  <div class="box-warn">
+    <div class="box-title">⚠ Empty or untitled graphs score zero</div>
+    <p>A graph heading with no data, or a graph without axis labels and a trendline, does not meet the QCAA requirement for "correct and relevant processing of data." Only select a graph if it is complete and you are prepared to cite it by graph number in your Analysis paragraph.</p>
+  </div>
+  <div class="note info" style="font-size:.82rem; margin-bottom:.8rem;">Tick the graphs you want to present. Each selected graph will appear below with its matching processed-data table.</div>
   <div id="procGraphSelector" class="proc-grid"></div>
   <div id="procSelectedGraphsWrap" class="proc-placeholder">Select one or more graphs to display them here.</div>
   <div class="wu-navbtns">
@@ -1909,11 +1969,11 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
   </div>
   <div class="box-sr">
     <div class="box-title">📋 What distinguished top-band responses</div>
-    <p>The exemplar identifies trendlines and reports R² values, but stops at "they are similar." A stronger analysis interprets <em>what the gradient physically means</em>. For a V(H₂) vs concentration graph, the gradient has units of mL per mol L⁻¹ — it tells you how many extra mL of gas you get per unit increase in electrolyte concentration. If the experimental gradient is lower than the theoretical one, that percentage gap is a measure of systematic error across all data points.</p>
+    <p>The exemplar identifies trendlines and reports R² values, but stops at "they are similar." A stronger analysis interprets <em>what the gradient physically means</em>. For a V(H₂) vs concentration graph, the gradient has units of mL per mol L⁻¹ — it tells you how many extra mL of gas you get per unit increase in electrolyte concentration. If the experimental gradient is lower than the predicted one, that percentage gap is a measure of systematic error across all data points.</p>
   </div>
   <div class="box-warn">
     <div class="box-title">⚠ Gap in the exemplar — analyse both electrodes</div>
-    <p>The exemplar records cathode (H₂) data but only analyses the anode. Your workbook has data for both electrodes. Checking the experimental H₂:O₂ volume ratio against the theoretical 2:1 is a piece of analysis that strengthens your report — deviations tell you which electrode's measurements are least reliable.</p>
+    <p>The exemplar records cathode (H₂) data but only analyses the anode. Your workbook has data for both electrodes. Checking the experimental H₂:O₂ volume ratio against the predicted 2:1 is a piece of analysis that strengthens your report — deviations tell you which electrode's measurements are least reliable.</p>
   </div>
   <div id="writeDataRef" class="data-ref">
     <div class="dr-t">📊 Your calculated results (from Results tab)</div>
@@ -2031,22 +2091,22 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
   <div class="wu-wcard open" id="wuwc-ana5">
   <div class="wu-wcard-head" onclick="wuToggle('wuwc-ana5')">
     <span class="wu-stepnum">5</span>
-    <span class="wu-steptitle">Percentage error (accuracy)</span>
+    <span class="wu-steptitle">Percentage error and propagated uncertainty</span>
     <span class="wu-wcbadge" id="wc-pcterr">0 words</span>
     <span class="wu-tog">▾</span>
   </div>
   <div class="wu-scaffold">
-    <div class="wu-prompt">Use your % error values to comment on accuracy at each level. Note whether % error is consistent or changes across levels.</div>
-    
-    
+    <div class="wu-prompt">Comment on % error across levels — then compare each value against the ΔV_pred (%) column from your processed data table. This comparison is the key syllabus requirement: it shows whether your experimental and predicted values <em>agree within propagated uncertainty</em>.</div>
+    <div class="note tip" style="font-size:.82rem;margin:.5rem 0 .6rem;">💡 Look at the reference table above: % error values shown in <strong style="color:var(--red)">red</strong> exceed ΔV_pred (%) — these are genuine discrepancies. Where % error ≤ ΔV_pred (%), the values agree within uncertainty and the difference is explained by measurement error alone.</div>
     <div class="starter-chips"><span class="chip" onclick="insertChip(this,'wa-pcterr')">Percentage error ranged from ___% to ___%, indicating [high/moderate/low] accuracy overall.</span>
 <span class="chip" onclick="insertChip(this,'wa-pcterr')">At ___ [unit], % error was ___%, the [lowest/highest] of all levels, suggesting [most/least] accurate results here.</span>
+<span class="chip" onclick="insertChip(this,'wa-pcterr')">Comparing % error against the propagated ΔV_pred (%): at ___ of ___ concentrations, % error is smaller than ΔV_pred (%), meaning experimental and predicted volumes agree within propagated uncertainty at these levels.</span>
+<span class="chip" onclick="insertChip(this,'wa-pcterr')">Only at ___ mol L⁻¹ does % error (___%) exceed ΔV_pred (___%), suggesting a genuine discrepancy at that concentration that cannot be attributed to measurement uncertainty alone.</span>
 <span class="chip" onclick="insertChip(this,'wa-pcterr')">Despite percentage errors of ___–___%, the positive linear trend remained clearly evident.</span>
 </div>
-    
   </div>
   <div class="wu-wcard-write">
-    <textarea class="write-area" id="wa-pcterr" rows="3" placeholder="Comment on % error values across levels…" oninput="countWords(this,'wc-pcterr')"></textarea>
+    <textarea class="write-area" id="wa-pcterr" rows="4" placeholder="Comment on % error values, then compare against ΔV_pred (%) to identify where experimental and predicted agree within uncertainty…" oninput="countWords(this,'wc-pcterr')"></textarea>
   </div>
 </div>
   <div class="wu-wcard open" id="wuwc-ana6">
@@ -2063,6 +2123,7 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
     <div class="starter-chips"><span class="chip" onclick="insertChip(this,'wa-uncert')">Percentage uncertainty ranged from ±___% to ±___%, suggesting [consistent/variable] precision.</span>
 <span class="chip" onclick="insertChip(this,'wa-uncert')">A PU (%) exceeding 10% at ___ [unit] suggests a reliability concern — the spread is large relative to the mean.</span>
 <span class="chip" onclick="insertChip(this,'wa-uncert')">An anomalous result at ___ [unit] deviates from the expected trend, possibly due to…</span>
+<span class="chip" onclick="insertChip(this,'wa-uncert')">Some of the percentage uncertainty observed in the gas volumes can be attributed to uncertainty in the H₂SO₄ concentrations themselves. Propagated dilution uncertainty (Table X) was 1.03% across all five concentrations, meaning the actual concentrations may have differed from their nominal values by up to ±0.008 M at 0.75 mol L⁻¹. This dilution uncertainty contributes to, but does not fully account for, the larger percentage uncertainties observed in gas-volume measurements.</span>
 </div>
     
   </div>
@@ -2076,7 +2137,7 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
       <span class="wu-model-tog">▾</span>
     </div>
     <div class="wu-model-body">
-      <em>"Graph 1 depicts a positive linear trend in mean V(H₂) as [H₂SO₄] increased from 0.1 M to 0.5 M. The line of best fit y = 0.012x − 0.002 (R² = 0.974) indicates a strong relationship, with gradient 0.012 representing 0.012 mL increase per 1 M increase in [H₂SO₄]. Mean V(H₂) rose from 1.42 mL (±0.12 mL) at 0.1 M to 6.85 mL (±1.50 mL) at 0.5 M; error bars at these extremes do not overlap, confirming a statistically meaningful trend. This is consistent with Faraday's Law: higher concentration reduces resistance, increases current, increasing Q and therefore n(H₂) = Q/(2F) proportionally. % error ranged from 18% to 37%, attributable to bubble adhesion. PU (%) increased from ±8.3% to ±21.9%, indicating reduced precision at higher concentrations."</em>
+      <em>"Graph 1 depicts a positive linear trend in mean V(H₂) as [H₂SO₄] increased from 0.1 M to 0.5 M. The line of best fit y = 0.012x − 0.002 (R² = 0.974) indicates a strong relationship, with gradient 0.012 representing 0.012 mL increase per 1 M increase in [H₂SO₄]. Mean V(H₂) rose from 1.42 mL (±0.12 mL) at 0.1 M to 6.85 mL (±1.50 mL) at 0.5 M; error bars at these extremes do not overlap, suggesting the difference between these levels is unlikely to be due to measurement uncertainty alone. This is consistent with Faraday's Law: higher concentration increases ionic conductivity and therefore increases current at constant voltage, increasing Q and therefore n(H₂) = Q/(2F) proportionally. % error ranged from 18% to 37%. For four of the five concentrations, the percentage error was smaller than the propagated uncertainty in the predicted volume, suggesting the experimental and predicted values agree within uncertainty at these levels; only at 0.3 M does % error (37%) exceed the propagated uncertainty (29%), suggesting possible genuine disagreement at that concentration. PU (%) increased from ±8.3% to ±21.9%; all values were below a 10% benchmark for acceptable reliability, although the 0.3 M level approached this value, suggesting reduced precision at mid-range concentrations."</em>
     </div>
   </div>
   <div class="wu-navbtns">
@@ -2113,10 +2174,10 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
     <h4>Error mechanism examples for a Hoffmann voltameter</h4>
     <ul>
       <li><strong>Bubble adhesion:</strong> H₂ or O₂ bubbles can cling to the electrode stem or glass wall instead of rising fully into the graduated arm, so the collected gas volume is <strong>systematically underestimated</strong>.</li>
-      <li><strong>Gas solubility:</strong> a small fraction of gas remains dissolved in the electrolyte rather than being collected, so measured volume is <strong>systematically lower</strong> than theoretical.</li>
-      <li><strong>Concentration polarisation:</strong> ion depletion near the electrode changes the actual current during the run, so the real charge passed differs from the simplified theoretical assumption.</li>
+      <li><strong>Gas solubility:</strong> a small fraction of gas remains dissolved in the electrolyte rather than being collected, so measured volume is <strong>systematically lower</strong> than predicted.</li>
+      <li><strong>Concentration polarisation:</strong> ion depletion near the electrode changes the actual current during the run, so the real charge passed differs from the simplified predicted-current assumption.</li>
       <li><strong>Parallax / meniscus reading:</strong> if the eye is not level with the meniscus in the Hoffmann arm, the reading can shift above or below the true value, increasing random scatter.</li>
-      <li><strong>Current fluctuation:</strong> if current drifts during the run, then <em>Q = It</em> is not truly constant between trials, which reduces reliability and can also affect validity if theoretical values assume a different current from the delivered one.</li>
+      <li><strong>Current fluctuation:</strong> if current drifts during the run, then <em>Q = It</em> is not truly constant between trials, which reduces reliability and can also affect validity if predicted values assume a different current from the delivered one.</li>
     </ul>
   </div>
   <div class="wu-intro" style="border-left-color:#0d7a6d;">
@@ -2167,11 +2228,13 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
 <span class="vw" onclick="insertVocab(this,'wa-val')">concentration polarisation</span>
 <span class="vw" onclick="insertVocab(this,'wa-val')">current fluctuation</span>
 <span class="vw" onclick="insertVocab(this,'wa-val')">parallax error</span>
+<span class="vw" onclick="insertVocab(this,'wa-val')">dilution preparation</span>
 </div>
     <div class="starter-chips"><span class="chip" onclick="insertChip(this,'wa-val')">Validity was limited by [error source], causing systematic [underestimate/overestimate] of V(H₂) because…</span>
 <span class="chip" onclick="insertChip(this,'wa-val')">Bubble adhesion to the cathode is a systematic error that consistently underestimated V(H₂), as gas remained on the electrode surface or glass wall rather than rising fully into the Hoffmann collection tube.</span>
 <span class="chip" onclick="insertChip(this,'wa-val')">In a Hoffmann voltameter, this error can be explained as trapped bubbles on the electrode stem or tube wall, which means part of the gas produced is not included in the final graduated reading.</span>
-<span class="chip" onclick="insertChip(this,'wa-val')">% errors of ___–___% suggest systematic error had a [significant/minor] impact, with results consistently [below/above] theoretical values.</span>
+<span class="chip" onclick="insertChip(this,'wa-val')">% errors of ___–___% suggest systematic error had a [significant/minor] impact, with results consistently [below/above] predicted values.</span>
+<span class="chip" onclick="insertChip(this,'wa-val')">Dilution uncertainty is partly systematic. If the 100 mL measuring cylinder used to prepare the stock dilutions had a consistent calibration bias, every concentration would be shifted in the same direction — affecting validity rather than reliability. The propagated uncertainty of 1.03% (Table X) places a lower bound on how precisely the independent variable could be controlled.</span>
 </div>
     
   </div>
@@ -2223,7 +2286,7 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
         <p>Top-band students used a clear chain: <strong>type of error → mechanism → specific fix → effect on R or V</strong>. Each error was classified (systematic, random, or human), the mechanism was described, and the improvement named specific equipment or procedure. An improvement that doesn't follow this chain is essentially a guess.</p>
       </div>
       <p class="wu-prompt">Structure: name error → bias direction + mechanism → specific fix → effect on R or V.</p>
-      <div class="note info" style="margin-bottom:.8rem;">Hoffmann-specific improvements are stronger than generic ones. Suitable fixes include keeping the apparatus vertical, gently tapping the glass arms before the final reading, waiting briefly for bubbles to rise completely, using a camera or eye-level card to reduce parallax, and using a constant-current supply or logged current trace to calculate the actual charge delivered.</div>
+      <div class="note info" style="margin-bottom:.8rem;">Hoffmann-specific improvements are stronger than generic ones. Suitable fixes include keeping the apparatus vertical, gently tapping the glass arms before the final reading, waiting briefly for bubbles to rise completely, using a camera or eye-level card to reduce parallax, and using a constant-current supply or logged current trace to calculate the actual charge delivered. For solution preparation, replacing the 100 mL measuring cylinder with class-A volumetric pipettes and a volumetric flask reduces dilution uncertainty from ~1.03% to ~0.1%.</div>
       <div class="impr-block">
         <div class="impr-lbl">Improvement 1</div>
         <div class="qa-block"><div class="qa-q">Error source:</div><textarea class="qa-a" rows="1" placeholder="e.g. Gas bubble adhesion"></textarea></div>
@@ -2234,7 +2297,7 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
       <div class="impr-block">
         <div class="impr-lbl">Improvement 2</div>
         <div class="qa-block"><div class="qa-q">Error source:</div><textarea class="qa-a" rows="1" placeholder="e.g. Current fluctuation"></textarea></div>
-        <div class="qa-block"><div class="qa-q">Bias direction and mechanism:</div><textarea class="qa-a" rows="2" placeholder="e.g. If I drops mid-run, actual Q &lt; nominal value used in n(theo), overestimating the theoretical"></textarea></div>
+        <div class="qa-block"><div class="qa-q">Bias direction and mechanism:</div><textarea class="qa-a" rows="2" placeholder="e.g. If I drops mid-run, actual Q &lt; nominal value used in n(pred), overestimating the predicted"></textarea></div>
         <div class="qa-block"><div class="qa-q">Specific fix:</div><textarea class="qa-a" rows="1" placeholder="e.g. Lab-grade constant current supply with data-logging ammeter recording I(t) continuously"></textarea></div>
         <div class="qa-block"><div class="qa-q">Effect on R or V:</div><textarea class="qa-a" rows="1" placeholder="e.g. Ensures actual Q matches n(theo) → more valid comparison"></textarea></div>
       </div>
@@ -2400,18 +2463,18 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
   <div id="graphGrid" class="graph-grid" style="display:none;">
 
     <div class="gsection">Answering the Research Question</div>
-    <div class="gcard"><h4><span class="gnum">1</span>Mean H₂ Volume as a Function of Electrolyte Concentration</h4><div class="graph-wrap"><canvas id="gC1"></canvas></div><div class="geqs" id="gC1eq"></div><div class="gdesc">Primary RQ graph. AU error bars show precision at each level. Dashed line = Faraday's Law theoretical prediction. The gap between experimental and theoretical = systematic error.</div></div>
-    <div class="gcard"><h4><span class="gnum">2</span>Mean O₂ Volume as a Function of Electrolyte Concentration</h4><div class="graph-wrap"><canvas id="gC2"></canvas></div><div class="geqs" id="gC2eq"></div><div class="gdesc">Anode gas — same trend at half the gradient (4e⁻ per O₂ vs 2e⁻ per H₂). Theoretical dashed line included. Compare gradient ratio to the stoichiometric 2:1.</div></div>
+    <div class="gcard"><h4><span class="gnum">1</span>Mean H₂ Volume as a Function of Electrolyte Concentration</h4><div class="graph-wrap"><canvas id="gC1"></canvas></div><div class="geqs" id="gC1eq"></div><div class="gdesc">Primary RQ graph. AU error bars show precision at each level. Dashed line = Faraday's Law prediction. The gap between experimental and predicted = systematic error.</div></div>
+    <div class="gcard"><h4><span class="gnum">2</span>Mean O₂ Volume as a Function of Electrolyte Concentration</h4><div class="graph-wrap"><canvas id="gC2"></canvas></div><div class="geqs" id="gC2eq"></div><div class="gdesc">Anode gas — same trend at half the gradient (4e⁻ per O₂ vs 2e⁻ per H₂). Predicted dashed line included. Compare gradient ratio to the stoichiometric 2:1.</div></div>
     <button class="gdata-toggle" onclick="toggleGData(this,'gdataRQ')">📋 Show data table for Graphs 1 and 2 ▾</button>
     <div class="gdata-row" id="gdataRQ"><div class="gdata-inner"><div class="gdata-hdr"><h5>Volume Data — H₂ and O₂</h5><button class="gdata-dl" onclick="dlGData('rq')">📄 Word</button></div><div id="gdataRQtbl"></div></div></div>
 
-    <div class="gsection">Theoretical Validation</div>
-    <div class="gcard"><h4><span class="gnum">3</span>Experimental and Theoretical H₂ Volume as a Function of Concentration</h4><div class="graph-wrap"><canvas id="gC3"></canvas></div><div class="geqs" id="gC3eq"></div><div class="gdesc">Both lines on the same axes. The vertical distance between them at each concentration is your systematic error — consistently below theoretical = gas loss (bubbles, solubility).</div></div>
-    <div class="gcard"><h4><span class="gnum">4</span>Experimental and Theoretical O₂ Volume as a Function of Concentration</h4><div class="graph-wrap"><canvas id="gC4"></canvas></div><div class="geqs" id="gC4eq"></div><div class="gdesc">Same comparison for anode gas. If the gap is proportionally larger than H₂, the anode electrode has greater gas loss — useful for identifying which electrode is less reliable.</div></div>
-    <div class="gcard"><h4><span class="gnum">5</span>Experimental and Theoretical Moles of H₂ Produced</h4><div class="graph-wrap"><canvas id="gC5"></canvas></div><div class="geqs" id="gC5eq"></div><div class="gdesc">Should fall on the 1:1 line (dashed) through the origin. Points below the line = experimental moles less than predicted (systematic underestimation). Distance from the line quantifies accuracy.</div></div>
+    <div class="gsection">Predicted Validation</div>
+    <div class="gcard"><h4><span class="gnum">3</span>Experimental and Predicted H₂ Volume as a Function of Concentration</h4><div class="graph-wrap"><canvas id="gC3"></canvas></div><div class="geqs" id="gC3eq"></div><div class="gdesc">Both lines on the same axes. The vertical distance between them at each concentration is your systematic error — consistently below predicted = gas loss (bubbles, solubility).</div></div>
+    <div class="gcard"><h4><span class="gnum">4</span>Experimental and Predicted O₂ Volume as a Function of Concentration</h4><div class="graph-wrap"><canvas id="gC4"></canvas></div><div class="geqs" id="gC4eq"></div><div class="gdesc">Same comparison for anode gas. If the gap is proportionally larger than H₂, the anode electrode has greater gas loss — useful for identifying which electrode is less reliable.</div></div>
+    <div class="gcard"><h4><span class="gnum">5</span>Experimental and Predicted Moles of H₂ Produced</h4><div class="graph-wrap"><canvas id="gC5"></canvas></div><div class="geqs" id="gC5eq"></div><div class="gdesc">Should fall on the 1:1 line (dashed) through the origin. Points below the line = experimental moles less than predicted (systematic underestimation). Distance from the line quantifies accuracy.</div></div>
     <div class="gcard"><h4><span class="gnum">6</span>H₂:O₂ Volume Ratio at Each Concentration Level</h4><div class="graph-wrap"><canvas id="gC6"></canvas></div><div class="geqs" id="gC6eq"></div><div class="gdesc">Faraday's Law predicts a constant 2:1 ratio. Below 2.0 = H₂ underestimated (cathode bubble adhesion). Above 2.0 = O₂ underestimated. Consistency across levels = systematic, not random.</div></div>
     <button class="gdata-toggle" onclick="toggleGData(this,'gdataTheo')">📋 Show data table for Graphs 3–6 ▾</button>
-    <div class="gdata-row" id="gdataTheo"><div class="gdata-inner"><div class="gdata-hdr"><h5>Theoretical Comparison &amp; Ratio Data</h5><button class="gdata-dl" onclick="dlGData('theo')">📄 Word</button></div><div id="gdataTheotbl"></div></div></div>
+    <div class="gdata-row" id="gdataTheo"><div class="gdata-inner"><div class="gdata-hdr"><h5>Predicted Comparison &amp; Ratio Data</h5><button class="gdata-dl" onclick="dlGData('theo')">📄 Word</button></div><div id="gdataTheotbl"></div></div></div>
 
     <div class="gsection">Ohm's Law Mechanism</div>
     <div class="gcard"><h4><span class="gnum">7</span>Mean Current as a Function of Electrolyte Concentration</h4><div class="graph-wrap"><canvas id="gC7"></canvas></div><div class="geqs" id="gC7eq"></div><div class="gdesc">Makes the Ohm's Law mechanism visible. As concentration increases, more ions carry charge → lower resistance → higher current at constant voltage. This is the causal link between your IV and DV.</div></div>
@@ -2451,6 +2514,32 @@ hr.div{border:none;border-top:1px solid var(--bdr);margin:14px 0;}
 
 <script>
 const F=96485,R_gas=8.314;
+
+// ── DILUTION UNCERTAINTY (conc IV only) ──
+// Fixed parameters from the technician setup (Gareth Whittaker / Sophia College)
+const DIL={
+  c1:1.500,       // stock concentration (M)
+  dc1:0.0004,     // stock uncertainty (M)
+  v2_mL:1000,     // total solution volume (mL)
+  cyl_mL:100,     // graduated cylinder size (mL)
+  cyl_unc:0.5     // uncertainty per pour (mL)
+};
+function getDilutionStats(c2_M){
+  const v1_mL=(c2_M*DIL.v2_mL)/DIL.c1;
+  const vw_mL=DIL.v2_mL-v1_mL;
+  const stockPours=v1_mL/DIL.cyl_mL;
+  const waterPours=vw_mL/DIL.cyl_mL;
+  const dv1=stockPours*DIL.cyl_unc;
+  const dvw=waterPours*DIL.cyl_unc;
+  const pu_v1=(v1_mL>0)?dv1/v1_mL:0;
+  const pu_vw=(vw_mL>0)?dvw/vw_mL:0;
+  const pu_c1=DIL.dc1/DIL.c1;
+  const pu_c2_frac=pu_v1+pu_vw+pu_c1;
+  const pu_c2_pct=pu_c2_frac*100;
+  const dc2=pu_c2_frac*c2_M;
+  return{c2:c2_M,v1_mL,vw_mL,stockPours,waterPours,dv1,dvw,pu_v1,pu_vw,pu_c1,pu_c2_frac,pu_c2_pct,dc2};
+}
+
 const ELEC={
   h2so4:{name:'H₂SO₄',label:'Sulfuric acid',cathode:'4H⁺(aq) + 4e⁻ → 2H₂(g)',anode:'2H₂O(l) → O₂(g) + 4H⁺(aq) + 4e⁻',overall:'2H₂O(l) → 2H₂(g) + O₂(g)',ap:'O₂',ne:4,warn:''},
   naoh:{name:'NaOH',label:'Sodium hydroxide',cathode:'4H₂O(l) + 4e⁻ → 2H₂(g) + 4OH⁻(aq)',anode:'4OH⁻(aq) → O₂(g) + 2H₂O(l) + 4e⁻',overall:'2H₂O(l) → 2H₂(g) + O₂(g)',ap:'O₂',ne:4,warn:''},
@@ -2659,7 +2748,17 @@ function getLevelStats(li){
   const nexp_anode_mn=mnT_K&&mnP_Pa&&mnO2?(mnP_Pa*(mnO2/1e6))/(R_gas*mnT_K):NaN;
   const nth_h2_mn=meanQ/(2*F);
   const pct_err_mn=nth_h2_mn>0?Math.abs(nexp_h2_mn-nth_h2_mn)/nth_h2_mn*100:NaN;
+  // ── PROPAGATED UNCERTAINTY IN PREDICTED VOLUME ──
+  // Combine trial-scatter (au_i) with Vernier instrument resolution (±1 mA)
+  // Q = It (mult → add %), n = Q/zF (constants → no change), V = nRT/P (mult/div → add %)
+  const I_INSTR_MA=1; // Vernier ammeter resolution in mA
+  const au_i_total=isFinite(au_i)?au_i+I_INSTR_MA:I_INSTR_MA;
+  const pu_i_total=mnI>0?au_i_total/mnI*100:NaN;
+  const pu_T=mnT_K?(0.5/mnT_K)*100:0; // ±0.5 K
+  const pu_P=mnP_Pa?(0.1/(mnP_Pa/1000))*100:0; // ±0.1 kPa converted
+  const pu_Vpredicted=isFinite(pu_i_total)?pu_i_total+pu_T+pu_P:NaN;
   return{mnH2,mnO2,mnI,au_h2,au_o2,au_i,pu_h2,pu_o2,pu_i,
+    au_i_total,pu_i_total,pu_T,pu_P,pu_Vpredicted,
     nexp_h2:nexp_h2_mn,nexp_anode:nexp_anode_mn,
     nth_h2:nth_h2_mn,pct_err:pct_err_mn,
     h2Vols,o2Vols,currVals,meanQ,T_K:mnT_K,P_Pa:mnP_Pa,ap:e.ap};
@@ -2698,7 +2797,7 @@ function renderCalcCards(li){
 
   const showMeanI=S.iv==='conc'&&st.currVals&&st.currVals.length>=2;
   let h=`<div class="note info" style="margin-bottom:12px;">Calculations for <strong>${ivL} = ${lv.val} ${u}</strong> — using mean values across all ${nt} trial${nt>1?'s':''}.<br>
-    Steps 0–9 find theoretical gas volumes from Faraday’s Law. Steps 10–14 use your measured volumes to find experimental moles and compare with the theory.
+    Steps 0–9 find predicted gas volumes from your measured current via Faraday’s Law and the Ideal Gas Law. Steps 9a–9c propagate uncertainty in measured I through to V<sub>pred</sub>. Steps 10–14 use your measured volumes to find experimental moles and compare with the predicted values.
     Work each step on paper first, then type your answer and click Check.</div>`;
 
   if(showMeanI){
@@ -2737,23 +2836,44 @@ function renderCalcCards(li){
     `${ff(avgI_A,6)} \u00d7 ${ff(t_s,1)} = <strong>${ff(avgQ,4)} C</strong>`,
     'Q = It using mean I and global t. Both must be in SI units.',avgQ,0.5);
 
-  h+=phH(4,'Theoretical Moles \u2014 Faraday\u2019s Law','n = Q \u00f7 (n\u2091 \u00d7 F)');
-  h+=cc('c_nth','6','n(H\u2082) theoretical',
+  h+=phH(4,'Predicted Moles \u2014 Faraday\u2019s Law','n = Q \u00f7 (n\u2091 \u00d7 F)');
+  h+=cc('c_nth','6','n(H\u2082) predicted',
     `n(H\u2082) = ${frac(`<span class="kn">${ff(avgQ,4)} C</span>`,'2 \u00d7 96\u2009485')} = <span class="bl">? mol</span>`,
     `${ff(avgQ,4)} \u00f7 ${(2*F).toFixed(0)} = <strong>${fs(avgNthH2,4)} mol</strong>`,
     'Cathode half-equation: 2e\u207b per H\u2082 molecule, so n = Q/(2F).',avgNthH2,1);
-  h+=cc('c_vth','7','V(H\u2082) theoretical',
+  h+=cc('c_vth','7','V(H\u2082) predicted',
     `V = ${frac(`[<span class="kn">${fs(avgNthH2,4)}</span> \u00d7 8.314 \u00d7 <span class="kn">${ff(avgT_K,2)} K</span>]`,`<span class="kn">${isFinite(avgP_Pa)?avgP_Pa.toFixed(0):'?'} Pa</span>`)} \u00d7 10\u2076 = <span class="bl">? mL</span>`,
     `[(${fs(avgNthH2,4)} \u00d7 8.314 \u00d7 ${ff(avgT_K,2)}) \u00f7 ${isFinite(avgP_Pa)?avgP_Pa.toFixed(0):'?'}] \u00d7 10\u2076 = <strong>${ff(avgVtheoH2,3)} mL</strong>`,
     'P in Pa. Evaluate the bracket first (result in m\u00b3), then multiply by 10\u2076 to convert to mL.',avgVtheoH2,1);
-  h+=cc('c_nato','8',`n(${ap}) theoretical`,
+  h+=cc('c_nato','8',`n(${ap}) predicted`,
     `n(${ap}) = ${frac(`<span class="kn">${ff(avgQ,4)} C</span>`,`${e.ne} \u00d7 96\u2009485`)} = <span class="bl">? mol</span>`,
     `${ff(avgQ,4)} \u00f7 ${(e.ne*F).toFixed(0)} = <strong>${fs(avgNthAnode,4)} mol</strong>`,
     ap==='O\u2082'?'4e\u207b per O\u2082 \u2014 divide by 4F. Gives half the moles of H\u2082.':'2e\u207b per Cl\u2082 \u2014 divide by 2F.',avgNthAnode,1);
-  h+=cc('c_vao','9',`V(${ap}) theoretical`,
+  h+=cc('c_vao','9',`V(${ap}) predicted`,
     `V = ${frac(`[<span class="kn">${fs(avgNthAnode,4)}</span> \u00d7 8.314 \u00d7 <span class="kn">${ff(avgT_K,2)} K</span>]`,`<span class="kn">${isFinite(avgP_Pa)?avgP_Pa.toFixed(0):'?'} Pa</span>`)} \u00d7 10\u2076 = <span class="bl">? mL</span>`,
     `[(${fs(avgNthAnode,4)} \u00d7 8.314 \u00d7 ${ff(avgT_K,2)}) \u00f7 ${isFinite(avgP_Pa)?avgP_Pa.toFixed(0):'?'}] \u00d7 10\u2076 = <strong>${ff(avgVtheoAnode,3)} mL</strong>`,
     `Same formula using n(${ap}). Evaluate the bracket first, then multiply by 10\u2076.`,avgVtheoAnode,1);
+
+  // ── PROPAGATION CARDS ──
+  h+=phH('4b','Uncertainty Propagation \u2014 Predicted Volume','Combine random + instrument uncertainty in I, propagate through Q \u2192 n \u2192 V.');
+  const I_INSTR=1; // mA
+  const auItot=isFinite(st.au_i)?st.au_i+I_INSTR:I_INSTR;
+  const puItot=st.mnI>0?auItot/st.mnI*100:NaN;
+  const puT=st.T_K?(0.5/st.T_K)*100:0;
+  const puP=st.P_Pa?(0.1/(st.P_Pa/1000))*100:0;
+  const puVp=isFinite(puItot)?puItot+puT+puP:NaN;
+  h+=cc('c_pu_i','9a','\u0394I total \u2014 random + instrument',
+    `\u0394I = <span class="kn">${ff(st.au_i,3)} mA</span> (scatter) + <span class="kn">${I_INSTR} mA</span> (Vernier resolution) = <span class="bl">? mA</span>`,
+    `${ff(st.au_i,3)} + ${I_INSTR} = <strong>\u00b1${ff(auItot,3)} mA</strong>`,
+    'Addition rule: when combining absolute uncertainties (both in mA), add the values.',auItot,2);
+  h+=cc('c_pu_Q','9b','\u0394Q/Q (%) \u2014 propagate through Q = It',
+    `\u0394Q/Q (%) = ${frac(`<span class="kn">${ff(auItot,3)}</span>`,`<span class="kn">${ff(st.mnI,3)}</span>`)} \u00d7 100 = <span class="bl">? %</span>`,
+    `(${ff(auItot,3)} \u00f7 ${ff(st.mnI,3)}) \u00d7 100 = <strong>${ff(puItot,1)} %</strong>`,
+    'Multiplication rule: \u0394Q/Q (%) = \u0394I/I (%) + \u0394t/t (%). Vernier auto-logs t, so \u0394t/t \u2248 0.',puItot,2);
+  h+=cc('c_pu_Vp','9c','\u0394V<sub>pred</sub>/V (%) \u2014 propagate through V = nRT/P',
+    `\u0394V/V (%) = <span class="kn">${ff(puItot,1)}%</span> + <span class="kn">${ff(puT,2)}%</span> (T) + <span class="kn">${ff(puP,2)}%</span> (P) = <span class="bl">? %</span>`,
+    `${ff(puItot,1)} + ${ff(puT,2)} + ${ff(puP,2)} = <strong>${ff(puVp,1)} %</strong>`,
+    'n = Q/zF (constants \u2192 no change). Then V = nRT/P (mult/div \u2192 add %s). T and P add small contributions.',puVp,2);
 
   h+=phH(5,'Statistics on Measured Volumes','Mean, AU, PU (%) from your measured V(H\u2082) across all trials.');
   const volStr=st.h2Vols.map((x,i)=>`T${i+1} = ${isFinite(x)?x.toFixed(2):'?'} mL`).join(' &nbsp; ');
@@ -2782,11 +2902,11 @@ function renderCalcCards(li){
     `(${isFinite(st.P_Pa)?st.P_Pa.toFixed(0):'?'} \u00d7 ${fs(mnV_m3,3)}) \u00f7 (8.314 \u00d7 ${ff(st.T_K,2)}) = <strong>${fs(st.nexp_h2,4)} mol</strong>`,
     'Use mean V in m\u00b3 (divide mL by 10\u2076), P in Pa, T in K.',st.nexp_h2,1);
 
-  h+=phH(7,'Percentage Error \u2014 Accuracy','Compare n(exp) to n(theo) from Faraday\u2019s Law.');
+  h+=phH(7,'Percentage Error \u2014 Accuracy','Compare n(exp) to n(pred) from Faraday\u2019s Law.');
   h+=cc('c_pe','14','% Error',
     `% = ${frac(`|<span class="kn">${fs(st.nexp_h2,4)}</span> \u2212 <span class="kn">${fs(st.nth_h2,4)}</span>|`,`<span class="kn">${fs(st.nth_h2,4)}</span>`)} \u00d7 100 = <span class="bl">? %</span>`,
     `|${fs(st.nexp_h2,4)} \u2212 ${fs(st.nth_h2,4)}| \u00f7 ${fs(st.nth_h2,4)} \u00d7 100 = <strong>${ff(st.pct_err,1)} %</strong>`,
-    'Typical school results: 15\u201340%. Main causes: bubble adhesion, gas solubility, current fluctuation.',st.pct_err,3);
+    'Compare against the propagated \u0394V<sub>pred</sub>/V (%) from step 9c. If %Error < propagated \u0394V/V, experimental and predicted agree within uncertainty.',st.pct_err,3);
 
   document.getElementById('calcContent').innerHTML=h;
 }
@@ -2861,7 +2981,7 @@ function linReg(pts){
 }
 function trendLine(pts,col,lbl){
   const r=linReg(pts);if(!r)return null;
-  const xs=pts.map(p=>p.x),mn=Math.min(...xs),mx=Math.max(...xs),pad=(mx-mn)*0.08;
+  const xs=pts.map(p=>p.x),mn=Math.min(...xs),mx=Math.max(...xs),pad=(mx-mn)*0.02;
   return{label:lbl,data:[{x:mn-pad,y:r.m*(mn-pad)+r.b},{x:mx+pad,y:r.m*(mx+pad)+r.b}],borderColor:col,borderWidth:1.5,borderDash:[7,4],pointRadius:0,showLine:true,type:'scatter',reg:r};
 }
 
@@ -2871,7 +2991,7 @@ function maxMinLines(pts,aus,col){
   const sorted=pts.map((p,i)=>({x:p.x,y:p.y,au:aus[i]||0})).sort((a,b)=>a.x-b.x);
   const first=sorted[0],last=sorted[sorted.length-1];
   if(first.x===last.x)return null;
-  const xs=pts.map(p=>p.x),mn=Math.min(...xs),mx=Math.max(...xs),pad=(mx-mn)*0.08;
+  const xs=pts.map(p=>p.x),mn=Math.min(...xs),mx=Math.max(...xs),pad=(mx-mn)*0.02;
   // Max gradient: bottom of first point to top of last (steepest positive line through error bars)
   const mMax=(last.y+last.au-(first.y-first.au))/(last.x-first.x);
   const bMax=(first.y-first.au)-mMax*first.x;
@@ -2883,7 +3003,8 @@ function maxMinLines(pts,aus,col){
     label:lbl,
     data:[{x:mn-pad,y:m*(mn-pad)+b},{x:mx+pad,y:m*(mx+pad)+b}],
     borderColor:col,borderWidth:1,borderDash:[3,3],pointRadius:0,showLine:true,type:'scatter',
-    borderCapStyle:'butt'
+    borderCapStyle:'butt',
+    reg:{m,b,r2:null}
   });
   return{maxLine:mkLine(mMax,bMax,'Max gradient'),minLine:mkLine(mMin,bMin,'Min gradient'),
     mMax,mMin,gradUnc};
@@ -2911,6 +3032,70 @@ const ebPlugin={id:'eb',afterDraw(ch){
 }};
 if(typeof Chart!=='undefined')Chart.register(ebPlugin);
 
+// ── Equation label plugin — draws trendline equation + R² + max/min gradients on the canvas ──
+const eqLabelPlugin={id:'eqLabel',afterDraw(chart){
+  const datasets=chart.data.datasets;
+  const bestFit=datasets.find(ds=>ds.reg&&isFinite(ds.reg.m)&&isFinite(ds.reg.r2)&&!ds.label?.startsWith('Max')&&!ds.label?.startsWith('Min'));
+  const maxLine=datasets.find(ds=>ds.reg&&ds.label?.startsWith('Max'));
+  const minLine=datasets.find(ds=>ds.reg&&ds.label?.startsWith('Min'));
+  if(!bestFit)return;
+  const area=chart.chartArea;if(!area)return;
+  const ctx=chart.ctx;
+  ctx.save();
+  const fnt='500 10.5px "JetBrains Mono",monospace';
+  const fntSm='500 9.5px "JetBrains Mono",monospace';
+  ctx.textBaseline='top';
+
+  // Build lines to display
+  const r=bestFit.reg;
+  const sign=r.b>=0?'+':'−';
+  const lines=[
+    {text:`y = ${r.m.toFixed(3)}x ${sign} ${Math.abs(r.b).toFixed(3)}`, color:bestFit.borderColor||'#1c2f45', font:fnt},
+    {text:`R² = ${r.r2.toFixed(4)}`, color:'#444', font:fnt},
+  ];
+  if(maxLine&&minLine&&maxLine.reg&&minLine.reg){
+    const gradUnc=Math.abs(maxLine.reg.m-minLine.reg.m)/2;
+    lines.push({text:`m_max = ${maxLine.reg.m.toFixed(3)}`, color:'#c0392b', font:fntSm});
+    lines.push({text:`m_min = ${minLine.reg.m.toFixed(3)}`, color:'#0d7a6d', font:fntSm});
+    lines.push({text:`Δm = ±${gradUnc.toFixed(3)}`, color:'#b5861d', font:fntSm});
+  }
+
+  // Measure box
+  const lineH=15;
+  const pad=10;
+  let maxW=0;
+  lines.forEach(l=>{ctx.font=l.font;maxW=Math.max(maxW,ctx.measureText(l.text).width);});
+  const boxH=lines.length*lineH+6;
+  const boxW=maxW+pad;
+
+  // Smart position: top-LEFT for positive slope (data rises to top-right, keep label clear)
+  //                 top-RIGHT for negative slope (data rises to top-left)
+  const posRight=r.m<0;
+  ctx.textAlign=posRight?'right':'left';
+  const x=posRight?area.right-6:area.left+6;
+  const y=area.top+6;
+  const boxX=posRight?x-boxW:x;
+
+  // Background
+  ctx.fillStyle='rgba(255,255,255,0.92)';
+  ctx.strokeStyle='rgba(180,180,180,0.5)';
+  ctx.lineWidth=0.5;
+  ctx.beginPath();
+  if(ctx.roundRect)ctx.roundRect(boxX-2,y-3,boxW+4,boxH,3);
+  else ctx.rect(boxX-2,y-3,boxW+4,boxH);
+  ctx.fill();ctx.stroke();
+
+  // Draw each line
+  lines.forEach((l,i)=>{
+    ctx.font=l.font;
+    ctx.fillStyle=l.color;
+    ctx.fillText(l.text,x,y+2+i*lineH);
+  });
+
+  ctx.restore();
+}};
+if(typeof Chart!=='undefined')Chart.register(eqLabelPlugin);
+
 function mkScatterOpts(xlabel,ylabel,extraOpts={}){
   return{responsive:true,maintainAspectRatio:false,
     plugins:{legend:{position:'top',labels:{font:{size:11},padding:12}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: (${ff(c.parsed.x,3)}, ${ff(c.parsed.y,4)})`}}},
@@ -2931,10 +3116,10 @@ function getProcessedGraphMeta(){
   return [
     {num:1,title:'Mean H₂ Volume as a Function of Electrolyte Concentration',canvasId:'gC1',tableId:'gdataRQtbl',tableTitle:'Volume Data — H₂ and O₂'},
     {num:2,title:'Mean O₂ Volume as a Function of Electrolyte Concentration',canvasId:'gC2',tableId:'gdataRQtbl',tableTitle:'Volume Data — H₂ and O₂'},
-    {num:3,title:'Experimental and Theoretical H₂ Volume as a Function of Concentration',canvasId:'gC3',tableId:'gdataTheotbl',tableTitle:'Theoretical Comparison & Ratio Data'},
-    {num:4,title:'Experimental and Theoretical O₂ Volume as a Function of Concentration',canvasId:'gC4',tableId:'gdataTheotbl',tableTitle:'Theoretical Comparison & Ratio Data'},
-    {num:5,title:'Experimental and Theoretical Moles of H₂ Produced',canvasId:'gC5',tableId:'gdataTheotbl',tableTitle:'Theoretical Comparison & Ratio Data'},
-    {num:6,title:'H₂:O₂ Volume Ratio at Each Concentration Level',canvasId:'gC6',tableId:'gdataTheotbl',tableTitle:'Theoretical Comparison & Ratio Data'},
+    {num:3,title:'Experimental and Predicted H₂ Volume as a Function of Concentration',canvasId:'gC3',tableId:'gdataTheotbl',tableTitle:'Predicted Comparison & Ratio Data'},
+    {num:4,title:'Experimental and Predicted O₂ Volume as a Function of Concentration',canvasId:'gC4',tableId:'gdataTheotbl',tableTitle:'Predicted Comparison & Ratio Data'},
+    {num:5,title:'Experimental and Predicted Moles of H₂ Produced',canvasId:'gC5',tableId:'gdataTheotbl',tableTitle:'Predicted Comparison & Ratio Data'},
+    {num:6,title:'H₂:O₂ Volume Ratio at Each Concentration Level',canvasId:'gC6',tableId:'gdataTheotbl',tableTitle:'Predicted Comparison & Ratio Data'},
     {num:7,title:'Mean Current as a Function of Electrolyte Concentration',canvasId:'gC7',tableId:'gdataOhmtbl',tableTitle:'Current, Resistance & Charge Data'},
     {num:8,title:'Mean Resistance as a Function of Electrolyte Concentration',canvasId:'gC8',tableId:'gdataOhmtbl',tableTitle:'Current, Resistance & Charge Data'},
     {num:9,title:'Mean Charge Delivered as a Function of Electrolyte Concentration',canvasId:'gC9',tableId:'gdataOhmtbl',tableTitle:'Current, Resistance & Charge Data'},
@@ -2992,6 +3177,50 @@ function toggleProcessedGraph(num,checked){
   S.procGraphSel=Array.from(set).sort((a,b)=>a-b);
   renderProcessedSelectedGraphs();
 }
+function renderDilutionTable(){
+  const wrap=document.getElementById('procDilutionWrap');
+  if(!wrap)return;
+  // Only relevant when IV is concentration and we have levels
+  if(S.iv!=='conc'||!S.levels.length){wrap.style.display='none';wrap.innerHTML='';return;}
+  const u='mol L\u207b\u00b9';
+  const thS='padding:4px 8px;text-align:center;background:#1c3a28;color:#fff;font-size:11px;font-family:var(--mono);font-weight:600;white-space:nowrap;';
+  const tdS='padding:3px 8px;text-align:center;font-size:11.5px;font-family:var(--mono);';
+  let h=`<div class="card" style="margin-bottom:14px;border-top:3px solid #2e6b4f;">`;
+  h+=`<h3 style="color:#2e6b4f;">Dilution Uncertainty Table</h3>`;
+  h+=`<p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Propagated uncertainty in H\u2082SO\u2084 concentration prepared from ${DIL.c1} \u00b1 ${DIL.dc1} M stock using a ${DIL.cyl_mL} mL graduated cylinder (\u00b1${DIL.cyl_unc} mL per pour), total solution volume ${DIL.v2_mL} mL.</p>`;
+  h+=`<div style="overflow-x:auto;"><table class="rtbl"><thead><tr>`;
+  h+=`<th style="${thS}">Conc (${u})</th>`;
+  h+=`<th style="${thS}">Stock (V\u2081)</th>`;
+  h+=`<th style="${thS}">\u0394V\u2081 (mL)</th>`;
+  h+=`<th style="${thS}">Water (V\u2081\u2095)</th>`;
+  h+=`<th style="${thS}">\u0394V\u2081\u2095 (mL)</th>`;
+  h+=`<th style="${thS}">Total V\u2082 (mL)</th>`;
+  h+=`<th style="${thS}">\u0394C\u2082 / C\u2082 (%)</th>`;
+  h+=`<th style="${thS}">\u0394C\u2082 (M)</th>`;
+  h+=`<th style="${thS}">Report as</th>`;
+  h+=`</tr></thead><tbody>`;
+  S.levels.forEach(lv=>{
+    if(!isFinite(lv.val)||lv.val<=0)return;
+    const d=getDilutionStats(lv.val);
+    h+=`<tr>`;
+    h+=`<td style="${tdS}font-weight:700;">${lv.val}</td>`;
+    h+=`<td style="${tdS}">${d.v1_mL.toFixed(0)} mL<br><span style="font-size:10px;color:var(--muted);">${d.stockPours.toFixed(0)} pour${d.stockPours!==1?'s':''}</span></td>`;
+    h+=`<td style="${tdS}">\u00b1${d.dv1.toFixed(1)}</td>`;
+    h+=`<td style="${tdS}">${d.vw_mL.toFixed(0)} mL<br><span style="font-size:10px;color:var(--muted);">${d.waterPours.toFixed(0)} pour${d.waterPours!==1?'s':''}</span></td>`;
+    h+=`<td style="${tdS}">\u00b1${d.dvw.toFixed(1)}</td>`;
+    h+=`<td style="${tdS}">${DIL.v2_mL.toFixed(0)}</td>`;
+    h+=`<td style="${tdS}font-weight:700;color:#2e6b4f;">${d.pu_c2_pct.toFixed(2)}%</td>`;
+    h+=`<td style="${tdS}">\u00b1${d.dc2.toFixed(4)} M</td>`;
+    h+=`<td style="${tdS}font-weight:700;">${lv.val} \u00b1 ${d.dc2.toFixed(3)} M</td>`;
+    h+=`</tr>`;
+  });
+  h+=`</tbody></table></div>`;
+  h+=`<p style="font-size:11px;color:var(--muted);margin-top:8px;">Note: \u0394C\u2082/C\u2082 stays constant because each additional stock pour increases both V\u2081 and \u0394V\u2081 proportionally \u2014 the ratio is always ${(DIL.cyl_unc/DIL.cyl_mL*100).toFixed(1)}% per variable. The absolute uncertainty \u0394C\u2082 grows with concentration because 1.03% of a larger number is larger.</p>`;
+  h+=`</div>`;
+  wrap.innerHTML=h;
+  wrap.style.display='block';
+}
+
 function renderProcessedSections(){
   const raw=document.getElementById('procRawDataWrap');
   const proc=document.getElementById('procSampleCalcWrap');
@@ -3010,6 +3239,7 @@ function renderProcessedSections(){
     const src=document.getElementById('resultsContent');
     pdata.innerHTML=(src&&S.levels.length)?src.innerHTML:'<div class="proc-placeholder">Complete the results section to view the processed data tables here.</div>';
   }
+  renderDilutionTable();
   if(S.levels.length) try{['gdataRQ','gdataTheo','gdataOhm','gdataErr','gdataCombo','gdataAdv'].forEach(id=>populateGDataTable(id));}catch(e){}
   renderProcessedGraphSelector();
   if(S.levels.length && typeof renderAllGraphs==='function'){
@@ -3061,22 +3291,22 @@ function renderProcessedSelectedGraphs(){
         case 1:{const pts=rows.filter(r=>isFinite(r.mnH2)).map(r=>({x:r.val,y:r.mnH2}));
           const ds=[{label:'V(H₂) exp',data:pts,backgroundColor:GC.h2+'cc',borderColor:GC.h2,pointRadius:5,showLine:false,_eb:rows.filter(r=>isFinite(r.mnH2)).map(r=>r.auH2||0)}];
           const fit=trendLine(pts,GC.h2,'Best fit');if(fit)ds.push(fit);
-          const tp=theoPts(rows,'nthH2');const tf=trendLine(tp,GC.theo,'Theoretical');if(tf){tf.borderDash=[5,3];tf.borderWidth=1.5;ds.push(tf);}
+          const tp=theoPts(rows,'nthH2');const tf=trendLine(tp,GC.theo,'Predicted');if(tf){tf.borderDash=[5,3];tf.borderWidth=1.5;ds.push(tf);}
           cfg={type:'scatter',data:{datasets:ds},options:sO(`${ivL} (${u})`,'V(H₂) (mL)')};break;}
         case 2:{const pts=rows.filter(r=>isFinite(r.mnO2)&&r.mnO2>0).map(r=>({x:r.val,y:r.mnO2}));
           if(pts.length>=2){const ds=[{label:`V(${e.ap}) exp`,data:pts,backgroundColor:GC.o2+'cc',borderColor:GC.o2,pointRadius:5,showLine:false,_eb:rows.filter(r=>isFinite(r.mnO2)&&r.mnO2>0).map(r=>r.auO2||0)}];
             const fit=trendLine(pts,GC.o2,'Best fit');if(fit)ds.push(fit);
-            const tp=theoPts(rows,'nthO2');const tf=trendLine(tp,GC.theo,'Theoretical');if(tf){tf.borderDash=[5,3];tf.borderWidth=1.5;ds.push(tf);}
+            const tp=theoPts(rows,'nthO2');const tf=trendLine(tp,GC.theo,'Predicted');if(tf){tf.borderDash=[5,3];tf.borderWidth=1.5;ds.push(tf);}
             cfg={type:'scatter',data:{datasets:ds},options:sO(`${ivL} (${u})`,`V(${e.ap}) (mL)`)};} break;}
         case 3:{const ep=rows.filter(r=>isFinite(r.mnH2)).map(r=>({x:r.val,y:r.mnH2}));const tp=theoPts(rows,'nthH2');
           const ds=[{label:'Experimental',data:ep,backgroundColor:GC.h2+'cc',borderColor:GC.h2,pointRadius:5,showLine:false,_eb:rows.filter(r=>isFinite(r.mnH2)).map(r=>r.auH2||0)}];
           const ef=trendLine(ep,GC.h2,'Exp fit');if(ef)ds.push(ef);
-          if(tp.length>=2){ds.push({label:'Theoretical',data:tp,backgroundColor:GC.theo+'cc',borderColor:GC.theo,pointRadius:4,showLine:false});const tf=trendLine(tp,GC.theo,'Theo');if(tf){tf.borderDash=[5,3];tf.borderWidth=1.5;ds.push(tf);}}
+          if(tp.length>=2){ds.push({label:'Predicted',data:tp,backgroundColor:GC.theo+'cc',borderColor:GC.theo,pointRadius:4,showLine:false});const tf=trendLine(tp,GC.theo,'Pred');if(tf){tf.borderDash=[5,3];tf.borderWidth=1.5;ds.push(tf);}}
           cfg={type:'scatter',data:{datasets:ds},options:sO(`${ivL} (${u})`,'V(H₂) (mL)')};break;}
         case 4:{if(!hasO2)break;const ep=rows.filter(r=>isFinite(r.mnO2)&&r.mnO2>0).map(r=>({x:r.val,y:r.mnO2}));const tp=theoPts(rows,'nthO2');
           const ds=[{label:'Experimental',data:ep,backgroundColor:GC.o2+'cc',borderColor:GC.o2,pointRadius:5,showLine:false,_eb:rows.filter(r=>isFinite(r.mnO2)&&r.mnO2>0).map(r=>r.auO2||0)}];
           const ef=trendLine(ep,GC.o2,'Exp fit');if(ef)ds.push(ef);
-          if(tp.length>=2){ds.push({label:'Theoretical',data:tp,backgroundColor:GC.theo+'cc',borderColor:GC.theo,pointRadius:4,showLine:false});const tf=trendLine(tp,GC.theo,'Theo');if(tf){tf.borderDash=[5,3];tf.borderWidth=1.5;ds.push(tf);}}
+          if(tp.length>=2){ds.push({label:'Predicted',data:tp,backgroundColor:GC.theo+'cc',borderColor:GC.theo,pointRadius:4,showLine:false});const tf=trendLine(tp,GC.theo,'Pred');if(tf){tf.borderDash=[5,3];tf.borderWidth=1.5;ds.push(tf);}}
           cfg={type:'scatter',data:{datasets:ds},options:sO(`${ivL} (${u})`,`V(${e.ap}) (mL)`)};break;}
         case 5:{const pts=rows.filter(r=>isFinite(r.nexpH2)&&isFinite(r.nthH2)).map(r=>({x:r.val,y:r.nexpH2}));
           const ds=[{label:'nₐₓₚ(H₂)',data:pts,backgroundColor:GC.h2+'cc',borderColor:GC.h2,pointRadius:5,showLine:false}];
@@ -3084,7 +3314,7 @@ function renderProcessedSelectedGraphs(){
           cfg={type:'scatter',data:{datasets:ds},options:sO(`${ivL} (${u})`,'n(H₂) (mol)')};break;}
         case 6:{const pts=rows.filter(r=>isFinite(r.ratio)).map(r=>({x:r.val,y:r.ratio}));
           const ds=[{label:'H₂:O₂ ratio',data:pts,backgroundColor:GC.ratio+'cc',borderColor:GC.ratio,pointRadius:5,showLine:false}];
-          if(pts.length>=2){const xv=pts.map(p=>p.x);ds.push({label:'Theoretical (2:1)',data:[{x:Math.min(...xv),y:2},{x:Math.max(...xv),y:2}],borderColor:GC.theo,borderWidth:1.5,borderDash:[5,3],pointRadius:0,showLine:true,type:'scatter'});}
+          if(pts.length>=2){const xv=pts.map(p=>p.x);ds.push({label:'Predicted (2:1)',data:[{x:Math.min(...xv),y:2},{x:Math.max(...xv),y:2}],borderColor:GC.theo,borderWidth:1.5,borderDash:[5,3],pointRadius:0,showLine:true,type:'scatter'});}
           cfg={type:'scatter',data:{datasets:ds},options:sO(`${ivL} (${u})`,'H₂:O₂ ratio')};break;}
         case 7:{const pts=rows.filter(r=>isFinite(r.mnI)&&r.mnI>0).map(r=>({x:r.val,y:r.mnI}));
           const ds=[{label:'Mean I (mA)',data:pts,backgroundColor:GC.h2+'cc',borderColor:GC.h2,pointRadius:5,showLine:false,_eb:rows.filter(r=>isFinite(r.mnI)&&r.mnI>0).map(r=>r.auI||0)}];
@@ -3124,7 +3354,7 @@ function renderProcessedSelectedGraphs(){
             const fit13=trendLine(pts13,GC.h2,'Best fit');if(fit13)ds.push(fit13);
             const theoGrad=(S.gTime*60)/(2*F);
             const maxI13=Math.max(...pts13.map(p=>p.x))*1.1;
-            ds.push({label:'Theoretical',data:[{x:0,y:0},{x:maxI13,y:theoGrad*maxI13/1000}],borderColor:GC.theo,borderDash:[5,3],borderWidth:1.5,pointRadius:0,showLine:true,type:'scatter'});
+            ds.push({label:'Predicted',data:[{x:0,y:0},{x:maxI13,y:theoGrad*maxI13/1000}],borderColor:GC.theo,borderDash:[5,3],borderWidth:1.5,pointRadius:0,showLine:true,type:'scatter'});
             cfg={type:'scatter',data:{datasets:ds},options:sO('Current I (mA)','n(H₂) (mol)')};
           } break;}
         case 14:{// V(H2) vs Charge Q
@@ -3136,7 +3366,7 @@ function renderProcessedSelectedGraphs(){
             if(v0r){
               const theoG=(R_gas*v0r.T_K/(2*F*v0r.P_Pa))*1e6;
               const maxQ14=Math.max(...pts14.map(p=>p.x))*1.1;
-              ds.push({label:'Theoretical (RT/2FP×10⁶)',data:[{x:0,y:0},{x:maxQ14,y:theoG*maxQ14}],borderColor:GC.theo,borderDash:[5,3],borderWidth:1.5,pointRadius:0,showLine:true,type:'scatter'});
+              ds.push({label:'Predicted (RT/2FP×10⁶)',data:[{x:0,y:0},{x:maxQ14,y:theoG*maxQ14}],borderColor:GC.theo,borderDash:[5,3],borderWidth:1.5,pointRadius:0,showLine:true,type:'scatter'});
             }
             cfg={type:'scatter',data:{datasets:ds},options:sO('Charge Q (C)','V(H₂) (mL)')};
           } break;}
@@ -3173,7 +3403,7 @@ function renderResults(){
   const rows=S.levels.map((lv,li)=>{
     const st=getLevelStats(li);
     const ratio=isFinite(st.mnH2)&&isFinite(st.mnO2)&&st.mnO2>0?st.mnH2/st.mnO2:NaN;
-    // n_exp and n_theo for anode gas
+    // n_exp and n_pred for anode gas
     const nexp_o2=isFinite(st.nexp_anode)?st.nexp_anode:NaN;
     const nth_o2=isFinite(st.meanQ)?st.meanQ/(e.ne*F):NaN;
     const pe_o2=isFinite(nexp_o2)&&isFinite(nth_o2)&&nth_o2>0?Math.abs(nexp_o2-nth_o2)/nth_o2*100:NaN;
@@ -3181,12 +3411,13 @@ function renderResults(){
       mnH2:st.mnH2,auH2:st.au_h2,puH2:st.pu_h2,nexpH2:st.nexp_h2,nthH2:st.nth_h2,peH2:st.pct_err,
       mnO2:st.mnO2,auO2:st.au_o2,puO2:st.pu_o2,nexpO2:nexp_o2,nthO2:nth_o2,peO2:pe_o2,
       mnI:st.mnI,auI:st.au_i,puI:st.pu_i,meanQ:st.meanQ,
+      auItotal:st.au_i_total,puItotal:st.pu_i_total,puVpred:st.pu_Vpredicted,
       ratio};
   });
 
   // ── H₂ TABLE ──
   let h=`<div class="card" style="margin-bottom:14px;"><h3>H₂ — Cathode Results</h3><div style="overflow-x:auto;"><table class="rtbl">
-    <thead><tr><th>${ivL} (${u})</th><th>Trials</th><th>Mean V(H₂) (mL)</th><th>AU (mL)</th><th>PU (%)</th><th>n<sub>exp</sub> mol</th><th>n<sub>theo</sub> mol</th><th>% Error</th></tr></thead><tbody>`;
+    <thead><tr><th>${ivL} (${u})</th><th>Trials</th><th>Mean V(H₂) (mL)</th><th>AU (mL)</th><th>PU (%)</th><th>n<sub>exp</sub> mol</th><th>n<sub>pred</sub> mol</th><th>% Error</th><th>ΔV<sub>pred</sub> (%)</th></tr></thead><tbody>`;
   rows.forEach(r=>{
     h+=`<tr><td class="hi">${r.val}</td><td>${r.n}</td>
       <td>${isFinite(r.mnH2)?r.mnH2.toFixed(3):'—'}</td>
@@ -3195,11 +3426,35 @@ function renderResults(){
         ${isFinite(r.puH2)?r.puH2.toFixed(1)+'%':'—'}</td>
       <td>${isFinite(r.nexpH2)?r.nexpH2.toPrecision(4):'—'}</td>
       <td>${isFinite(r.nthH2)?r.nthH2.toPrecision(4):'—'}</td>
-      <td>${isFinite(r.peH2)?r.peH2.toFixed(1)+'%':'—'}</td></tr>`;
+      <td>${isFinite(r.peH2)?r.peH2.toFixed(1)+'%':'—'}</td>
+      <td>${isFinite(r.puVpred)?r.puVpred.toFixed(1)+'%':'—'}</td></tr>`;
   });
-  h+=`</tbody></table></div></div>`;
+  h+=`</tbody></table>
+  <p style="font-size:11px;color:var(--muted);margin-top:5px;margin-bottom:2px;">
+    ΔV<sub>pred</sub> (%) = propagated uncertainty in V(H₂) predicted, calculated from current measurement uncertainty.
+    <strong>See Sample Calculations steps 9a–9c</strong> for the full working.
+  </p></div></div>`;
 
-  // ── CURRENT TABLE ──
+  // ── O₂ TABLE (now immediately after H₂) ──
+  const hasO2=rows.some(r=>isFinite(r.mnO2)&&r.mnO2>0);
+  if(hasO2){
+    h+=`<div class="card" style="margin-bottom:14px;"><h3>${e.ap} — Anode Results</h3><div style="overflow-x:auto;"><table class="rtbl">
+      <thead><tr><th>${ivL} (${u})</th><th>Trials</th><th>Mean V(${e.ap}) (mL)</th><th>AU (mL)</th><th>PU (%)</th><th>n<sub>exp</sub> mol</th><th>n<sub>pred</sub> mol</th><th>% Error</th><th>ΔV<sub>pred</sub> (%)</th></tr></thead><tbody>`;
+    rows.forEach(r=>{
+      h+=`<tr><td class="hi">${r.val}</td><td>${r.n}</td>
+        <td>${isFinite(r.mnO2)?r.mnO2.toFixed(3):'—'}</td>
+        <td>${isFinite(r.auO2)?'±'+r.auO2.toFixed(3):'—'}</td>
+        <td class="${isFinite(r.puO2)&&r.puO2>10?'style="color:var(--red);font-weight:700;"':''}">
+          ${isFinite(r.puO2)?r.puO2.toFixed(1)+'%':'—'}</td>
+        <td>${isFinite(r.nexpO2)?r.nexpO2.toPrecision(4):'—'}</td>
+        <td>${isFinite(r.nthO2)?r.nthO2.toPrecision(4):'—'}</td>
+        <td>${isFinite(r.peO2)?r.peO2.toFixed(1)+'%':'—'}</td>
+        <td>${isFinite(r.puVpred)?r.puVpred.toFixed(1)+'%':'—'}</td></tr>`;
+    });
+    h+=`</tbody></table></div></div>`;
+  }
+
+  // ── CURRENT TABLE (after both gas tables) ──
   const hasCurrent=rows.some(r=>isFinite(r.mnI)&&r.mnI>0);
   if(hasCurrent){
     h+=`<div class="card" style="margin-bottom:14px;"><h3>Current — Ammeter Results</h3><div style="overflow-x:auto;"><table class="rtbl">
@@ -3214,25 +3469,9 @@ function renderResults(){
     h+=`</tbody></table></div></div>`;
   }
 
-  // ── O₂ TABLE ──
-  const hasO2=rows.some(r=>isFinite(r.mnO2)&&r.mnO2>0);
+  // ── RATIO TABLE (last) ──
   if(hasO2){
-    h+=`<div class="card" style="margin-bottom:14px;"><h3>${e.ap} — Anode Results</h3><div style="overflow-x:auto;"><table class="rtbl">
-      <thead><tr><th>${ivL} (${u})</th><th>Trials</th><th>Mean V(${e.ap}) (mL)</th><th>AU (mL)</th><th>PU (%)</th><th>n<sub>exp</sub> mol</th><th>n<sub>theo</sub> mol</th><th>% Error</th></tr></thead><tbody>`;
-    rows.forEach(r=>{
-      h+=`<tr><td class="hi">${r.val}</td><td>${r.n}</td>
-        <td>${isFinite(r.mnO2)?r.mnO2.toFixed(3):'—'}</td>
-        <td>${isFinite(r.auO2)?'±'+r.auO2.toFixed(3):'—'}</td>
-        <td class="${isFinite(r.puO2)&&r.puO2>10?'style="color:var(--red);font-weight:700;"':''}">
-          ${isFinite(r.puO2)?r.puO2.toFixed(1)+'%':'—'}</td>
-        <td>${isFinite(r.nexpO2)?r.nexpO2.toPrecision(4):'—'}</td>
-        <td>${isFinite(r.nthO2)?r.nthO2.toPrecision(4):'—'}</td>
-        <td>${isFinite(r.peO2)?r.peO2.toFixed(1)+'%':'—'}</td></tr>`;
-    });
-    h+=`</tbody></table></div></div>`;
-
-    // ── RATIO TABLE ──
-    h+=`<div class="card" style="margin-bottom:14px;"><h3>H₂:O₂ Volume Ratio <span style="font-size:11px;font-weight:400;color:var(--muted);">(theoretical = 2.00)</span></h3><div style="overflow-x:auto;"><table class="rtbl">
+    h+=`<div class="card" style="margin-bottom:14px;"><h3>H₂:O₂ Volume Ratio <span style="font-size:11px;font-weight:400;color:var(--muted);">(predicted = 2.00)</span></h3><div style="overflow-x:auto;"><table class="rtbl">
       <thead><tr><th>${ivL} (${u})</th><th>Mean V(H₂) (mL)</th><th>Mean V(${e.ap}) (mL)</th><th>Observed Ratio</th><th>Deviation from 2:1</th></tr></thead><tbody>`;
     rows.forEach(r=>{
       const dev=isFinite(r.ratio)?r.ratio-2.0:NaN;
@@ -3245,7 +3484,7 @@ function renderResults(){
         <td style="${ratioCol}">${devStr}</td></tr>`;
     });
     h+=`</tbody></table>
-      <p style="font-size:11px;color:var(--muted);margin-top:8px;">Ratios highlighted in red deviate >0.2 from the theoretical 2.0. A consistent bias below 2.0 = H₂ underestimated (cathode bubble adhesion). Above 2.0 = ${e.ap} underestimated (anode gas loss or dissolution).</p>
+      <p style="font-size:11px;color:var(--muted);margin-top:8px;">Ratios highlighted in red deviate >0.2 from the predicted 2.0. A consistent bias below 2.0 = H₂ underestimated (cathode bubble adhesion). Above 2.0 = ${e.ap} underestimated (anode gas loss or dissolution).</p>
     </div></div>`;
   }
 
@@ -3257,10 +3496,11 @@ function renderResults(){
   let refHtml=`<div style="font-weight:700;font-size:11px;color:var(--teal);margin-bottom:4px;">H₂ — Cathode</div>`;
   refHtml+=`<table style="width:100%;border-collapse:collapse;font-family:var(--mono);margin-bottom:10px;">
     <tr style="border-bottom:1px solid var(--teal);">
-      <th style="${thS}">${ivL} (${u})</th><th style="${thS}">Mean V(H₂) (mL)</th><th style="${thS}">AU (mL)</th><th style="${thS}">PU (%)</th><th style="${thS}">n_exp (mol)</th><th style="${thS}">n_theo (mol)</th><th style="${thS}">% err</th>
+      <th style="${thS}">${ivL} (${u})</th><th style="${thS}">Mean V(H₂) (mL)</th><th style="${thS}">AU (mL)</th><th style="${thS}">PU (%)</th><th style="${thS}">n_exp (mol)</th><th style="${thS}">n_pred (mol)</th><th style="${thS}">% err</th><th style="${thS}color:#6b3fa0;">ΔV_pred (%)</th>
     </tr>`;
   rows.forEach(r=>{
     if(!isFinite(r.mnH2))return;
+    const agreesWithinUnc=isFinite(r.peH2)&&isFinite(r.puVpred)&&r.peH2<=r.puVpred;
     refHtml+=`<tr>
       <td style="${tdS}font-weight:700;">${r.val}</td>
       <td style="${tdS}">${r.mnH2.toFixed(2)}</td>
@@ -3268,9 +3508,11 @@ function renderResults(){
       <td style="${tdS}">${isFinite(r.puH2)?'±'+r.puH2.toFixed(1):'—'}</td>
       <td style="${tdS}">${isFinite(r.nexpH2)?r.nexpH2.toPrecision(3):'—'}</td>
       <td style="${tdS}">${isFinite(r.nthH2)?r.nthH2.toPrecision(3):'—'}</td>
-      <td style="${tdS}">${isFinite(r.peH2)?r.peH2.toFixed(1):'—'}</td>
+      <td style="${tdS}${isFinite(r.peH2)&&isFinite(r.puVpred)&&!agreesWithinUnc?'color:var(--red);font-weight:700;':''}">${isFinite(r.peH2)?r.peH2.toFixed(1):'—'}</td>
+      <td style="${tdS}color:#6b3fa0;">${isFinite(r.puVpred)?r.puVpred.toFixed(1)+'%':'—'}</td>
     </tr>`;
   });
+  refHtml+=`<tr style="font-size:10px;"><td colspan="8" style="padding:3px 6px;color:#7a7068;font-style:italic;">% err in <span style="color:var(--red);font-weight:700;">red</span> = exceeds ΔV_pred — genuine discrepancy. % err ≤ ΔV_pred = agrees within propagated uncertainty.</td></tr>`;
   refHtml+=`</table>`;
   if(hasCurrent){
     refHtml+=`<div style="font-weight:700;font-size:11px;color:#6b3f00;margin-bottom:4px;">Current — Ammeter</div>`;
@@ -3294,7 +3536,7 @@ function renderResults(){
     refHtml+=`<div style="font-weight:700;font-size:11px;color:#a83800;margin-bottom:4px;">${e.ap} — Anode</div>`;
     refHtml+=`<table style="width:100%;border-collapse:collapse;font-family:var(--mono);margin-bottom:10px;">
       <tr style="border-bottom:1px solid #a83800;">
-        <th style="${thS}color:#a83800;">${ivL} (${u})</th><th style="${thS}color:#a83800;">Mean V(${e.ap}) (mL)</th><th style="${thS}color:#a83800;">AU (mL)</th><th style="${thS}color:#a83800;">PU (%)</th><th style="${thS}color:#a83800;">n_exp (mol)</th><th style="${thS}color:#a83800;">n_theo (mol)</th><th style="${thS}color:#a83800;">% err</th>
+        <th style="${thS}color:#a83800;">${ivL} (${u})</th><th style="${thS}color:#a83800;">Mean V(${e.ap}) (mL)</th><th style="${thS}color:#a83800;">AU (mL)</th><th style="${thS}color:#a83800;">PU (%)</th><th style="${thS}color:#a83800;">n_exp (mol)</th><th style="${thS}color:#a83800;">n_pred (mol)</th><th style="${thS}color:#a83800;">% err</th>
       </tr>`;
     rows.forEach(r=>{
       if(!isFinite(r.mnO2)||r.mnO2<=0)return;
@@ -3309,7 +3551,7 @@ function renderResults(){
       </tr>`;
     });
     refHtml+=`</table>`;
-    refHtml+=`<div style="font-weight:700;font-size:11px;color:var(--navy);margin-bottom:4px;">H₂:${e.ap} Volume Ratio (theoretical = 2.00)</div>`;
+    refHtml+=`<div style="font-weight:700;font-size:11px;color:var(--navy);margin-bottom:4px;">H₂:${e.ap} Volume Ratio (predicted = 2.00)</div>`;
     refHtml+=`<table style="width:100%;border-collapse:collapse;font-family:var(--mono);">
       <tr style="border-bottom:1px solid var(--navy);">
         <th style="${thS}color:var(--navy);">${ivL} (${u})</th><th style="${thS}color:var(--navy);">Ratio</th><th style="${thS}color:var(--navy);">Deviation</th>
@@ -3377,7 +3619,7 @@ function renderAllGraphs(){
   const hasO2=rows.some(r=>isFinite(r.mnO2)&&r.mnO2>0);
   const sOpts=(xl,yl,extra)=>mkScatterOpts(`${xl}`,yl,extra||{});
 
-  // Helper: theoretical volume points
+  // Helper: predicted volume points
   function theoPts(rows,nKey){
     return rows.filter(r=>isFinite(r[nKey])).map(r=>({x:r.val,y:(r[nKey]*R_gas*r.T_K/r.P_Pa)*1e6}));
   }
@@ -3387,7 +3629,7 @@ function renderAllGraphs(){
   const aus=rows.filter(r=>isFinite(r.mnH2)).map(r=>r.auH2||0);
   const ds=[{label:'V(H₂) exp',data:pts,backgroundColor:GCOLS.h2+'cc',borderColor:GCOLS.h2,pointRadius:5,showLine:false,_eb:aus}];
   const fit=trendLine(pts,GCOLS.h2,'Best fit');if(fit)ds.push(fit);
-  const tp=theoPts(rows,'nthH2');const tf=trendLine(tp,GCOLS.theo,'Theoretical');if(tf){tf.borderDash=[5,3];tf.borderWidth=1.5;ds.push(tf);}
+  const tp=theoPts(rows,'nthH2');const tf=trendLine(tp,GCOLS.theo,'Predicted');if(tf){tf.borderDash=[5,3];tf.borderWidth=1.5;ds.push(tf);}
   const eq=[];if(fit)eq.push(`Exp slope = ${ff(fit.reg.m,4)} mL per ${u}  |  y = ${ff(fit.reg.m,4)}x + ${ff(fit.reg.b,4)}  |  R² = ${ff(fit.reg.r2,4)}`);
   if(tf)eq.push(`Theo slope = ${ff(tf.reg.m,4)} mL per ${u}  |  y = ${ff(tf.reg.m,4)}x + ${ff(tf.reg.b,4)}`);
   if(S.showMaxMin&&pts.length>=2){const mm=maxMinLines(pts,aus,GCOLS.h2);if(mm){ds.push(mm.maxLine,mm.minLine);eq.push(`Gradient uncertainty = ±${ff(mm.gradUnc,4)} mL per ${u}  |  m_max = ${ff(mm.mMax,4)}  |  m_min = ${ff(mm.mMin,4)}`);S._g1mm=mm;}}
@@ -3414,7 +3656,7 @@ function renderAllGraphs(){
     const aus=rows.filter(r=>isFinite(r.mnO2)&&r.mnO2>0).map(r=>r.auO2||0);
     const ds=[{label:`V(${e.ap}) exp`,data:pts,backgroundColor:GCOLS.o2+'cc',borderColor:GCOLS.o2,pointRadius:5,showLine:false,_eb:aus}];
     const fit=trendLine(pts,GCOLS.o2,'Best fit');if(fit)ds.push(fit);
-    const tp=theoPts(rows,'nthO2');const tf=trendLine(tp,GCOLS.theo,'Theoretical');if(tf){tf.borderDash=[5,3];tf.borderWidth=1.5;ds.push(tf);}
+    const tp=theoPts(rows,'nthO2');const tf=trendLine(tp,GCOLS.theo,'Predicted');if(tf){tf.borderDash=[5,3];tf.borderWidth=1.5;ds.push(tf);}
     const eq=[];if(fit)eq.push(`Exp slope = ${ff(fit.reg.m,4)} mL per ${u}  |  y = ${ff(fit.reg.m,4)}x + ${ff(fit.reg.b,4)}  |  R² = ${ff(fit.reg.r2,4)}`);
     if(S.showMaxMin&&pts.length>=2){const mm=maxMinLines(pts,aus,GCOLS.o2);if(mm){ds.push(mm.maxLine,mm.minLine);eq.push(`Gradient uncertainty = ±${ff(mm.gradUnc,4)} mL per ${u}`);S._g2mm=mm;}}
     document.getElementById('gC2eq').innerHTML=eq.join('<br>');
@@ -3426,7 +3668,7 @@ function renderAllGraphs(){
   const tp=theoPts(rows,'nthH2');
   const ds=[{label:'Experimental',data:ep,backgroundColor:GCOLS.h2+'cc',borderColor:GCOLS.h2,pointRadius:5,showLine:false,_eb:rows.filter(r=>isFinite(r.mnH2)).map(r=>r.auH2||0)}];
   const ef=trendLine(ep,GCOLS.h2,'Exp fit');if(ef)ds.push(ef);
-  const tf=trendLine(tp,GCOLS.theo,'Theoretical');if(tf){tf.borderDash=[5,3];ds.push(tf);}
+  const tf=trendLine(tp,GCOLS.theo,'Predicted');if(tf){tf.borderDash=[5,3];ds.push(tf);}
   const aus3=rows.filter(r=>isFinite(r.mnH2)).map(r=>r.auH2||0);
   const eq=[];if(ef)eq.push(`Exp slope = ${ff(ef.reg.m,4)} mL per ${u}  |  y = ${ff(ef.reg.m,4)}x + ${ff(ef.reg.b,4)}  |  R² = ${ff(ef.reg.r2,4)}`);if(tf)eq.push(`Theo slope = ${ff(tf.reg.m,4)} mL per ${u}  |  y = ${ff(tf.reg.m,4)}x + ${ff(tf.reg.b,4)}`);
   if(S.showMaxMin&&ep.length>=2){const mm=maxMinLines(ep,aus3,GCOLS.h2);if(mm){ds.push(mm.maxLine,mm.minLine);S._g3mm=mm;eq.push('±'+ff(mm.gradUnc,4)+' mL per '+u+' (gradient uncertainty)');}}
@@ -3439,7 +3681,7 @@ function renderAllGraphs(){
   if(ep.length>=2){
     const ds=[{label:'Experimental',data:ep,backgroundColor:GCOLS.o2+'cc',borderColor:GCOLS.o2,pointRadius:5,showLine:false,_eb:rows.filter(r=>isFinite(r.mnO2)&&r.mnO2>0).map(r=>r.auO2||0)}];
     const ef=trendLine(ep,GCOLS.o2,'Exp fit');if(ef)ds.push(ef);
-    const tf=trendLine(tp,GCOLS.theo,'Theoretical');if(tf){tf.borderDash=[5,3];ds.push(tf);}
+    const tf=trendLine(tp,GCOLS.theo,'Predicted');if(tf){tf.borderDash=[5,3];ds.push(tf);}
     const aus4=rows.filter(r=>isFinite(r.mnO2)&&r.mnO2>0).map(r=>r.auO2||0);
     const eq=[];if(ef)eq.push(`Exp slope = ${ff(ef.reg.m,4)} mL per ${u}  |  y = ${ff(ef.reg.m,4)}x + ${ff(ef.reg.b,4)}  |  R² = ${ff(ef.reg.r2,4)}`);if(tf)eq.push(`Theo slope = ${ff(tf.reg.m,4)} mL per ${u}  |  y = ${ff(tf.reg.m,4)}x + ${ff(tf.reg.b,4)}`);
     if(S.showMaxMin&&ep.length>=2){const mm=maxMinLines(ep,aus4,GCOLS.o2);if(mm){ds.push(mm.maxLine,mm.minLine);S._g4mm=mm;eq.push('±'+ff(mm.gradUnc,4)+' mL per '+u+' (gradient uncertainty)');}}
@@ -3447,7 +3689,7 @@ function renderAllGraphs(){
     gMk('gC4',{type:'scatter',data:{datasets:ds},options:sOpts(`${ivL} (${u})`,`V(${e.ap}) (mL)`)});
   }}
 
-  // ── G5: Experimental and Theoretical Moles of H₂ Produced ──
+  // ── G5: Experimental and Predicted Moles of H₂ Produced ──
   {const h2p=rows.filter(r=>isFinite(r.nexpH2)&&isFinite(r.nthH2)).map(r=>({x:r.nthH2,y:r.nexpH2}));
   const o2p=rows.filter(r=>isFinite(r.nexpO2)&&isFinite(r.nthO2)).map(r=>({x:r.nthO2,y:r.nexpO2}));
   const all=[...h2p,...o2p];
@@ -3468,7 +3710,7 @@ function renderAllGraphs(){
     const mn=Math.min(...pts.map(p=>p.x))*0.95,mx=Math.max(...pts.map(p=>p.x))*1.05;
     const mr=pts.reduce((a,p)=>a+p.y,0)/pts.length;
     const ds=[{label:'Observed ratio',data:pts,backgroundColor:GCOLS.ratio+'cc',borderColor:GCOLS.ratio,pointRadius:5,showLine:false},
-      {label:'Theoretical (2.0)',data:[{x:mn,y:2},{x:mx,y:2}],borderColor:'#888',borderDash:[6,4],borderWidth:1.5,pointRadius:0,showLine:true}];
+      {label:'Predicted (2.0)',data:[{x:mn,y:2},{x:mx,y:2}],borderColor:'#888',borderDash:[6,4],borderWidth:1.5,pointRadius:0,showLine:true}];
     document.getElementById('gC6eq').innerHTML=`Mean ratio: ${mr.toFixed(2)}`;
     gMk('gC6',{type:'scatter',data:{datasets:ds},options:sOpts(`${ivL} (${u})`,'H₂:O₂ Ratio',{scales:{y:{suggestedMin:0,suggestedMax:4,title:{display:true,text:'H₂:O₂ Ratio',font:{size:11}}}}})});
   }}
@@ -3544,10 +3786,10 @@ function renderAllGraphs(){
     const aus13=rows.filter(r=>isFinite(r.nexpH2)&&isFinite(r.meanIA)).map(r=>r.auNexpH2||0);
     const ds=[{label:'n(H₂) exp',data:pts,backgroundColor:GCOLS.h2+'cc',borderColor:GCOLS.h2,pointRadius:5,showLine:false,_eb:aus13}];
     const fit=trendLine(pts,GCOLS.h2,'Best fit');if(fit)ds.push(fit);
-    // Theoretical: n = It/(2F), so n vs I has gradient = t/(2F)
+    // Predicted: n = It/(2F), so n vs I has gradient = t/(2F)
     const theoGrad=(S.gTime*60)/(2*F);
     const maxI=Math.max(...pts.map(p=>p.x))*1.1;
-    ds.push({label:`Theoretical (gradient = t/2F = ${theoGrad.toPrecision(3)})`,data:[{x:0,y:0},{x:maxI,y:theoGrad*maxI/1000}],borderColor:GCOLS.theo,borderDash:[5,3],borderWidth:1.5,pointRadius:0,showLine:true});
+    ds.push({label:`Predicted (gradient = t/2F = ${theoGrad.toPrecision(3)})`,data:[{x:0,y:0},{x:maxI,y:theoGrad*maxI/1000}],borderColor:GCOLS.theo,borderDash:[5,3],borderWidth:1.5,pointRadius:0,showLine:true});
     const eqArr13=fit?[`Experimental slope = ${fit.reg.m.toPrecision(4)} mol per mA  |  R² = ${ff(fit.reg.r2,4)}  |  Theo slope = ${theoGrad.toPrecision(4)} mol per A`]:['Experimental points only'];
     if(S.showMaxMin&&pts.length>=2){const mm=maxMinLines(pts,aus13,GCOLS.h2);if(mm){ds.push(mm.maxLine,mm.minLine);S._g13mm=mm;eqArr13.push('±'+ff(mm.gradUnc,6)+' mol per mA (gradient uncertainty)');}}
     document.getElementById('gC13eq').innerHTML=eqArr13.join('<br>');
@@ -3560,15 +3802,15 @@ function renderAllGraphs(){
     const aus14=rows.filter(r=>isFinite(r.mnH2)&&isFinite(r.meanQ)).map(r=>r.auH2||0);
     const ds=[{label:'V(H₂) exp',data:pts,backgroundColor:GCOLS.h2+'cc',borderColor:GCOLS.h2,pointRadius:5,showLine:false,_eb:aus14}];
     const fit=trendLine(pts,GCOLS.h2,'Best fit');if(fit)ds.push(fit);
-    // Theoretical gradient = RT/(2FP) * 10^6 (to get mL)
+    // Predicted gradient = RT/(2FP) * 10^6 (to get mL)
     const v0=rows.find(r=>isFinite(r.T_K));
     if(v0){
       const theoGrad=(R_gas*v0.T_K/(2*F*v0.P_Pa))*1e6;
       const maxQ=Math.max(...pts.map(p=>p.x))*1.1;
-      ds.push({label:`Theoretical (RT/2FP × 10⁶)`,data:[{x:0,y:0},{x:maxQ,y:theoGrad*maxQ}],borderColor:GCOLS.theo,borderDash:[5,3],borderWidth:1.5,pointRadius:0,showLine:true});
+      ds.push({label:`Predicted (RT/2FP × 10⁶)`,data:[{x:0,y:0},{x:maxQ,y:theoGrad*maxQ}],borderColor:GCOLS.theo,borderDash:[5,3],borderWidth:1.5,pointRadius:0,showLine:true});
       const eqParts=[];
       if(fit)eqParts.push(`Experimental slope = ${ff(fit.reg.m,4)} mL/C`, `y = ${ff(fit.reg.m,4)}x + ${ff(fit.reg.b,4)}`, `R² = ${ff(fit.reg.r2,4)}`);
-      eqParts.push(`Theoretical slope = ${theoGrad.toPrecision(4)} mL/C`);
+      eqParts.push(`Predicted slope = ${theoGrad.toPrecision(4)} mL/C`);
       document.getElementById('gC14eq').innerHTML=eqParts.join('  |  ');
     }
     if(!v0 && fit){
@@ -3669,7 +3911,7 @@ function populateGDataTable(id){
     rData.forEach(r=>{h+=`<tr><td style="font-weight:700;">${r.val}</td>${tdf(r.mnH2,3)}${tdf(r.auH2,3)}${tdf(r.puH2,1)}${tdf(r.mnO2,3)}${tdf(r.auO2,3)}${tdf(r.puO2,1)}</tr>`;});
     h+='</tbody></table>';
   } else if(id==='gdataTheo'){
-    h=`<table><thead><tr>${th(ivL)}${th('V(H₂) exp')}${th('V(H₂) theo')}${th('V(O₂) exp')}${th('V(O₂) theo')}${th('n_exp H₂')}${th('n_theo H₂')}${th('Ratio')}</tr></thead><tbody>`;
+    h=`<table><thead><tr>${th(ivL)}${th('V(H₂) exp')}${th('V(H₂) pred')}${th('V(O₂) exp')}${th('V(O₂) pred')}${th('n_exp H₂')}${th('n_pred H₂')}${th('Ratio')}</tr></thead><tbody>`;
     rData.forEach(r=>{h+=`<tr><td style="font-weight:700;">${r.val}</td>${tdf(r.mnH2,3)}${tdf(r.vthH2,3)}${tdf(r.mnO2,3)}${tdf(r.vthO2,3)}${tdp(r.nexpH2,3)}${tdp(r.nthH2,3)}${tdf(r.ratio,2)}</tr>`;});
     h+='</tbody></table>';
   } else if(id==='gdataOhm'){
@@ -3700,7 +3942,7 @@ function dlGData(section){
   populateGDataTable(id);
   const tblEl=document.getElementById(id+'tbl');
   if(!tblEl)return;
-  const titles={rq:'Volume Data',theo:'Theoretical Comparison',ohm:'Current Resistance Charge',err:'Error and Uncertainty',adv:'Faraday Direct Test'};
+  const titles={rq:'Volume Data',theo:'Predicted Comparison',ohm:'Current Resistance Charge',err:'Error and Uncertainty',adv:'Faraday Direct Test'};
   let html=`<html><head><meta charset="UTF-8"></head><body style="font-family:Calibri,sans-serif;font-size:11pt;">`;
   html+=`<h2 style="color:#1c2f45;">${titles[section]||'Graph Data'} — ${ELEC[S.elec].name}</h2>`;
   html+=tblEl.innerHTML.replace(/<table/g,'<table border="1" cellpadding="5" cellspacing="0" style="border-collapse:collapse;width:100%;font-size:10pt;"');
@@ -3873,7 +4115,7 @@ function dlDataCSV(){
       csv+=`${lv.val},${ti+1},${tr.i_mA!==''&&tr.i_mA!==null?tr.i_mA:lv.val},${tr.t_min!==''&&tr.t_min!==null?tr.t_min:S.gTime},${tr.v_h2||''},${tr.v_o2||''},${tr.T||S.gT},${tr.P||S.gP}\n`;
     });
   });
-  csv+='\nProcessed Results\nLevel ('+u+'),Trials,Mean V(H2) mL,AU (mL),PU (%),n_exp (mol),n_theo (mol),% Error\n';
+  csv+='\nProcessed Results\nLevel ('+u+'),Trials,Mean V(H2) mL,AU (mL),PU (%),n_exp (mol),n_pred (mol),% Error\n';
   S.levels.forEach((lv,li)=>{
     const st=getLevelStats(li);
     csv+=`${lv.val},${lv.trials.length},${isFinite(st.mnH2)?st.mnH2.toFixed(4):''},${isFinite(st.au_h2)?st.au_h2.toFixed(4):''},${isFinite(st.pu_h2)?st.pu_h2.toFixed(2):''},${isFinite(st.nexp_h2)?st.nexp_h2.toPrecision(4):''},${isFinite(st.nth_h2)?st.nth_h2.toPrecision(4):''},${isFinite(st.pct_err)?st.pct_err.toFixed(2):''}\n`;
@@ -3904,7 +4146,7 @@ function dlCalcCSV(){
   csv+=`11,AU,(max-min)/2,${isFinite(st.au_h2)?'\u00b1'+ff(st.au_h2,4):'—'} mL\n`;
   csv+=`12,PU (%),(AU/mean) x 100,${isFinite(st.pu_h2)?'\u00b1'+ff(st.pu_h2,2):'—'} %\n`;
   csv+=`13,n(exp)(H2),(${isFinite(st.P_Pa)?st.P_Pa.toFixed(0):'?'} x ${fs(st.mnH2/1e6,3)}) / (8.314 x ${ff(st.T_K,2)}),${fs(st.nexp_h2,4)} mol\n`;
-  csv+=`14,% Error,|n_exp - n_theo| / n_theo x 100,${ff(st.pct_err,2)} %\n`;
+  csv+=`14,% Error,|n_exp - n_pred| / n_pred x 100,${ff(st.pct_err,2)} %\n`;
   dlBlob(csv,'text/csv','IA2_Calculations.csv');
 }
 function dlDataWord(){
@@ -3919,7 +4161,7 @@ function dlDataWord(){
     });
     html+=`</tbody></table><br>`;
   });
-  html+=`<h2>Processed Results</h2><table border="1" cellpadding="5" cellspacing="0" style="border-collapse:collapse;width:100%;font-size:10pt;"><thead style="background:#1c2f45;color:white;"><tr><th>Level (${u})</th><th>Trials</th><th>Mean V(H₂) (mL)</th><th>AU (mL)</th><th>PU (%)</th><th>n_exp (mol)</th><th>n_theo (mol)</th><th>% Error</th></tr></thead><tbody>`;
+  html+=`<h2>Processed Results</h2><table border="1" cellpadding="5" cellspacing="0" style="border-collapse:collapse;width:100%;font-size:10pt;"><thead style="background:#1c2f45;color:white;"><tr><th>Level (${u})</th><th>Trials</th><th>Mean V(H₂) (mL)</th><th>AU (mL)</th><th>PU (%)</th><th>n_exp (mol)</th><th>n_pred (mol)</th><th>% Error</th></tr></thead><tbody>`;
   S.levels.forEach((lv,li)=>{
     const st=getLevelStats(li);
     html+=`<tr><td>${lv.val}</td><td>${lv.trials.length}</td><td>${isFinite(st.mnH2)?st.mnH2.toFixed(3):''}</td><td>${isFinite(st.au_h2)?'±'+st.au_h2.toFixed(4):''}</td><td>${isFinite(st.pu_h2)?st.pu_h2.toFixed(1)+'%':''}</td><td>${isFinite(st.nexp_h2)?st.nexp_h2.toPrecision(4):''}</td><td>${isFinite(st.nth_h2)?st.nth_h2.toPrecision(4):''}</td><td>${isFinite(st.pct_err)?st.pct_err.toFixed(1)+'%':''}</td></tr>`;
@@ -4066,6 +4308,8 @@ function toggleSampleCalc(){
   _sampleCalcOpen=!_sampleCalcOpen;
   sec.style.display=_sampleCalcOpen?'block':'none';
   document.getElementById('sampleCalcBtn').textContent=_sampleCalcOpen?'✕ Close Sample Table':'📋 Sample Calculations Table';
+  // Switch calc tab to single-scroll block so all content is visible in one scroll area
+  document.getElementById('tab-calc').classList.toggle('calc-sc-open',_sampleCalcOpen);
   if(_sampleCalcOpen)buildSampleCalcTable();
 }
 function buildSampleCalcTable(){
@@ -4098,7 +4342,7 @@ function buildSampleCalcTable(){
   const pA=isFinite(avgP_Pa)?avgP_Pa.toFixed(0):'?';
 
   // rows: [name, formula_html, calc_html]
-  // Section A: theoretical calculations (steps 1-9)
+  // Section A: predicted calculations (steps 1-9)
   const rowsA=[
     [
       `Mean <i>I</i><br><span style="font-size:10px;font-weight:400;">(mA \u2192 A)</span>`,
@@ -4126,24 +4370,49 @@ function buildSampleCalcTable(){
       c2(`${ff(avgI_A,6)} \u00d7 ${ff(t_s,0)}`,`${ff(avgQ,4)} C`)
     ],
     [
-      `<i>n</i>(${H2}) theoretical`,
+      `<i>n</i>(${H2}) predicted`,
       `n = ${frac('<i>Q</i>','2<i>F</i>')}`,
       c2(`${ff(avgQ,4)} \u00f7 (2 \u00d7 96\u2009485)`,`${fs(avgNthH2,4)} mol`)
     ],
     [
-      `<i>V</i>(${H2}) theoretical`,
+      `<i>V</i>(${H2}) predicted`,
       `V = ${frac('[<i>nRT</i>]','<i>P</i>')} \u00d7 10<sup>6</sup>`,
       c2(`[(${fs(avgNthH2,4)} \u00d7 8.314 \u00d7 ${ff(avgT_K,2)}) \u00f7 ${pA}] \u00d7 10<sup>6</sup>`,`${ff(avgVtheoH2,3)} mL`)
     ],
     [
-      `<i>n</i>(${ap}) theoretical`,
+      `<i>n</i>(${ap}) predicted`,
       `n = ${frac('<i>Q</i>',`${e.ne}<i>F</i>`)}`,
       c2(`${ff(avgQ,4)} \u00f7 (${e.ne} \u00d7 96\u2009485)`,`${fs(avgNthAnode,4)} mol`)
     ],
     [
-      `<i>V</i>(${ap}) theoretical`,
+      `<i>V</i>(${ap}) predicted`,
       `V = ${frac('[<i>nRT</i>]','<i>P</i>')} \u00d7 10<sup>6</sup>`,
       c2(`[(${fs(avgNthAnode,4)} \u00d7 8.314 \u00d7 ${ff(avgT_K,2)}) \u00f7 ${pA}] \u00d7 10<sup>6</sup>`,`${ff(avgVtheoAnode,3)} mL`)
+    ],
+  ];
+
+  // Section A-prop: uncertainty propagation through predicted volume (steps 9a-9c)
+  const I_INSTR_BS=1; // mA Vernier resolution
+  const auItotBS=isFinite(st.au_i)?st.au_i+I_INSTR_BS:I_INSTR_BS;
+  const puItotBS=st.mnI>0?auItotBS/st.mnI*100:NaN;
+  const puT_BS=st.T_K?(0.5/st.T_K)*100:0;
+  const puP_BS=st.P_Pa?(0.1/(st.P_Pa/1000))*100:0;
+  const puVpBS=isFinite(puItotBS)?puItotBS+puT_BS+puP_BS:NaN;
+  const rowsAprop=[
+    [
+      `\u0394<i>I</i> total<br><span style="font-size:10px;font-weight:400;">(scatter + instrument)</span>`,
+      `\u0394I = \u0394I<sub>scatter</sub> + \u0394I<sub>instrument</sub>`,
+      c2(`${ff(st.au_i,3)} (scatter) + ${I_INSTR_BS} (Vernier \u00b11 mA)`,`\u00b1${ff(auItotBS,3)} mA`)
+    ],
+    [
+      `\u0394<i>Q</i>/<i>Q</i> (%)<br><span style="font-size:10px;font-weight:400;">(via Q = It)</span>`,
+      `\u0394Q/Q (%) = ${frac('\u0394I','I')} \u00d7 100`,
+      c2(`(${ff(auItotBS,3)} \u00f7 ${ff(st.mnI,3)}) \u00d7 100`,`${ff(puItotBS,1)} %`)
+    ],
+    [
+      `\u0394<i>V</i><sub>pred</sub>/<i>V</i> (%)<br><span style="font-size:10px;font-weight:400;">(via V = nRT/P)</span>`,
+      `\u0394V/V (%) = \u0394Q/Q + \u0394T/T + \u0394P/P`,
+      c2(`${ff(puItotBS,1)} + ${ff(puT_BS,2)} (T) + ${ff(puP_BS,2)} (P)`,`${ff(puVpBS,1)} %`)
     ],
   ];
 
@@ -4174,7 +4443,7 @@ function buildSampleCalcTable(){
     ],
     [
       '% Error',
-      `% = ${frac('|n<sub>exp</sub> \u2212 n<sub>theo</sub>|','n<sub>theo</sub>')} \u00d7 100`,
+      `% = ${frac('|n<sub>exp</sub> \u2212 n<sub>pred</sub>|','n<sub>pred</sub>')} \u00d7 100`,
       c2(`|${fs(st.nexp_h2,4)} \u2212 ${fs(st.nth_h2,4)}| \u00f7 ${fs(st.nth_h2,4)} \u00d7 100`,`${ff(st.pct_err,1)} %`)
     ],
   ];
@@ -4203,8 +4472,12 @@ function buildSampleCalcTable(){
   }
 
   // Section header row A
-  html+=`<tr style="background:#eef3f8;"><td colspan="3" style="padding:6px 13px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);">Theoretical Calculations \u2014 Steps 1\u20139</td></tr>`;
+  html+=`<tr style="background:#eef3f8;"><td colspan="3" style="padding:6px 13px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);">Predicted Calculations \u2014 Steps 1\u20139</td></tr>`;
   rowsA.forEach(r=>html+=`<tr><td class="sc-name">${r[0]}</td><td class="sc-fml">${r[1]}</td><td class="sc-calc">${r[2]}</td></tr>`);
+
+  // Section A-prop: uncertainty propagation header + rows
+  html+=`<tr style="background:#fff4e6;"><td colspan="3" style="padding:6px 13px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#a83800;">Uncertainty Propagation \u2014 Steps 9a\u20139c</td></tr>`;
+  rowsAprop.forEach(r=>html+=`<tr><td class="sc-name">${r[0]}</td><td class="sc-fml">${r[1]}</td><td class="sc-calc">${r[2]}</td></tr>`);
 
     // Gradient uncertainty row (if max/min available)
   const showGradUnc=S.showMaxMin&&S._g1mm&&isFinite(S._g1mm.gradUnc);
@@ -4220,9 +4493,26 @@ function buildSampleCalcTable(){
       `<td class="sc-calc"><strong style="color:var(--navy);">m = ${ff(bestM,4)} ± ${ff(S._g1mm.gradUnc,4)} mL per ${u}</strong></td></tr>`;
   }
 
-// Section header row B
-  html+=`<tr class="sc-stats-sep" style=""><td colspan="3" style="padding:6px 13px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);">Statistical Analysis \u2014 Steps 10\u201314</td></tr>`;
-  rowsB.forEach(r=>html+=`<tr class="sc-stats"><td class="sc-name">${r[0]}</td><td class="sc-fml">${r[1]}</td><td class="sc-calc">${r[2]}</td></tr>`);
+  // Section dilution: C₁V₁=C₂V₂ and uncertainty propagation (conc IV only, use first level as worked example)
+  if(S.iv==='conc'&&isFinite(lv.val)&&lv.val>0){
+    const d=getDilutionStats(lv.val);
+    html+=`<tr style="background:#e8f0e8;"><td colspan="3" style="padding:6px 13px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#2e6b4f;">Dilution Preparation &amp; Uncertainty &mdash; ${lv.val} mol L&#x207b;&sup1; worked example</td></tr>`;
+    html+=`<tr><td class="sc-name">V₁ (stock needed)<br><span style="font-size:10px;font-weight:400;">(C₁V₁ = C₂V₂)</span></td>`+
+      `<td class="sc-fml">${frac('C₂ × V₂','C₁')}</td>`+
+      `<td class="sc-calc">${c2(`(${d.c2} × ${DIL.v2_mL}) ÷ ${DIL.c1}`,`${d.v1_mL.toFixed(0)} mL = ${d.stockPours.toFixed(0)} pour${d.stockPours!==1?'s':''} of ${DIL.cyl_mL} mL cylinder`)}</td></tr>`;
+    html+=`<tr><td class="sc-name">ΔC₂/C₂ (%)<br><span style="font-size:10px;font-weight:400;">(propagation)</span></td>`+
+      `<td class="sc-fml">${frac('ΔV₁','V₁')} + ${frac('ΔV<sub>water</sub>','V<sub>water</sub>')} + ${frac('ΔC₁','C₁')}</td>`+
+      `<td class="sc-calc">${c2(`${(d.dv1).toFixed(1)}/${d.v1_mL.toFixed(0)} + ${(d.dvw).toFixed(1)}/${d.vw_mL.toFixed(0)} + ${DIL.dc1}/${DIL.c1} = ${(d.pu_v1*100).toFixed(3)}% + ${(d.pu_vw*100).toFixed(3)}% + ${(d.pu_c1*100).toFixed(3)}%`,`${d.pu_c2_pct.toFixed(2)}%`)}</td></tr>`;
+    html+=`<tr><td class="sc-name">ΔC₂ (absolute)<br><span style="font-size:10px;font-weight:400;">(concentration uncertainty)</span></td>`+
+      `<td class="sc-fml">ΔC₂ = PU% × C₂</td>`+
+      `<td class="sc-calc">${c2(`${d.pu_c2_pct.toFixed(4)} ÷ 100 × ${d.c2}`,`± ${d.dc2.toFixed(4)} M ≈ ± ${d.dc2.toFixed(3)} M`)}</td></tr>`;
+  }
+
+// Section header row B — split into statistics (mean/AU/PU) and experimental results (n_exp/% error)
+  html+=`<tr class="sc-stats-sep"><td colspan="3" style="padding:6px 13px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);">Statistical Analysis \u2014 Steps 10\u201312 (Mean, AU, PU%)</td></tr>`;
+  rowsB.slice(0,3).forEach(r=>html+=`<tr class="sc-stats"><td class="sc-name">${r[0]}</td><td class="sc-fml">${r[1]}</td><td class="sc-calc">${r[2]}</td></tr>`);
+  html+=`<tr class="sc-stats-sep"><td colspan="3" style="padding:6px 13px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#a83800;">Experimental Results \u2014 Steps 13\u201314 (n<sub>exp</sub> and % Error)</td></tr>`;
+  rowsB.slice(3).forEach(r=>html+=`<tr class="sc-stats"><td class="sc-name">${r[0]}</td><td class="sc-fml">${r[1]}</td><td class="sc-calc">${r[2]}</td></tr>`);
 
   html+=`</tbody></table></div>`;
 
@@ -4240,15 +4530,12 @@ async function dlFullReport(){
   // Plain-text fraction for Word export (avoids nested table rendering issues)
   // Compact stacked fraction — zero padding, tight line-height keeps row height small
   function wFrac(n,d){
-    // width:1pt forces Word to shrink the table to minimum content width;
-    // white-space:nowrap on each cell prevents wrapping so the vinculum matches text width exactly
-    return `<table border="0" cellpadding="0" cellspacing="0" `+
-      `style="width:1pt;display:inline-table;border-collapse:collapse;vertical-align:middle;margin:0 3pt;">`+
-      `<tr><td style="text-align:center;font-size:8pt;line-height:1.2;border-bottom:1pt solid #000;`+
-      `white-space:nowrap;padding:0 5pt 1pt;">${n}</td></tr>`+
-      `<tr><td style="text-align:center;font-size:8pt;line-height:1.2;`+
-      `white-space:nowrap;padding:1pt 5pt 0;">${d}</td></tr>`+
-      `</table>`;
+    // Span-based fraction — works inline in Word without becoming a full-width block table
+    return `<span style="display:inline-block;text-align:center;vertical-align:middle;`+
+      `margin:0 4pt;line-height:1.25;font-size:9.5pt;">`+
+      `<span style="display:block;border-bottom:1pt solid #222;padding:0 4pt 1pt;white-space:nowrap;">${n}</span>`+
+      `<span style="display:block;padding:1pt 4pt 0;white-space:nowrap;">${d}</span>`+
+      `</span>`;
   }
 
   let html=`<html><head><meta charset="UTF-8"><style>
@@ -4364,25 +4651,39 @@ async function dlFullReport(){
       html+=`<table><thead><tr><th style="width:22%;">Data</th><th style="width:33%;text-align:center;">Formula</th><th>Calculation</th></tr></thead><tbody>`;
       const secs=[
         ...(S.iv==='conc'&&st.currVals&&st.currVals.length>=2?[{sec:'Preliminary \u2014 Mean Current',stat:false,name:'Mean <i>I</i> (from trials)',fml:wFrac('I\u2081 + I\u2082 + \u2026','n'),calc:`(${st.currVals.map(x=>isFinite(x)?x.toFixed(1):'?').join(' + ')}) \u00f7 ${st.currVals.length} = ${ff(st.mnI,3)} mA`}]:[]),
-        {sec:'Theoretical Calculations',stat:false,name:'Mean <i>I</i> (mA \u2192 A)',fml:`I = ${wFrac('I<sub>mA</sub>','1000')}`,calc:`${ff(st.mnI,3)} \u00f7 1000 = ${ff(avgI_A,6)} A`},
+        {sec:'Predicted Calculations',stat:false,name:'Mean <i>I</i> (mA \u2192 A)',fml:`I = ${wFrac('I<sub>mA</sub>','1000')}`,calc:`${ff(st.mnI,3)} \u00f7 1000 = ${ff(avgI_A,6)} A`},
         {sec:'',stat:false,name:'<i>t</i> (min \u2192 s)',fml:'t = t<sub>min</sub> \u00d7 60',calc:`${S.gTime} \u00d7 60 = ${ff(t_s,0)} s`},
         {sec:'',stat:false,name:'Mean <i>T</i> (\u00b0C \u2192 K)',fml:'T = T\u00b0C + 273.15',calc:`${ff(S.gT,1)} + 273.15 = ${ff(st.T_K,2)} K`},
         {sec:'',stat:false,name:'Mean <i>R</i> (Ohm\u2019s Law)',fml:`R = ${wFrac('<i>V</i>','<i>I</i>')}`,calc:`${ff(S.gV,1)} \u00f7 ${ff(avgI_A,6)} = ${ff(avgR,1)} \u03a9`},
         {sec:'',stat:false,name:'Mean <i>Q</i> = <i>It</i>',fml:'Q = I \u00d7 t',calc:`${ff(avgI_A,6)} \u00d7 ${ff(t_s,0)} = ${ff(avgQ,4)} C`},
-        {sec:'',stat:false,name:'<i>n</i>(H\u2082) theoretical',fml:`n = ${wFrac('<i>Q</i>','2<i>F</i>')}`,calc:`${ff(avgQ,4)} \u00f7 (2 \u00d7 96\u2009485) = ${fs(avgNthH2,4)} mol`},
-        {sec:'',stat:false,name:'<i>V</i>(H\u2082) theoretical',fml:`V = ${wFrac('[<i>nRT</i>]','<i>P</i>')} \u00d7 10\u2076`,calc:`[(${fs(avgNthH2,4)} \u00d7 8.314 \u00d7 ${ff(st.T_K,2)}) \u00f7 ${pA}] \u00d7 10\u2076 = ${ff(avgVtheoH2,3)} mL`},
-        {sec:'',stat:false,name:`<i>n</i>(${e.ap}) theoretical`,fml:`n = ${wFrac('<i>Q</i>',`${e.ne}<i>F</i>`)}`,calc:`${ff(avgQ,4)} \u00f7 (${e.ne} \u00d7 96\u2009485) = ${fs(avgNthAnode,4)} mol`},
-        {sec:'',stat:false,name:`<i>V</i>(${e.ap}) theoretical`,fml:`V = ${wFrac('[<i>nRT</i>]','<i>P</i>')} \u00d7 10\u2076`,calc:`[(${fs(avgNthAnode,4)} \u00d7 8.314 \u00d7 ${ff(st.T_K,2)}) \u00f7 ${pA}] \u00d7 10\u2076 = ${ff(avgVtheoAnode,3)} mL`},
+        {sec:'',stat:false,name:'<i>n</i>(H\u2082) predicted',fml:`n = ${wFrac('<i>Q</i>','2<i>F</i>')}`,calc:`${ff(avgQ,4)} \u00f7 (2 \u00d7 96\u2009485) = ${fs(avgNthH2,4)} mol`},
+        {sec:'',stat:false,name:'<i>V</i>(H\u2082) predicted',fml:`V = ${wFrac('[<i>nRT</i>]','<i>P</i>')} \u00d7 10\u2076`,calc:`[(${fs(avgNthH2,4)} \u00d7 8.314 \u00d7 ${ff(st.T_K,2)}) \u00f7 ${pA}] \u00d7 10\u2076 = ${ff(avgVtheoH2,3)} mL`},
+        {sec:'',stat:false,name:`<i>n</i>(${e.ap}) predicted`,fml:`n = ${wFrac('<i>Q</i>',`${e.ne}<i>F</i>`)}`,calc:`${ff(avgQ,4)} \u00f7 (${e.ne} \u00d7 96\u2009485) = ${fs(avgNthAnode,4)} mol`},
+        {sec:'',stat:false,name:`<i>V</i>(${e.ap}) predicted`,fml:`V = ${wFrac('[<i>nRT</i>]','<i>P</i>')} \u00d7 10\u2076`,calc:`[(${fs(avgNthAnode,4)} \u00d7 8.314 \u00d7 ${ff(st.T_K,2)}) \u00f7 ${pA}] \u00d7 10\u2076 = ${ff(avgVtheoAnode,3)} mL`},
+        // Uncertainty propagation steps (9a-9c)
+        ...((function(){
+          const I_INSTR_W=1;
+          const auIt=isFinite(st.au_i)?st.au_i+I_INSTR_W:I_INSTR_W;
+          const puIt=st.mnI>0?auIt/st.mnI*100:NaN;
+          const pT=st.T_K?(0.5/st.T_K)*100:0;
+          const pP=st.P_Pa?(0.1/(st.P_Pa/1000))*100:0;
+          const pVp=isFinite(puIt)?puIt+pT+pP:NaN;
+          return [
+            {sec:'Uncertainty Propagation',stat:false,name:'\u0394<i>I</i> total (scatter + instrument)',fml:'\u0394I = \u0394I<sub>scatter</sub> + \u0394I<sub>instrument</sub>',calc:`${ff(st.au_i,3)} (scatter) + ${I_INSTR_W} (Vernier \u00b11 mA) = \u00b1${ff(auIt,3)} mA`},
+            {sec:'',stat:false,name:'\u0394<i>Q</i>/<i>Q</i> (%) via Q = It',fml:`\u0394Q/Q (%) = ${wFrac('\u0394I','I')} \u00d7 100`,calc:`(${ff(auIt,3)} \u00f7 ${ff(st.mnI,3)}) \u00d7 100 = ${ff(puIt,1)} %`},
+            {sec:'',stat:false,name:'\u0394<i>V</i><sub>pred</sub>/<i>V</i> (%) via V = nRT/P',fml:'\u0394V/V (%) = \u0394Q/Q + \u0394T/T + \u0394P/P',calc:`${ff(puIt,1)} + ${ff(pT,2)} (T) + ${ff(pP,2)} (P) = ${ff(pVp,1)} %`}
+          ];
+        })()),
         {sec:'Statistical Analysis',stat:true,name:'Mean <i>V</i>(H\u2082)',fml:`x\u0305 = ${wFrac('\u03a3T<sub>i</sub>','n')}`,calc:`(${st.h2Vols.map((x,i)=>'T'+(i+1)+'='+ff(x,2)).join(' + ')}) \u00f7 ${st.h2Vols.length} = ${ff(st.mnH2,3)} mL`},
         {sec:'',stat:true,name:'AU',fml:`AU = ${wFrac('max \u2212 min','2')}`,calc:isFinite(st.au_h2)?`(${Math.max(...st.h2Vols).toFixed(2)} \u2212 ${Math.min(...st.h2Vols).toFixed(2)}) \u00f7 2 = \u00b1${ff(st.au_h2,3)} mL`:'\u2014'},
         {sec:'',stat:true,name:'PU (%)',fml:`PU(%) = ${wFrac('AU','x\u0305')} \u00d7 100`,calc:`(${ff(st.au_h2,3)} \u00f7 ${ff(st.mnH2,3)}) \u00d7 100 = \u00b1${ff(st.pu_h2,1)} %`},
         {sec:'',stat:true,name:'<i>n</i><sub>exp</sub>(H\u2082)',fml:`n<sub>exp</sub> = ${wFrac('<i>PV\u0305</i>','<i>RT</i>')}`,calc:`(${pA} \u00d7 ${fs(st.mnH2/1e6,3)}) \u00f7 (8.314 \u00d7 ${ff(st.T_K,2)}) = ${fs(st.nexp_h2,4)} mol`},
-        {sec:'',stat:true,name:'% Error',fml:`% = ${wFrac('|n<sub>exp</sub> \u2212 n<sub>theo</sub>|','n<sub>theo</sub>')} \u00d7 100`,calc:`|${fs(st.nexp_h2,4)} \u2212 ${fs(st.nth_h2,4)}| \u00f7 ${fs(st.nth_h2,4)} \u00d7 100 = ${ff(st.pct_err,1)} %`},
+        {sec:'',stat:true,name:'% Error',fml:`% = ${wFrac('|n<sub>exp</sub> \u2212 n<sub>pred</sub>|','n<sub>pred</sub>')} \u00d7 100`,calc:`|${fs(st.nexp_h2,4)} \u2212 ${fs(st.nth_h2,4)}| \u00f7 ${fs(st.nth_h2,4)} \u00d7 100 = ${ff(st.pct_err,1)} %`},
       ];
       let prevSec='';
       secs.forEach(r=>{
         if(r.sec&&r.sec!==prevSec){html+=`<tr class="sec-row"><td colspan="3">${r.sec}</td></tr>`;prevSec=r.sec;}
-        html+=`<tr${r.stat?' class="stat-row"':''}><td style="font-weight:600;">${r.name}</td><td style="text-align:center;">${r.fml}</td><td style="font-family:Courier New,monospace;font-size:8.5pt;">${r.calc}</td></tr>`;
+        html+=`<tr${r.stat?' class="stat-row"':''}><td style="font-weight:600;">${r.name}</td><td style="text-align:center;">${r.fml}</td><td style="font-family:Calibri,Arial,sans-serif;font-size:9.5pt;">${r.calc}</td></tr>`;
       });
       html+=`</tbody></table>`;
     }
@@ -4390,7 +4691,7 @@ async function dlFullReport(){
     // 5c. Processed Data — summary tables
     html+=sec3('Processed Data');
     html+=`<p style="font-weight:700;margin:6pt 0 3pt;">H\u2082 \u2014 Cathode</p>`;
-    html+=`<table><thead><tr><th>${ivL} (${u})</th><th>Trials</th><th>Mean V(H\u2082) (mL)</th><th>AU (mL)</th><th>PU (%)</th><th>n<sub>exp</sub> (mol)</th><th>n<sub>theo</sub> (mol)</th><th>% Error</th></tr></thead><tbody>`;
+    html+=`<table><thead><tr><th>${ivL} (${u})</th><th>Trials</th><th>Mean V(H\u2082) (mL)</th><th>AU (mL)</th><th>PU (%)</th><th>n<sub>exp</sub> (mol)</th><th>n<sub>pred</sub> (mol)</th><th>% Error</th><th>\u0394V<sub>pred</sub> (%)</th></tr></thead><tbody>`;
     resultRows.forEach(({lv,li,st})=>{
       html+=`<tr${li%2?' class="alt"':''}><td style="font-weight:700;">${lv.val}</td><td>${lv.trials.length}</td>
         <td>${isFinite(st.mnH2)?st.mnH2.toFixed(2):'\u2014'}</td>
@@ -4398,14 +4699,15 @@ async function dlFullReport(){
         <td>${isFinite(st.pu_h2)?st.pu_h2.toFixed(1):'\u2014'}</td>
         <td>${isFinite(st.nexp_h2)?st.nexp_h2.toPrecision(4):'\u2014'}</td>
         <td>${isFinite(st.nth_h2)?st.nth_h2.toPrecision(4):'\u2014'}</td>
-        <td>${isFinite(st.pct_err)?st.pct_err.toFixed(1):'\u2014'}</td></tr>`;
+        <td>${isFinite(st.pct_err)?st.pct_err.toFixed(1):'\u2014'}</td>
+        <td>${isFinite(st.pu_Vpredicted)?st.pu_Vpredicted.toFixed(1):'\u2014'}</td></tr>`;
     });
     html+=`</tbody></table>`;
 
     const hasAnode=resultRows.some(({st})=>isFinite(st.mnO2)&&st.mnO2>0);
     if(hasAnode){
       html+=`<p style="font-weight:700;margin:10pt 0 3pt;">${e.ap} \u2014 Anode</p>`;
-      html+=`<table><thead><tr><th>${ivL} (${u})</th><th>Trials</th><th>Mean V(${e.ap}) (mL)</th><th>AU (mL)</th><th>PU (%)</th><th>n<sub>exp</sub> (mol)</th><th>n<sub>theo</sub> (mol)</th><th>% Error</th></tr></thead><tbody>`;
+      html+=`<table><thead><tr><th>${ivL} (${u})</th><th>Trials</th><th>Mean V(${e.ap}) (mL)</th><th>AU (mL)</th><th>PU (%)</th><th>n<sub>exp</sub> (mol)</th><th>n<sub>pred</sub> (mol)</th><th>% Error</th><th>\u0394V<sub>pred</sub> (%)</th></tr></thead><tbody>`;
       resultRows.forEach(({lv,li,st,nexpO2,nthO2,peO2})=>{
         html+=`<tr${li%2?' class="alt"':''}><td style="font-weight:700;">${lv.val}</td><td>${lv.trials.length}</td>
           <td>${isFinite(st.mnO2)?st.mnO2.toFixed(2):'\u2014'}</td>
@@ -4413,7 +4715,8 @@ async function dlFullReport(){
           <td>${isFinite(st.pu_o2)?st.pu_o2.toFixed(1):'\u2014'}</td>
           <td>${isFinite(nexpO2)?nexpO2.toPrecision(4):'\u2014'}</td>
           <td>${isFinite(nthO2)?nthO2.toPrecision(4):'\u2014'}</td>
-          <td>${isFinite(peO2)?peO2.toFixed(1):'\u2014'}</td></tr>`;
+          <td>${isFinite(peO2)?peO2.toFixed(1):'\u2014'}</td>
+          <td>${isFinite(st.pu_Vpredicted)?st.pu_Vpredicted.toFixed(1):'\u2014'}</td></tr>`;
       });
       html+=`</tbody></table>`;
     }
@@ -4430,6 +4733,25 @@ async function dlFullReport(){
           <td>${isFinite(st.meanQ)?st.meanQ.toFixed(4):'\u2014'}</td></tr>`;
       });
       html+=`</tbody></table>`;
+    }
+
+    // Ratio table
+    if(hasAnode){
+      html+=`<p style="font-weight:700;margin:10pt 0 3pt;">H\u2082:${e.ap} Volume Ratio <span style="font-weight:400;font-size:9pt;">(predicted = 2.00)</span></p>`;
+      html+=`<table><thead><tr><th>${ivL} (${u})</th><th>Mean V(H\u2082) (mL)</th><th>Mean V(${e.ap}) (mL)</th><th>Observed Ratio</th><th>Deviation from 2:1</th></tr></thead><tbody>`;
+      resultRows.forEach(({lv,li,st})=>{
+        const ratio=isFinite(st.mnH2)&&isFinite(st.mnO2)&&st.mnO2>0?st.mnH2/st.mnO2:NaN;
+        const dev=isFinite(ratio)?ratio-2.0:NaN;
+        const devStr=isFinite(dev)?(dev>=0?'+':'')+dev.toFixed(2):'\u2014';
+        const flagCol=isFinite(dev)&&Math.abs(dev)>0.2?'color:#c0392b;font-weight:700;':'';
+        html+=`<tr${li%2?' class="alt"':''}><td style="font-weight:700;">${lv.val}</td>
+          <td>${isFinite(st.mnH2)?st.mnH2.toFixed(3):'\u2014'}</td>
+          <td>${isFinite(st.mnO2)?st.mnO2.toFixed(3):'\u2014'}</td>
+          <td style="${flagCol}">${isFinite(ratio)?ratio.toFixed(2):'\u2014'}</td>
+          <td style="${flagCol}">${devStr}</td></tr>`;
+      });
+      html+=`</tbody></table>`;
+      html+=`<p style="font-size:8.5pt;color:#666;margin:3pt 0 8pt;">Ratios in red deviate >0.2 from predicted 2.0. Above 2.0 = ${e.ap} underestimated (anode gas loss/dissolution). Below 2.0 = H\u2082 underestimated (cathode bubble adhesion).</p>`;
     }
 
     // 5d. Selected Graphs — render fresh off-screen canvases at export time
@@ -4480,7 +4802,6 @@ async function dlFullReport(){
       selNums.forEach(num=>{
         const g=meta.find(m=>m.num===num);if(!g)return;
         html+=`<div style="margin-bottom:20pt;page-break-inside:avoid;">`;
-        html+=`<p style="font-weight:700;color:#1c2f45;margin:8pt 0 4pt;font-size:10pt;">Graph ${g.num}: ${g.title}</p>`;
         // Use Chart.js built-in toBase64Image() — most reliable method
         let imgSrc='';
         const chartInst=GI[g.canvasId]||(typeof GI_WU!=='undefined'?GI_WU['wu_'+g.canvasId]:null);
@@ -4500,10 +4821,11 @@ async function dlFullReport(){
           }
         }
         if(imgSrc&&imgSrc.length>2000){
-          html+=`<img src="${imgSrc}" style="width:100%;max-width:560pt;display:block;margin:4pt 0 10pt;border:0.5pt solid #ddd;" alt="Graph ${g.num}">`;
+          html+=`<img src="${imgSrc}" style="width:100%;max-width:560pt;display:block;margin:4pt 0 4pt;border:0.5pt solid #ddd;" alt="${g.title}">`;
         } else {
-          html+=`<p style="font-size:9pt;color:#888;font-style:italic;margin:4pt 0 8pt;">[Graph image not available — visit the Graphs tab, then re-export.]</p>`;
+          html+=`<p style="font-size:9pt;color:#888;font-style:italic;margin:4pt 0 4pt;">[Graph image not available — visit the Graphs tab, then re-export.]</p>`;
         }
+        html+=`<p style="font-size:9pt;color:#444;font-style:italic;margin:0 0 8pt;text-align:center;">Figure ___: ${g.title}</p>`;
         const tbl=document.getElementById(g.tableId);
         if(tbl&&tbl.querySelector('tr')){
           html+=`<p style="font-size:8.5pt;color:#555;font-weight:600;margin:6pt 0 3pt;">${g.tableTitle}</p>`;
@@ -4538,15 +4860,12 @@ function dlCalcWord(){
   const e=ELEC[S.elec],u=S.iv==='conc'?'mol L⁻¹':'mA',ivL=S.iv==='conc'?'Concentration':'Current';
   // Compact stacked fraction — zero padding, tight line-height keeps row height small
   function wFrac(n,d){
-    // width:1pt forces Word to shrink the table to minimum content width;
-    // white-space:nowrap on each cell prevents wrapping so the vinculum matches text width exactly
-    return `<table border="0" cellpadding="0" cellspacing="0" `+
-      `style="width:1pt;display:inline-table;border-collapse:collapse;vertical-align:middle;margin:0 3pt;">`+
-      `<tr><td style="text-align:center;font-size:8pt;line-height:1.2;border-bottom:1pt solid #000;`+
-      `white-space:nowrap;padding:0 5pt 1pt;">${n}</td></tr>`+
-      `<tr><td style="text-align:center;font-size:8pt;line-height:1.2;`+
-      `white-space:nowrap;padding:1pt 5pt 0;">${d}</td></tr>`+
-      `</table>`;
+    // Span-based fraction — works inline in Word without becoming a full-width block table
+    return `<span style="display:inline-block;text-align:center;vertical-align:middle;`+
+      `margin:0 4pt;line-height:1.25;font-size:9.5pt;">`+
+      `<span style="display:block;border-bottom:1pt solid #222;padding:0 4pt 1pt;white-space:nowrap;">${n}</span>`+
+      `<span style="display:block;padding:1pt 4pt 0;white-space:nowrap;">${d}</span>`+
+      `</span>`;
   }
   let html=`<html><head><meta charset="UTF-8"><style>body{font-family:Calibri,sans-serif;font-size:11pt;line-height:1.6;margin:36pt;}h1{color:#1c2f45;font-size:15pt;}h2{color:#0d7a6d;font-size:12pt;margin-top:16pt;}table{width:100%;border-collapse:collapse;font-size:10pt;margin-bottom:14pt;}th{background:#1c2f45;color:#fff;padding:6pt 9pt;text-align:left;}td{padding:5pt 9pt;border-bottom:1pt solid #ddd;vertical-align:top;}.sec td{background:#dce6f0;font-weight:700;font-size:9pt;color:#1c2f45;border-top:1.5pt solid #1c2f45;}.stat td{background:#f5f4f2;}</style></head><body>`;
   html+=`<h1>IA2 Sample Calculations — Hoffmann Voltameter</h1>`;
@@ -4564,24 +4883,36 @@ function dlCalcWord(){
     const rows=[];
     if(S.iv==='conc'&&st.currVals&&st.currVals.length>=2)
       rows.push({sec:'Preliminary — Mean Current',stat:false,name:'Mean <i>I</i> (from trials)',fml:wFrac('I₁ + I₂ + …','n'),calc:`(${st.currVals.map(x=>isFinite(x)?x.toFixed(1):'?').join(' + ')}) ÷ ${st.currVals.length} = ${ff(st.mnI,3)} mA`});
-    rows.push({sec:'Theoretical Calculations',stat:false,name:'Mean <i>I</i> (mA → A)',fml:`I = ${wFrac('I<sub>mA</sub>','1000')}`,calc:`${ff(st.mnI,3)} ÷ 1000 = ${ff(avgI_A,6)} A`});
+    rows.push({sec:'Predicted Calculations',stat:false,name:'Mean <i>I</i> (mA → A)',fml:`I = ${wFrac('I<sub>mA</sub>','1000')}`,calc:`${ff(st.mnI,3)} ÷ 1000 = ${ff(avgI_A,6)} A`});
     rows.push({sec:'',stat:false,name:'<i>t</i> (min → s)',fml:'t = t<sub>min</sub> × 60',calc:`${S.gTime} × 60 = ${ff(t_s,0)} s`});
     rows.push({sec:'',stat:false,name:'Mean <i>T</i> (°C → K)',fml:'T = T°C + 273.15',calc:`${ff(S.gT,1)} + 273.15 = ${ff(st.T_K,2)} K`});
     rows.push({sec:'',stat:false,name:'Mean <i>R</i> (Ohm’s Law)',fml:`R = ${wFrac('<i>V</i>','<i>I</i>')}`,calc:`${ff(S.gV,1)} ÷ ${ff(avgI_A,6)} = ${ff(avgR,1)} Ω`});
     rows.push({sec:'',stat:false,name:'Mean <i>Q</i> = <i>It</i>',fml:'Q = I × t',calc:`${ff(avgI_A,6)} × ${ff(t_s,0)} = ${ff(avgQ,4)} C`});
-    rows.push({sec:'',stat:false,name:'<i>n</i>(H₂) theoretical',fml:`n = ${wFrac('<i>Q</i>','2<i>F</i>')}`,calc:`${ff(avgQ,4)} ÷ (2 × 96 485) = ${fs(avgNthH2,4)} mol`});
-    rows.push({sec:'',stat:false,name:'<i>V</i>(H₂) theoretical',fml:`V = ${wFrac('[<i>nRT</i>]','<i>P</i>')} × 10⁶`,calc:`[(${fs(avgNthH2,4)} × 8.314 × ${ff(st.T_K,2)}) ÷ ${pA}] × 10⁶ = ${ff(avgVthH2,3)} mL`});
-    rows.push({sec:'',stat:false,name:`<i>n</i>(${e.ap}) theoretical`,fml:`n = ${wFrac('<i>Q</i>',`${e.ne}<i>F</i>`)}`,calc:`${ff(avgQ,4)} ÷ (${e.ne} × 96 485) = ${fs(avgNthAnode,4)} mol`});
-    rows.push({sec:'',stat:false,name:`<i>V</i>(${e.ap}) theoretical`,fml:`V = ${wFrac('[<i>nRT</i>]','<i>P</i>')} × 10⁶`,calc:`[(${fs(avgNthAnode,4)} × 8.314 × ${ff(st.T_K,2)}) ÷ ${pA}] × 10⁶ = ${ff(avgVthAnode,3)} mL`});
+    rows.push({sec:'',stat:false,name:'<i>n</i>(H₂) predicted',fml:`n = ${wFrac('<i>Q</i>','2<i>F</i>')}`,calc:`${ff(avgQ,4)} ÷ (2 × 96 485) = ${fs(avgNthH2,4)} mol`});
+    rows.push({sec:'',stat:false,name:'<i>V</i>(H₂) predicted',fml:`V = ${wFrac('[<i>nRT</i>]','<i>P</i>')} × 10⁶`,calc:`[(${fs(avgNthH2,4)} × 8.314 × ${ff(st.T_K,2)}) ÷ ${pA}] × 10⁶ = ${ff(avgVthH2,3)} mL`});
+    rows.push({sec:'',stat:false,name:`<i>n</i>(${e.ap}) predicted`,fml:`n = ${wFrac('<i>Q</i>',`${e.ne}<i>F</i>`)}`,calc:`${ff(avgQ,4)} ÷ (${e.ne} × 96 485) = ${fs(avgNthAnode,4)} mol`});
+    rows.push({sec:'',stat:false,name:`<i>V</i>(${e.ap}) predicted`,fml:`V = ${wFrac('[<i>nRT</i>]','<i>P</i>')} × 10⁶`,calc:`[(${fs(avgNthAnode,4)} × 8.314 × ${ff(st.T_K,2)}) ÷ ${pA}] × 10⁶ = ${ff(avgVthAnode,3)} mL`});
+    // Uncertainty propagation steps (9a-9c)
+    {
+      const I_INSTR_W2=1;
+      const auIt2=isFinite(st.au_i)?st.au_i+I_INSTR_W2:I_INSTR_W2;
+      const puIt2=st.mnI>0?auIt2/st.mnI*100:NaN;
+      const pT2=st.T_K?(0.5/st.T_K)*100:0;
+      const pP2=st.P_Pa?(0.1/(st.P_Pa/1000))*100:0;
+      const pVp2=isFinite(puIt2)?puIt2+pT2+pP2:NaN;
+      rows.push({sec:'Uncertainty Propagation',stat:false,name:'Δ<i>I</i> total (scatter + instrument)',fml:'ΔI = ΔI<sub>scatter</sub> + ΔI<sub>instrument</sub>',calc:`${ff(st.au_i,3)} (scatter) + ${I_INSTR_W2} (Vernier ±1 mA) = ±${ff(auIt2,3)} mA`});
+      rows.push({sec:'',stat:false,name:'Δ<i>Q</i>/<i>Q</i> (%) via Q = It',fml:`ΔQ/Q (%) = ${wFrac('ΔI','I')} × 100`,calc:`(${ff(auIt2,3)} ÷ ${ff(st.mnI,3)}) × 100 = ${ff(puIt2,1)} %`});
+      rows.push({sec:'',stat:false,name:'Δ<i>V</i><sub>pred</sub>/<i>V</i> (%) via V = nRT/P',fml:'ΔV/V (%) = ΔQ/Q + ΔT/T + ΔP/P',calc:`${ff(puIt2,1)} + ${ff(pT2,2)} (T) + ${ff(pP2,2)} (P) = ${ff(pVp2,1)} %`});
+    }
     rows.push({sec:'Statistical Analysis',stat:true,name:'Mean <i>V</i>(H₂)',fml:`x̅ = ${wFrac('ΣT<sub>i</sub>','n')}`,calc:`(${st.h2Vols.map((x,i)=>'T'+(i+1)+'='+ff(x,2)).join(' + ')}) ÷ ${st.h2Vols.length} = ${ff(st.mnH2,3)} mL`});
     rows.push({sec:'',stat:true,name:'AU',fml:`AU = ${wFrac('max − min','2')}`,calc:isFinite(st.au_h2)?`(${Math.max(...st.h2Vols).toFixed(2)} − ${Math.min(...st.h2Vols).toFixed(2)}) ÷ 2 = ±${ff(st.au_h2,3)} mL`:'—'});
     rows.push({sec:'',stat:true,name:'PU (%)',fml:`PU(%) = ${wFrac('AU','x̅')} × 100`,calc:`(${ff(st.au_h2,3)} ÷ ${ff(st.mnH2,3)}) × 100 = ±${ff(st.pu_h2,1)} %`});
     rows.push({sec:'',stat:true,name:'<i>n</i><sub>exp</sub>(H₂)',fml:`n<sub>exp</sub> = ${wFrac('<i>PV̅</i>','<i>RT</i>')}`,calc:`(${pA} × ${fs(st.mnH2/1e6,3)}) ÷ (8.314 × ${ff(st.T_K,2)}) = ${fs(st.nexp_h2,4)} mol`});
-    rows.push({sec:'',stat:true,name:'% Error',fml:`% = ${wFrac('|n<sub>exp</sub> − n<sub>theo</sub>|','n<sub>theo</sub>')} × 100`,calc:`|${fs(st.nexp_h2,4)} − ${fs(st.nth_h2,4)}| ÷ ${fs(st.nth_h2,4)} × 100 = ${ff(st.pct_err,1)} %`});
+    rows.push({sec:'',stat:true,name:'% Error',fml:`% = ${wFrac('|n<sub>exp</sub> − n<sub>pred</sub>|','n<sub>pred</sub>')} × 100`,calc:`|${fs(st.nexp_h2,4)} − ${fs(st.nth_h2,4)}| ÷ ${fs(st.nth_h2,4)} × 100 = ${ff(st.pct_err,1)} %`});
     let prev='';
     rows.forEach(r=>{
       if(r.sec&&r.sec!==prev){html+=`<tr class="sec"><td colspan="3">${r.sec}</td></tr>`;prev=r.sec;}
-      html+=`<tr class="${r.stat?'stat':''}"><td style="font-weight:600;">${r.name}</td><td style="font-style:italic;">${r.fml}</td><td style="font-family:Courier New,monospace;font-size:9pt;">${r.calc}</td></tr>`;
+      html+=`<tr class="${r.stat?'stat':''}"><td style="font-weight:600;">${r.name}</td><td style="font-style:italic;">${r.fml}</td><td style="font-family:Calibri,Arial,sans-serif;font-size:9.5pt;">${r.calc}</td></tr>`;
     });
     html+=`</tbody></table>`;
   });
@@ -4662,7 +4993,7 @@ let _dirty=false;
 // IDs of all textareas to capture
 const SAVE_TEXTAREA_IDS=[
   'ra-s1','ra-s2','ra-s3','ra-s4','ra-s5','rq-full','mod-orig',
-  'wa-trend','wa-tline','wa-data','wa-theory','wa-pcterr','wa-uncert',
+  'wa-trend','wa-tline','wa-maxmin','wa-data','wa-theory','wa-pcterr','wa-uncert',
   'wa-rel','wa-val','wa-impr','wa-ext','wa-conc'
 ];
 
